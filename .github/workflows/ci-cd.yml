@@ -29,17 +29,21 @@ jobs:
       with:
         node-version: '18'
         cache: 'npm'
+        cache-dependency-path: 'portfolio-website/package-lock.json'
         
     - name: Install dependencies
+      working-directory: ./portfolio-website
       run: |
         rm -f package-lock.json
         npm install
       
     - name: Run tests
+      working-directory: ./portfolio-website
       run: echo "Temporarily skipping tests for deployment"
       # run: npm test -- --coverage --watchAll=false --passWithNoTests
       
     - name: Build project
+      working-directory: ./portfolio-website
       run: npm run build
       
     - name: Setup Pages
@@ -48,7 +52,7 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-pages-artifact@v3
       with:
-        path: ./build
+        path: ./portfolio-website/build
 
   deploy:
     needs: build-and-test

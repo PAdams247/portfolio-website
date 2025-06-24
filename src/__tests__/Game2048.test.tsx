@@ -10,6 +10,18 @@ describe('Game2048', () => {
   beforeEach(() => {
     // Reset any mocks before each test
     jest.clearAllMocks();
+
+    // Mock localStorage
+    const localStorageMock = {
+      getItem: jest.fn(),
+      setItem: jest.fn(),
+      removeItem: jest.fn(),
+      clear: jest.fn(),
+    };
+    Object.defineProperty(window, 'localStorage', {
+      value: localStorageMock,
+      writable: true,
+    });
   });
 
   describe('Component Rendering', () => {
@@ -22,6 +34,15 @@ describe('Game2048', () => {
       render(<Game2048 />);
       expect(screen.getByText('Score')).toBeInTheDocument();
       expect(screen.getByText('0')).toBeInTheDocument();
+    });
+
+    test('renders high scores display', () => {
+      render(<Game2048 />);
+      expect(screen.getByText('High Scores')).toBeInTheDocument();
+      // Should show three high score slots
+      expect(screen.getByText('#1: 0')).toBeInTheDocument();
+      expect(screen.getByText('#2: 0')).toBeInTheDocument();
+      expect(screen.getByText('#3: 0')).toBeInTheDocument();
     });
 
     test('renders reset button', () => {

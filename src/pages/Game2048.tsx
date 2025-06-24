@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/Game2048.css';
 
+interface TouchPosition {
+  x: number;
+  y: number;
+}
+
 type Board = number[][];
 
 const Game2048: React.FC = () => {
@@ -8,6 +13,12 @@ const Game2048: React.FC = () => {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [gameWon, setGameWon] = useState(false);
+  const [touchStart, setTouchStart] = useState<TouchPosition | null>(null);
+  const [touchEnd, setTouchEnd] = useState<TouchPosition | null>(null);
+  const [highScores, setHighScores] = useState<number[]>(() => {
+    const saved = localStorage.getItem('game2048-highscores');
+    return saved ? JSON.parse(saved) : [0, 0, 0];
+  });
 
   function initializeBoard(): Board {
     const newBoard = Array(4).fill(null).map(() => Array(4).fill(0));
@@ -153,6 +164,18 @@ const Game2048: React.FC = () => {
   };
 
   const resetGame = () => {
+    // Update high scores if current score qualifies
+    if (score > 0) {
+      const newHighScores = [...highScores, score]
+        .sort((a, b) => b - a)
+        .slice(0, 3);
+
+      if (JSON.stringify(newHighScores) !== JSON.stringify(highScores)) {
+        setHighScores(newHighScores);
+        localStorage.setItem('game2048-highscores', JSON.stringify(newHighScores));
+      }
+    }
+
     setBoard(initializeBoard());
     setScore(0);
     setGameOver(false);
@@ -171,6 +194,50 @@ const Game2048: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [move]);
 
+  // Swipe detection functions
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY,
+    });
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY,
+    });
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distanceX = touchStart.x - touchEnd.x;
+    const distanceY = touchStart.y - touchEnd.y;
+    const isLeftSwipe = distanceX > 50;
+    const isRightSwipe = distanceX < -50;
+    const isUpSwipe = distanceY > 50;
+    const isDownSwipe = distanceY < -50;
+
+    // Determine the primary direction (horizontal vs vertical)
+    if (Math.abs(distanceX) > Math.abs(distanceY)) {
+      // Horizontal swipe
+      if (isLeftSwipe) {
+        move('ArrowLeft');
+      } else if (isRightSwipe) {
+        move('ArrowRight');
+      }
+    } else {
+      // Vertical swipe
+      if (isUpSwipe) {
+        move('ArrowUp');
+      } else if (isDownSwipe) {
+        move('ArrowDown');
+      }
+    }
+  };
+
   const getTileClass = (value: number): string => {
     if (value === 0) return 'tile-empty';
     return `tile-${value}`;
@@ -185,13 +252,29 @@ const Game2048: React.FC = () => {
             <div className="score-label">Score</div>
             <div className="score-value">{score}</div>
           </div>
+          <div className="high-scores-container">
+            <div className="score-label">High Scores</div>
+            <div className="high-scores">
+              {highScores.map((highScore, index) => (
+                <div key={index} className={`high-score ${score === highScore && score > 0 ? 'current' : ''}`}>
+                  #{index + 1}: {highScore.toLocaleString()}
+                </div>
+              ))}
+            </div>
+          </div>
           <button className="reset-button" onClick={resetGame}>
             New Game
           </button>
         </div>
       </div>
 
-      <div className="game-board" data-testid="game-board">
+      <div
+        className="game-board"
+        data-testid="game-board"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         {board.map((row, i) =>
           row.map((cell, j) => (
             <div
@@ -207,7 +290,7 @@ const Game2048: React.FC = () => {
 
       {(gameOver || gameWon) && (
         <div className="game-overlay" data-testid="game-overlay">
-          <div className="overlay-content">
+          <div className={`overlay-content ${gameWon ? 'win' : ''}`}>
             <h2>{gameWon ? 'You Win!' : 'Game Over!'}</h2>
             <p>
               {gameWon
@@ -220,13 +303,13 @@ const Game2048: React.FC = () => {
       )}
 
       <div className="mobile-controls" data-testid="mobile-controls">
-        <div className="controls-row">
-          <button onClick={() => move('ArrowUp')}>↑</button>
+        <div className="control-row">
+          <button className="control-btn" onClick={() => move('ArrowUp')}>↑</button>
         </div>
-        <div className="controls-row">
-          <button onClick={() => move('ArrowLeft')}>←</button>
-          <button onClick={() => move('ArrowDown')}>↓</button>
-          <button onClick={() => move('ArrowRight')}>→</button>
+        <div className="control-row">
+          <button className="control-btn" onClick={() => move('ArrowLeft')}>←</button>
+          <button className="control-btn" onClick={() => move('ArrowDown')}>↓</button>
+          <button className="control-btn" onClick={() => move('ArrowRight')}>→</button>
         </div>
       </div>
 

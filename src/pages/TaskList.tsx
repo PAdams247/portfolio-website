@@ -16,7 +16,9 @@ const TaskList: React.FC = () => {
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
   const [priority, setPriority] = useState<'low' | 'medium' | 'high'>('medium');
   const [category, setCategory] = useState('General');
-  const [categories, setCategories] = useState(['General', 'Work', 'Personal', 'Shopping']);
+
+  // Available categories for tasks
+  const categories = ['General', 'Work', 'Personal', 'Shopping'];
 
   // Load tasks from localStorage on component mount
   useEffect(() => {
@@ -68,12 +70,6 @@ const TaskList: React.FC = () => {
 
   const clearCompleted = () => {
     setTasks(tasks.filter(task => !task.completed));
-  };
-
-  const addCategory = (newCategory: string) => {
-    if (newCategory && !categories.includes(newCategory)) {
-      setCategories([...categories, newCategory]);
-    }
   };
 
   const filteredTasks = tasks.filter(task => {

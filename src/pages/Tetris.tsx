@@ -168,9 +168,9 @@ const Tetris: React.FC = () => {
     setNextPiece(createRandomTetromino());
   };
 
-  const togglePause = () => {
+  const togglePause = useCallback(() => {
     setIsPaused(prev => !prev);
-  };
+  }, []);
 
   // Initialize game
   useEffect(() => {

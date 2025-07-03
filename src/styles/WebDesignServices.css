@@ -1120,3 +1120,61 @@ html body select {
   background-color: #00d4ff !important;
   color: #1a1a2e !important;
 }
+
+/* FINAL BROWSER-SPECIFIC DROPDOWN FIX */
+/* Force dropdown options to be visible in all browsers */
+select option,
+.form-group select option,
+.contact-form select option {
+  background: #1a1a2e !important;
+  color: #e0e0e0 !important;
+  padding: 8px !important;
+  font-size: 14px !important;
+  border: none !important;
+}
+
+/* Chrome/Edge specific fix */
+select option:hover,
+.form-group select option:hover,
+.contact-form select option:hover {
+  background: #16213e !important;
+  color: #00d4ff !important;
+}
+
+/* Firefox specific fix */
+@-moz-document url-prefix() {
+  select option {
+    background-color: #1a1a2e !important;
+    color: #e0e0e0 !important;
+  }
+}
+
+/* Safari specific fix */
+@supports (-webkit-appearance: none) {
+  select option {
+    background-color: #1a1a2e !important;
+    color: #e0e0e0 !important;
+  }
+}
+
+/* Universal override for all select elements */
+* select option {
+  background-color: #1a1a2e !important;
+  color: #e0e0e0 !important;
+}
+
+/* Force visibility for specific dropdown IDs */
+#projectType option,
+#budget option,
+#timeline option {
+  background-color: #1a1a2e !important;
+  color: #e0e0e0 !important;
+  padding: 8px !important;
+}
+
+#projectType option:hover,
+#budget option:hover,
+#timeline option:hover {
+  background-color: #16213e !important;
+  color: #00d4ff !important;
+}

@@ -2,7 +2,7 @@
   "name": "portfolio-website",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://padams247.github.io/portfolio-website",
+  "homepage": "https://PAdams247.github.io/portfolio-website",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",

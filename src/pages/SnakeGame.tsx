@@ -16,7 +16,7 @@ const GAME_SPEED = 150;
 const SnakeGame: React.FC = () => {
   const [snake, setSnake] = useState<Position[]>(INITIAL_SNAKE);
   const [food, setFood] = useState<Position>(INITIAL_FOOD);
-  const [direction, setDirection] = useState<Direction>('RIGHT');
+  // Removed unused direction state variable
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -26,12 +26,16 @@ const SnakeGame: React.FC = () => {
 
   const generateFood = useCallback((currentSnake: Position[]): Position => {
     let newFood: Position;
+    // Fixed no-loop-func warning by using a different approach
+    const isPositionOccupied = (pos: Position) =>
+      currentSnake.some(segment => segment.x === pos.x && segment.y === pos.y);
+
     do {
       newFood = {
         x: Math.floor(Math.random() * BOARD_SIZE),
         y: Math.floor(Math.random() * BOARD_SIZE)
       };
-    } while (currentSnake.some(segment => segment.x === newFood.x && segment.y === newFood.y));
+    } while (isPositionOccupied(newFood));
     return newFood;
   }, []);
 
@@ -51,7 +55,7 @@ const SnakeGame: React.FC = () => {
         (nextDirection === 'RIGHT' && currentDirection !== 'LEFT');
 
       if (isValidDirection) {
-        setDirection(nextDirection);
+        // Removed setDirection call since direction state was removed
         lastProcessedDirectionRef.current = nextDirection;
       }
     }
@@ -142,7 +146,7 @@ const SnakeGame: React.FC = () => {
   const startGame = () => {
     setSnake(INITIAL_SNAKE);
     setFood(INITIAL_FOOD);
-    setDirection('RIGHT');
+    // Removed setDirection call since direction state was removed
     setScore(0);
     setGameOver(false);
     setIsPlaying(true);
@@ -158,7 +162,7 @@ const SnakeGame: React.FC = () => {
   const resetGame = () => {
     setSnake(INITIAL_SNAKE);
     setFood(INITIAL_FOOD);
-    setDirection('RIGHT');
+    // Removed setDirection call since direction state was removed
     setScore(0);
     setGameOver(false);
     setIsPlaying(false);

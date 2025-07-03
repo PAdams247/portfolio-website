@@ -161,12 +161,14 @@
 
 .next-piece-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 80px;
   background: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   padding: 1rem;
+  gap: 2px;
 }
 
 .next-row {
@@ -184,6 +186,49 @@
 .next-empty {
   background: transparent;
   border: none;
+}
+
+/* Next piece tetromino colors */
+.next-cell.tetris-I {
+  background: linear-gradient(135deg, #00d4ff, #0099cc);
+  border-color: #00d4ff;
+  box-shadow: 0 0 3px rgba(0, 212, 255, 0.3);
+}
+
+.next-cell.tetris-O {
+  background: linear-gradient(135deg, #ffa502, #ff6348);
+  border-color: #ffa502;
+  box-shadow: 0 0 3px rgba(255, 165, 2, 0.3);
+}
+
+.next-cell.tetris-T {
+  background: linear-gradient(135deg, #a55eea, #8854d0);
+  border-color: #a55eea;
+  box-shadow: 0 0 3px rgba(165, 94, 234, 0.3);
+}
+
+.next-cell.tetris-S {
+  background: linear-gradient(135deg, #2ed573, #20bf6b);
+  border-color: #2ed573;
+  box-shadow: 0 0 3px rgba(46, 213, 115, 0.3);
+}
+
+.next-cell.tetris-Z {
+  background: linear-gradient(135deg, #ff4757, #ff3742);
+  border-color: #ff4757;
+  box-shadow: 0 0 3px rgba(255, 71, 87, 0.3);
+}
+
+.next-cell.tetris-J {
+  background: linear-gradient(135deg, #3742fa, #2f3542);
+  border-color: #3742fa;
+  box-shadow: 0 0 3px rgba(55, 66, 250, 0.3);
+}
+
+.next-cell.tetris-L {
+  background: linear-gradient(135deg, #ff9ff3, #f368e0);
+  border-color: #ff9ff3;
+  box-shadow: 0 0 3px rgba(255, 159, 243, 0.3);
 }
 
 .controls {

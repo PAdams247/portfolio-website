@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048 Layout Mockup - Revised</title>
+    <style>
+        body {
+            background: #1a1a2e;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .mockup-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .game-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #00d4ff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin: 0;
+        }
+
+        .score-panel {
+            display: flex;
+            gap: 1rem;
+            align-items: stretch;
+            justify-content: center;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .high-scores-section {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            flex: 1;
+            min-width: 160px;
+        }
+
+        .live-score-section {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            flex: 1;
+            min-width: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .new-game-section {
+            background: linear-gradient(45deg, #ff6b6b, #ff4757);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            flex: 1;
+            min-width: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .new-game-section:hover {
+            transform: scale(1.05);
+        }
+
+        .game-board-mockup {
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            padding: 12px;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .tile-mockup {
+            background: rgba(0, 212, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .score-label {
+            font-size: 0.8rem;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .live-score-label {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.8rem;
+        }
+
+        .score-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #00d4ff;
+        }
+
+        .high-score-item {
+            font-size: 0.85rem;
+            color: #e0e0e0;
+            font-family: 'Roboto Mono', monospace;
+            opacity: 0.8;
+            margin-bottom: 0.2rem;
+        }
+
+        .new-game-text {
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .comparison-note {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 8px;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .layout-description {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(50, 205, 50, 0.1);
+            border: 1px solid rgba(50, 205, 50, 0.3);
+            border-radius: 8px;
+            text-align: center;
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup-container">
+        <h2 style="text-align: center; margin-bottom: 1rem; color: #00d4ff;">Revised Layout - Vertically Stacked & Centered</h2>
+        
+        <!-- New Vertical Layout -->
+        <div class="game-title">2048</div>
+        
+        <div class="score-panel">
+            <div class="high-scores-section">
+                <div class="score-label">High Scores</div>
+                <div class="high-score-item">#1: 2,324</div>
+                <div class="high-score-item">#2: 1,448</div>
+                <div class="high-score-item">#3: 656</div>
+            </div>
+            
+            <div class="live-score-section">
+                <div class="live-score-label">Live Score</div>
+                <div class="score-value">520</div>
+            </div>
+            
+            <div class="new-game-section">
+                <div class="new-game-text">🎮 New Game</div>
+            </div>
+        </div>
+        
+        <div class="game-board-mockup">
+            <div class="tile-mockup" style="background: rgba(138, 43, 226, 0.8);">2</div>
+            <div class="tile-mockup" style="background: rgba(0, 191, 255, 0.8);">8</div>
+            <div class="tile-mockup" style="background: rgba(255, 20, 147, 0.8);">4</div>
+            <div class="tile-mockup" style="background: rgba(138, 43, 226, 0.8);">2</div>
+            
+            <div class="tile-mockup" style="background: rgba(138, 43, 226, 0.8);">2</div>
+            <div class="tile-mockup" style="background: rgba(0, 191, 255, 0.8);">8</div>
+            <div class="tile-mockup" style="background: rgba(50, 205, 50, 0.8);">16</div>
+            <div class="tile-mockup" style="background: rgba(255, 20, 147, 0.8);">4</div>
+            
+            <div class="tile-mockup" style="background: rgba(255, 20, 147, 0.8);">4</div>
+            <div class="tile-mockup" style="background: rgba(50, 205, 50, 0.8);">16</div>
+            <div class="tile-mockup" style="background: rgba(169, 169, 169, 0.8);">64</div>
+            <div class="tile-mockup" style="background: rgba(0, 191, 255, 0.8);">8</div>
+            
+            <div class="tile-mockup" style="background: rgba(138, 43, 226, 0.8);">2</div>
+            <div class="tile-mockup" style="background: rgba(50, 205, 50, 0.8);">16</div>
+            <div class="tile-mockup" style="background: rgba(0, 191, 255, 0.8);">8</div>
+            <div class="tile-mockup" style="background: rgba(255, 20, 147, 0.8);">4</div>
+        </div>
+        
+        <div class="layout-description">
+            <h3 style="color: #50cd32; margin-top: 0;">✅ Improved Layout Features:</h3>
+            <ul style="text-align: left; display: inline-block; margin: 0;">
+                <li><strong>Perfect Alignment:</strong> All elements are centered and properly spaced</li>
+                <li><strong>No Wasted Space:</strong> Eliminated the awkward gap you circled</li>
+                <li><strong>Vertical Flow:</strong> Title → Score Panel → Game Board</li>
+                <li><strong>Balanced Score Panel:</strong> Three equal-width sections in a row</li>
+                <li><strong>Clean Lines:</strong> Everything lines up perfectly</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 1rem; padding: 1rem; background: rgba(255, 107, 107, 0.1); border-radius: 8px; text-align: center; max-width: 600px;">
+            <p><strong>Instructions:</strong> Use arrow keys or buttons to move tiles. Combine tiles with the same number to reach 2048!</p>
+        </div>
+    </div>
+</body>
+</html>

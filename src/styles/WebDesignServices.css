@@ -516,14 +516,92 @@
   border-radius: 2px;
 }
 
-.contact-form {
-  max-width: 800px;
+/* Contact Content Layout */
+.contact-content {
+  max-width: 1200px;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.contact-info {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2.5rem;
+  backdrop-filter: blur(10px);
+  height: fit-content;
+}
+
+.contact-info h2 {
+  font-family: 'Orbitron', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #e0e0e0;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.contact-info h2::after {
+  display: none;
+}
+
+.contact-details h3 {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #00d4ff;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.contact-details p {
+  color: #c0c0c0;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.contact-benefits {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.benefit {
+  display: flex;
+  align-items: center;
+  color: #e0e0e0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.contact-form {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   padding: 3rem;
   backdrop-filter: blur(10px);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #e0e0e0;
+  font-size: 0.9rem;
+  margin: 1rem 0;
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #00d4ff;
+  cursor: pointer;
 }
 
 .form-grid {
@@ -570,6 +648,135 @@
   box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
 }
 
+/* Fix dropdown option styling - white text on white background issue */
+.form-group select option {
+  background: #1a1a2e;
+  color: #e0e0e0;
+  padding: 0.5rem;
+  border: none;
+}
+
+.form-group select option:hover,
+.form-group select option:focus {
+  background: #16213e;
+  color: #00d4ff;
+}
+
+.form-group select option:checked {
+  background: #00d4ff;
+  color: #1a1a2e;
+  font-weight: 600;
+}
+
+/* Additional select styling for better visibility */
+.form-group select {
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300d4ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+  padding-right: 3rem;
+}
+
+/* CRITICAL FIX: Dropdown option styling - white text on white background issue */
+.form-group select option {
+  background-color: #1a1a2e !important;
+  color: #e0e0e0 !important;
+  padding: 0.75rem !important;
+  border: none !important;
+  font-size: 1rem !important;
+}
+
+.form-group select option:hover {
+  background-color: #16213e !important;
+  color: #00d4ff !important;
+}
+
+.form-group select option:checked,
+.form-group select option:selected {
+  background-color: #00d4ff !important;
+  color: #1a1a2e !important;
+  font-weight: 600 !important;
+}
+
+/* ADDITIONAL AGGRESSIVE FIXES for all browsers */
+select option {
+  background-color: #1a1a2e !important;
+  color: #e0e0e0 !important;
+}
+
+select option:hover,
+select option:focus {
+  background-color: #16213e !important;
+  color: #00d4ff !important;
+}
+
+select option:checked,
+select option:selected {
+  background-color: #00d4ff !important;
+  color: #1a1a2e !important;
+}
+
+/* Force dropdown list styling */
+.form-group select,
+select {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #e0e0e0 !important;
+}
+
+/* Browser-specific fixes for dropdown visibility */
+.form-group select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Firefox specific dropdown styling */
+@-moz-document url-prefix() {
+  .form-group select option {
+    background-color: #1a1a2e !important;
+    color: #e0e0e0 !important;
+  }
+
+  .form-group select option:hover {
+    background-color: #16213e !important;
+    color: #00d4ff !important;
+  }
+}
+
+/* WebKit browsers (Chrome, Safari, Edge) specific fixes */
+.form-group select::-webkit-scrollbar {
+  width: 8px;
+}
+
+.form-group select::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+
+/* Force all select elements to have proper styling */
+*[id="projectType"] option,
+*[id="budget"] option,
+*[id="timeline"] option {
+  background-color: #1a1a2e !important;
+  color: #e0e0e0 !important;
+  padding: 0.5rem !important;
+}
+
+*[id="projectType"] option:hover,
+*[id="budget"] option:hover,
+*[id="timeline"] option:hover {
+  background-color: #16213e !important;
+  color: #00d4ff !important;
+}
+
+.form-group select::-webkit-scrollbar-thumb {
+  background: #00d4ff;
+  border-radius: 4px;
+}
+
 .form-group textarea {
   resize: vertical;
   min-height: 120px;
@@ -577,6 +784,9 @@
 
 .features-checkboxes {
   margin: 2rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
 }
 
 .features-checkboxes h3 {
@@ -589,31 +799,76 @@
   letter-spacing: 1px;
 }
 
-.checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+/* FINAL CRITICAL FIX: Force dropdown options to be visible */
+.services-container .contact-form .form-group select option,
+.contact-form select option,
+select[name="projectType"] option,
+select[name="budget"] option,
+select[name="timeline"] option {
+  background-color: #1a1a2e !important;
+  color: #e0e0e0 !important;
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  border: none !important;
+  outline: none !important;
 }
 
-.checkbox-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.services-container .contact-form .form-group select option:hover,
+.contact-form select option:hover,
+select[name="projectType"] option:hover,
+select[name="budget"] option:hover,
+select[name="timeline"] option:hover {
+  background-color: #16213e !important;
+  color: #00d4ff !important;
 }
 
-.checkbox-item input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: #00d4ff;
+.services-container .contact-form .form-group select option:checked,
+.services-container .contact-form .form-group select option:selected,
+.contact-form select option:checked,
+.contact-form select option:selected,
+select[name="projectType"] option:checked,
+select[name="budget"] option:checked,
+select[name="timeline"] option:checked,
+select[name="projectType"] option:selected,
+select[name="budget"] option:selected,
+select[name="timeline"] option:selected {
+  background-color: #00d4ff !important;
+  color: #1a1a2e !important;
+  font-weight: 600 !important;
 }
 
-.checkbox-item label {
-  color: #c0c0c0;
-  font-size: 0.9rem;
-  cursor: pointer;
-  margin: 0;
-  text-transform: none;
-  letter-spacing: normal;
+/* Force select dropdown list background */
+.services-container .contact-form .form-group select,
+.contact-form select,
+select[name="projectType"],
+select[name="budget"],
+select[name="timeline"] {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #e0e0e0 !important;
+}
+
+/* Override any conflicting styles */
+.services-container select option,
+.contact-section select option,
+form select option {
+  background: #1a1a2e !important;
+  color: #e0e0e0 !important;
+}
+
+/* Browser-specific overrides */
+@supports (-webkit-appearance: none) {
+  .services-container select option {
+    background-color: #1a1a2e !important;
+    color: #e0e0e0 !important;
+  }
+}
+
+@-moz-document url-prefix() {
+  .services-container select option,
+  .contact-form select option {
+    background-color: #1a1a2e !important;
+    color: #e0e0e0 !important;
+  }
 }
 
 .submit-button {
@@ -702,15 +957,29 @@
   .contact-section h2 {
     font-size: 2rem;
   }
-  
+
+  /* Contact Layout Responsive */
+  .contact-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .contact-info {
+    padding: 2rem;
+  }
+
   .form-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .contact-form {
     padding: 2rem;
   }
-  
+
+  .features-checkboxes {
+    grid-template-columns: 1fr;
+  }
+
   .checkbox-grid {
     grid-template-columns: 1fr;
   }
@@ -731,5 +1000,111 @@
   
   .contact-form {
     padding: 1.5rem;
+  }
+
+  .contact-info {
+    padding: 1.5rem;
+  }
+
+  .contact-info h2 {
+    font-size: 1.5rem;
+  }
+
+  .contact-details h3 {
+    font-size: 1.1rem;
+  }
+}
+
+/* DEFINITIVE FIX: Force dropdown options to be visible - highest priority */
+html .services-container .contact-form .form-group select option,
+html .contact-form select option,
+html select[name="projectType"] option,
+html select[name="budget"] option,
+html select[name="timeline"] option,
+html body .services-container select option,
+html body select option {
+  background-color: #1a1a2e !important;
+  color: #e0e0e0 !important;
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  border: none !important;
+  outline: none !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+html .services-container .contact-form .form-group select option:hover,
+html .contact-form select option:hover,
+html select[name="projectType"] option:hover,
+html select[name="budget"] option:hover,
+html select[name="timeline"] option:hover,
+html body .services-container select option:hover,
+html body select option:hover {
+  background-color: #16213e !important;
+  color: #00d4ff !important;
+}
+
+html .services-container .contact-form .form-group select option:checked,
+html .services-container .contact-form .form-group select option:selected,
+html .contact-form select option:checked,
+html .contact-form select option:selected,
+html select[name="projectType"] option:checked,
+html select[name="budget"] option:checked,
+html select[name="timeline"] option:checked,
+html select[name="projectType"] option:selected,
+html select[name="budget"] option:selected,
+html select[name="timeline"] option:selected,
+html body .services-container select option:checked,
+html body .services-container select option:selected,
+html body select option:checked,
+html body select option:selected {
+  background-color: #00d4ff !important;
+  color: #1a1a2e !important;
+  font-weight: 600 !important;
+}
+
+/* Force all select elements to have proper dropdown styling */
+html body .services-container select,
+html body .contact-form select,
+html body select[name="projectType"],
+html body select[name="budget"],
+html body select[name="timeline"] {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #e0e0e0 !important;
+}
+
+/* Universal dropdown option fix */
+html body option {
+  background-color: #1a1a2e !important;
+  color: #e0e0e0 !important;
+  padding: 8px !important;
+}
+
+html body option:hover {
+  background-color: #16213e !important;
+  color: #00d4ff !important;
+}
+
+/* Browser-specific universal fixes */
+@supports (-webkit-appearance: none) {
+  html body option {
+    background-color: #1a1a2e !important;
+    color: #e0e0e0 !important;
+  }
+}
+
+@-moz-document url-prefix() {
+  html body option {
+    background-color: #1a1a2e !important;
+    color: #e0e0e0 !important;
+  }
+}
+
+/* Edge/IE specific fixes */
+@supports (-ms-ime-align: auto) {
+  html body option {
+    background-color: #1a1a2e !important;
+    color: #e0e0e0 !important;
   }
 }

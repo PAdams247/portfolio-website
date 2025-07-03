@@ -1015,12 +1015,12 @@ form select option {
   }
 }
 
-/* DEFINITIVE FIX: Force dropdown options to be visible - highest priority */
-html .services-container .contact-form .form-group select option,
-html .contact-form select option,
-html select[name="projectType"] option,
-html select[name="budget"] option,
-html select[name="timeline"] option,
+/* ULTIMATE DROPDOWN FIX - Force visibility with maximum specificity */
+html body .services-container .contact-form .form-group select option,
+html body .contact-form select option,
+html body select[name="projectType"] option,
+html body select[name="budget"] option,
+html body select[name="timeline"] option,
 html body .services-container select option,
 html body select option {
   background-color: #1a1a2e !important;
@@ -1032,29 +1032,30 @@ html body select option {
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
+  min-height: 30px !important;
 }
 
-html .services-container .contact-form .form-group select option:hover,
-html .contact-form select option:hover,
-html select[name="projectType"] option:hover,
-html select[name="budget"] option:hover,
-html select[name="timeline"] option:hover,
+html body .services-container .contact-form .form-group select option:hover,
+html body .contact-form select option:hover,
+html body select[name="projectType"] option:hover,
+html body select[name="budget"] option:hover,
+html body select[name="timeline"] option:hover,
 html body .services-container select option:hover,
 html body select option:hover {
   background-color: #16213e !important;
   color: #00d4ff !important;
 }
 
-html .services-container .contact-form .form-group select option:checked,
-html .services-container .contact-form .form-group select option:selected,
-html .contact-form select option:checked,
-html .contact-form select option:selected,
-html select[name="projectType"] option:checked,
-html select[name="budget"] option:checked,
-html select[name="timeline"] option:checked,
-html select[name="projectType"] option:selected,
-html select[name="budget"] option:selected,
-html select[name="timeline"] option:selected,
+html body .services-container .contact-form .form-group select option:checked,
+html body .services-container .contact-form .form-group select option:selected,
+html body .contact-form select option:checked,
+html body .contact-form select option:selected,
+html body select[name="projectType"] option:checked,
+html body select[name="budget"] option:checked,
+html body select[name="timeline"] option:checked,
+html body select[name="projectType"] option:selected,
+html body select[name="budget"] option:selected,
+html body select[name="timeline"] option:selected,
 html body .services-container select option:checked,
 html body .services-container select option:selected,
 html body select option:checked,
@@ -1064,30 +1065,21 @@ html body select option:selected {
   font-weight: 600 !important;
 }
 
-/* Force all select elements to have proper dropdown styling */
-html body .services-container select,
+/* Force select dropdown list background with maximum specificity */
+html body .services-container .contact-form .form-group select,
 html body .contact-form select,
 html body select[name="projectType"],
 html body select[name="budget"],
-html body select[name="timeline"] {
+html body select[name="timeline"],
+html body .services-container select,
+html body select {
   background-color: rgba(255, 255, 255, 0.05) !important;
   color: #e0e0e0 !important;
 }
 
-/* Universal dropdown option fix */
-html body option {
-  background-color: #1a1a2e !important;
-  color: #e0e0e0 !important;
-  padding: 8px !important;
-}
-
-html body option:hover {
-  background-color: #16213e !important;
-  color: #00d4ff !important;
-}
-
-/* Browser-specific universal fixes */
+/* Browser-specific overrides with maximum specificity */
 @supports (-webkit-appearance: none) {
+  html body .services-container select option,
   html body option {
     background-color: #1a1a2e !important;
     color: #e0e0e0 !important;
@@ -1095,16 +1087,36 @@ html body option:hover {
 }
 
 @-moz-document url-prefix() {
+  html body .services-container select option,
+  html body .contact-form select option,
   html body option {
     background-color: #1a1a2e !important;
     color: #e0e0e0 !important;
   }
 }
 
-/* Edge/IE specific fixes */
+/* Edge/IE specific fixes with maximum specificity */
 @supports (-ms-ime-align: auto) {
+  html body .services-container select option,
   html body option {
     background-color: #1a1a2e !important;
     color: #e0e0e0 !important;
   }
+}
+
+/* Additional universal fixes */
+* option {
+  background-color: #1a1a2e !important;
+  color: #e0e0e0 !important;
+}
+
+* option:hover {
+  background-color: #16213e !important;
+  color: #00d4ff !important;
+}
+
+* option:checked,
+* option:selected {
+  background-color: #00d4ff !important;
+  color: #1a1a2e !important;
 }

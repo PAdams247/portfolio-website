@@ -228,6 +228,48 @@
   }
 }
 
+/* Mobile Controls */
+.mobile-controls {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+  align-items: center;
+}
+
+.mobile-controls .control-row {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.mobile-btn {
+  width: 60px;
+  height: 60px;
+  font-size: 1.5rem;
+  background: rgba(46, 213, 115, 0.2);
+  border: 2px solid #2ed573;
+  border-radius: 12px;
+  color: #2ed573;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Orbitron', monospace;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(46, 213, 115, 0.2);
+}
+
+.mobile-btn:hover {
+  background: rgba(46, 213, 115, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 213, 115, 0.4);
+}
+
+.mobile-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(46, 213, 115, 0.3);
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .snake-game {
@@ -262,6 +304,10 @@
 
   .snake-controls {
     margin-top: 2rem;
+  }
+
+  .mobile-controls {
+    display: flex;
   }
 }
 

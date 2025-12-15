@@ -318,6 +318,35 @@ const PongGame: React.FC = () => {
     };
   }, [isPlaying, updateGame, draw]);
 
+  // Mobile touch controls for paddles
+  const moveLeftPaddleUp = useCallback(() => {
+    setLeftPaddle(prev => ({
+      ...prev,
+      y: Math.max(0, prev.y - PADDLE_SPEED * 3)
+    }));
+  }, []);
+
+  const moveLeftPaddleDown = useCallback(() => {
+    setLeftPaddle(prev => ({
+      ...prev,
+      y: Math.min(CANVAS_HEIGHT - PADDLE_HEIGHT, prev.y + PADDLE_SPEED * 3)
+    }));
+  }, []);
+
+  const moveRightPaddleUp = useCallback(() => {
+    setRightPaddle(prev => ({
+      ...prev,
+      y: Math.max(0, prev.y - PADDLE_SPEED * 3)
+    }));
+  }, []);
+
+  const moveRightPaddleDown = useCallback(() => {
+    setRightPaddle(prev => ({
+      ...prev,
+      y: Math.min(CANVAS_HEIGHT - PADDLE_HEIGHT, prev.y + PADDLE_SPEED * 3)
+    }));
+  }, []);
+
   return (
     <div className="pong-game">
       <div className="pong-container">
@@ -375,26 +404,42 @@ const PongGame: React.FC = () => {
           </div>
         )}
 
+        <div className="mobile-controls">
+          <div className="player-controls">
+            <h4>Player 1</h4>
+            <div className="control-buttons">
+              <button className="mobile-btn" onClick={moveLeftPaddleUp}>↑</button>
+              <button className="mobile-btn" onClick={moveLeftPaddleDown}>↓</button>
+            </div>
+          </div>
+          <div className="player-controls">
+            <h4>Player 2</h4>
+            <div className="control-buttons">
+              <button className="mobile-btn" onClick={moveRightPaddleUp}>↑</button>
+              <button className="mobile-btn" onClick={moveRightPaddleDown}>↓</button>
+            </div>
+          </div>
+        </div>
+
         <div className="pong-instructions">
           <h3>How to Play:</h3>
           <div className="instructions-grid">
             <div className="player-instructions">
               <h4>Player 1 (Left)</h4>
               <ul>
-                <li><strong>W</strong> - Move Up</li>
-                <li><strong>S</strong> - Move Down</li>
+                <li><strong>W</strong> or <strong>↑ Button</strong> - Move Up</li>
+                <li><strong>S</strong> or <strong>↓ Button</strong> - Move Down</li>
               </ul>
             </div>
             <div className="player-instructions">
               <h4>Player 2 (Right)</h4>
               <ul>
-                <li><strong>↑</strong> - Move Up</li>
-                <li><strong>↓</strong> - Move Down</li>
+                <li><strong>↑</strong> or <strong>↑ Button</strong> - Move Up</li>
+                <li><strong>↓</strong> or <strong>↓ Button</strong> - Move Down</li>
               </ul>
             </div>
           </div>
           <p>First player to score 10 points wins!</p>
-        </div>
       </div>
     </div>
   );

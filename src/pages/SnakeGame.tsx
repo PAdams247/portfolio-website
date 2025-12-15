@@ -286,6 +286,17 @@ const SnakeGame: React.FC = () => {
           )}
         </div>
 
+        <div className="mobile-controls">
+          <div className="control-row">
+            <button className="mobile-btn" onClick={() => changeDirection('UP')}>↑</button>
+          </div>
+          <div className="control-row">
+            <button className="mobile-btn" onClick={() => changeDirection('LEFT')}>←</button>
+            <button className="mobile-btn" onClick={() => changeDirection('DOWN')}>↓</button>
+            <button className="mobile-btn" onClick={() => changeDirection('RIGHT')}>→</button>
+          </div>
+        </div>
+
         {gameOver && (
           <div className="game-over">
             <h2>Game Over!</h2>
@@ -299,7 +310,7 @@ const SnakeGame: React.FC = () => {
         <div className="snake-instructions">
           <h3>How to Play:</h3>
           <ul>
-            <li>Use arrow keys to control the snake</li>
+            <li>Use arrow keys or touch controls to move the snake</li>
             <li>Eat the red food to grow and increase your score</li>
             <li>Avoid hitting the walls or your own tail</li>
             <li>Try to get the highest score possible!</li>

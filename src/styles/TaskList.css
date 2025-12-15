@@ -394,85 +394,226 @@
 @media (max-width: 768px) {
   .task-list-page {
     padding: 1rem;
+    padding-top: 80px;
   }
-  
+
   .task-header h1 {
     font-size: 2.5rem;
   }
-  
+
+  .task-header p {
+    font-size: 1rem;
+  }
+
   .task-container {
     padding: 1.5rem;
   }
-  
+
   .input-group {
     flex-direction: column;
     align-items: stretch;
+    gap: 0.8rem;
   }
-  
+
   .task-input {
     min-width: auto;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
   }
-  
+
+  .add-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
   .task-stats {
     gap: 1rem;
+    flex-wrap: wrap;
   }
-  
+
+  .stat-item {
+    flex: 1 1 calc(50% - 0.5rem);
+    min-width: 120px;
+  }
+
   .task-filters {
     gap: 0.5rem;
+    flex-wrap: wrap;
   }
-  
+
   .filter-btn,
   .clear-btn {
-    padding: 0.6rem 1rem;
+    padding: 0.7rem 1.2rem;
     font-size: 0.9rem;
+    flex: 1 1 auto;
+    min-width: 100px;
   }
-  
+
   .task-item {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
+    padding: 1.2rem;
   }
-  
+
+  .task-content {
+    width: 100%;
+  }
+
+  .task-text {
+    font-size: 1rem;
+  }
+
+  .task-date {
+    font-size: 0.85rem;
+  }
+
   .task-actions {
-    align-self: flex-end;
+    align-self: stretch;
+    width: 100%;
+    display: flex;
+    gap: 0.5rem;
   }
-  
+
+  .task-actions button {
+    flex: 1;
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+
   .features-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .feature-card p {
+    font-size: 0.95rem;
   }
 }
 
 @media (max-width: 480px) {
+  .task-list-page {
+    padding: 0.8rem;
+    padding-top: 70px;
+  }
+
   .task-header h1 {
     font-size: 2rem;
   }
-  
+
+  .task-header p {
+    font-size: 0.9rem;
+  }
+
   .task-container {
     padding: 1rem;
   }
-  
-  .task-stats {
-    flex-direction: column;
-    align-items: center;
+
+  .task-input {
+    padding: 0.9rem;
+    font-size: 0.95rem;
   }
-  
-  .stat {
-    width: 100%;
-    max-width: 200px;
+
+  .add-btn {
+    padding: 0.9rem;
+    font-size: 0.95rem;
   }
-  
-  .task-filters {
-    flex-direction: column;
+
+  .stat-item {
+    flex: 1 1 100%;
+    padding: 0.8rem;
   }
-  
+
+  .stat-number {
+    font-size: 1.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+  }
+
   .filter-btn,
   .clear-btn {
-    width: 100%;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    flex: 1 1 calc(50% - 0.25rem);
   }
-  
-  .task-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+
+  .task-item {
+    padding: 1rem;
+  }
+
+  .task-text {
+    font-size: 0.95rem;
+  }
+
+  .task-date {
+    font-size: 0.8rem;
+  }
+
+  .task-actions button {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+
+  .feature-card {
+    padding: 1.2rem;
+  }
+
+  .feature-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .feature-card p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .task-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .task-container {
+    padding: 0.8rem;
+  }
+
+  .task-input,
+  .add-btn {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .stat-item {
+    padding: 0.7rem;
+  }
+
+  .stat-number {
+    font-size: 1.3rem;
+  }
+
+  .filter-btn,
+  .clear-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .task-item {
+    padding: 0.9rem;
+  }
+
+  .task-actions button {
+    padding: 0.5rem;
+    font-size: 0.8rem;
   }
 }

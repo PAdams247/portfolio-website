@@ -287,50 +287,171 @@
 }
 
 /* Responsive design */
+/* Responsive Design */
 @media (max-width: 768px) {
   .project-page {
     padding: 1rem;
+    padding-top: 80px;
   }
-  
+
+  .project-header {
+    padding: 1.5rem 0;
+    margin-bottom: 3rem;
+  }
+
+  .project-icon-large {
+    font-size: 3rem;
+  }
+
   .project-title {
     font-size: 2.5rem;
   }
-  
+
   .project-subtitle {
     font-size: 1rem;
   }
-  
+
+  .project-overview {
+    padding: 1.5rem;
+  }
+
+  .project-overview h2 {
+    font-size: 1.6rem;
+  }
+
+  .project-overview p {
+    font-size: 0.95rem;
+  }
+
+  .tech-stack h3 {
+    font-size: 1.2rem;
+  }
+
+  .tech-tag {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.9rem;
+  }
+
   .games-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
-  
-  .game-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+
+  .game-card {
+    padding: 1.5rem;
   }
-  
-  .tech-tags {
-    justify-content: center;
+
+  .game-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .game-card p {
+    font-size: 0.95rem;
+  }
+
+  .game-features li {
+    font-size: 0.9rem;
+  }
+
+  .play-button,
+  .coming-soon-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
   }
 }
 
 @media (max-width: 480px) {
+  .project-page {
+    padding: 0.8rem;
+    padding-top: 70px;
+  }
+
   .project-header {
+    padding: 1rem 0;
     margin-bottom: 2rem;
   }
-  
+
+  .project-icon-large {
+    font-size: 2.5rem;
+  }
+
   .project-title {
     font-size: 2rem;
   }
-  
-  .project-overview,
-  .games-list,
-  .project-notes {
-    padding: 1.5rem;
+
+  .project-subtitle {
+    font-size: 0.9rem;
   }
-  
+
+  .project-overview {
+    padding: 1.2rem;
+  }
+
+  .project-overview h2 {
+    font-size: 1.4rem;
+  }
+
+  .project-overview p {
+    font-size: 0.9rem;
+  }
+
+  .tech-stack h3 {
+    font-size: 1.1rem;
+  }
+
+  .tech-tag {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.8rem;
+  }
+
+  .game-card {
+    padding: 1.2rem;
+  }
+
+  .game-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .game-card p {
+    font-size: 0.9rem;
+  }
+
+  .game-features li {
+    font-size: 0.85rem;
+  }
+
+  .play-button,
+  .coming-soon-btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .status-badge {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.7rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .project-title {
+    font-size: 1.8rem;
+  }
+
+  .project-overview {
+    padding: 1rem;
+  }
+
   .game-card {
     padding: 1rem;
+  }
+
+  .game-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .play-button,
+  .coming-soon-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
   }
 }

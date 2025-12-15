@@ -305,27 +305,52 @@
 
 @media (max-width: 768px) {
   .home .hero {
-    padding: 1rem;
+    padding: 2rem 1rem;
+    min-height: auto;
+    padding-top: 80px;
+  }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .hero-graphic {
+    order: -1;
+    max-width: 200px;
+    margin: 0 auto;
   }
 
   .home .hero-title {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
+    text-align: center;
+  }
+
+  .home .hero-subtitle {
+    font-size: 1rem;
+    text-align: center;
   }
 
   .home .hero-stats {
     grid-template-columns: repeat(3, 1fr) !important;
-    gap: 1rem !important;
-    max-width: 350px !important;
+    gap: 0.8rem !important;
+    max-width: 100% !important;
   }
 
   .home .stat {
-    width: 100px !important;
-    height: 70px !important;
-    padding: 12px !important;
+    width: 100% !important;
+    min-width: 90px !important;
+    height: 75px !important;
+    padding: 10px !important;
   }
 
   .home .stat-number {
-    font-size: 1.5rem !important;
+    font-size: 1.4rem !important;
+  }
+
+  .home .stat-label {
+    font-size: 0.7rem !important;
+    line-height: 1.2 !important;
   }
 
   .projects {
@@ -344,35 +369,85 @@
   .project-card {
     padding: 1.5rem;
   }
+
+  .project-icon {
+    font-size: 2.5rem;
+  }
+
+  .project-title {
+    font-size: 1.3rem;
+  }
+
+  .project-description {
+    font-size: 0.95rem;
+  }
+
+  .tech-tag {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
 }
 
 @media (max-width: 480px) {
+  .home .hero {
+    padding: 1.5rem 1rem;
+    padding-top: 70px;
+  }
+
+  .hero-graphic {
+    max-width: 150px;
+  }
+
   .home .hero-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 
   .home .hero-subtitle {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .home .hero-stats {
     grid-template-columns: repeat(3, 1fr) !important;
-    gap: 0.8rem !important;
-    max-width: 300px !important;
+    gap: 0.5rem !important;
   }
 
   .home .stat {
-    width: 90px !important;
-    height: 65px !important;
-    padding: 10px !important;
+    width: 100% !important;
+    min-width: 85px !important;
+    height: 70px !important;
+    padding: 8px !important;
   }
 
   .home .stat-number {
-    font-size: 1.3rem !important;
+    font-size: 1.2rem !important;
   }
 
   .home .stat-label {
-    font-size: 0.8rem !important;
+    font-size: 0.65rem !important;
+  }
+
+  .projects {
+    padding: 2rem 1rem;
+  }
+
+  .projects-title {
+    font-size: 1.8rem;
+  }
+
+  .project-card {
+    padding: 1.2rem;
+  }
+
+  .project-icon {
+    font-size: 2rem;
+  }
+
+  .project-title {
+    font-size: 1.2rem;
+  }
+
+  .project-description {
+    font-size: 0.9rem;
   }
 }
 
@@ -484,6 +559,87 @@
   font-size: 1.8rem;
   font-weight: 600;
   color: #00d4ff;
+
+/* Responsive Design for Technologies Section */
+@media (max-width: 768px) {
+  .technologies {
+    padding: 3rem 1rem;
+  }
+
+  .technologies-title {
+    font-size: 1.8rem;
+  }
+
+  .tech-category {
+    padding: 1.5rem;
+  }
+
+  .tech-category-title {
+    font-size: 1.4rem;
+  }
+
+  .tech-subcategory-title {
+    font-size: 1rem;
+  }
+
+  .tech-item {
+    padding-left: 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .tech-summary-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .tech-summary-item {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .tech-conclusion {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .technologies {
+    padding: 2rem 0.8rem;
+  }
+
+  .technologies-title {
+    font-size: 1.5rem;
+  }
+
+  .tech-category {
+    padding: 1rem;
+  }
+
+  .tech-category-title {
+    font-size: 1.2rem;
+  }
+
+  .tech-subcategory-title {
+    font-size: 0.95rem;
+  }
+
+  .tech-item {
+    padding-left: 0.6rem;
+    font-size: 0.85rem;
+    border-left-width: 2px;
+  }
+
+  .tech-summary-item {
+    padding: 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .tech-conclusion {
+    font-size: 0.9rem;
+    padding: 0.8rem;
+  }
+}
   margin-bottom: 1.5rem;
   text-align: center;
 }

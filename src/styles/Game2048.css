@@ -441,71 +441,152 @@
 @media (max-width: 768px) {
   .game-2048 {
     padding: 1rem;
+    padding-top: 80px;
   }
-  
+
   .game-header {
     flex-direction: column;
     gap: 1rem;
     text-align: center;
   }
-  
+
   .game-header h1 {
     font-size: 2.5rem;
   }
-  
-  .game-board {
-    width: 280px;
-    height: 280px;
-    gap: 6px;
-    padding: 12px;
+
+  .score-container {
+    width: 100%;
+    justify-content: center;
   }
-  
+
+  .score-box {
+    min-width: 100px;
+  }
+
+  .game-board {
+    width: 300px;
+    height: 300px;
+    gap: 8px;
+    padding: 14px;
+  }
+
   .tile-2, .tile-4 {
+    font-size: 1.4rem;
+  }
+
+  .tile-8 {
     font-size: 1.3rem;
   }
-  
-  .tile-8 {
+
+  .tile-16 {
     font-size: 1.2rem;
   }
-  
-  .tile-16 {
+
+  .tile-32 {
     font-size: 1.1rem;
   }
-  
-  .tile-32 {
-    font-size: 1rem;
-  }
-  
+
   .mobile-controls {
     display: flex;
+    margin-top: 2rem;
+  }
+
+  .control-button {
+    min-width: 60px;
+    min-height: 60px;
+    font-size: 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
+  .game-2048 {
+    padding: 0.8rem;
+    padding-top: 70px;
+  }
+
   .game-header h1 {
     font-size: 2rem;
   }
-  
+
+  .score-box {
+    min-width: 90px;
+    padding: 0.8rem;
+  }
+
+  .score-label {
+    font-size: 0.8rem;
+  }
+
+  .score-value {
+    font-size: 1.3rem;
+  }
+
+  .game-board {
+    width: 260px;
+    height: 260px;
+    gap: 6px;
+    padding: 10px;
+  }
+
+  .tile-2, .tile-4 {
+    font-size: 1.2rem;
+  }
+
+  .tile-8 {
+    font-size: 1.1rem;
+  }
+
+  .tile-16 {
+    font-size: 1rem;
+  }
+
+  .tile-32 {
+    font-size: 0.95rem;
+  }
+
+  .control-button {
+    min-width: 55px;
+    min-height: 55px;
+    font-size: 1.3rem;
+  }
+
+  .game-controls {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .game-controls button {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
   .game-board {
     width: 240px;
     height: 240px;
-    gap: 4px;
+    gap: 5px;
     padding: 8px;
   }
-  
+
   .tile-2, .tile-4 {
     font-size: 1.1rem;
   }
-  
+
   .tile-8 {
     font-size: 1rem;
   }
-  
-  .tile-16, .tile-32 {
+
+  .tile-16 {
+    font-size: 0.95rem;
+  }
+
+  .tile-32 {
     font-size: 0.9rem;
   }
-  
-  .control-btn {
+
+  .control-button {
     min-width: 50px;
     min-height: 50px;
     font-size: 1.2rem;

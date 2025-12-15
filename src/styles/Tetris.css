@@ -386,66 +386,162 @@
 }
 
 /* Responsive design */
+/* Responsive Design */
 @media (max-width: 1024px) {
-  .tetris-container {
+  .tetris-game {
+    padding: 2rem 1rem;
+  }
+
+  .game-container {
     flex-direction: column;
-    align-items: center;
     gap: 2rem;
   }
-  
-  .tetris-sidebar {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    min-width: auto;
-    width: 100%;
-    max-width: 600px;
+
+  .game-board-container {
+    order: 1;
   }
-  
-  .tetris-sidebar > * {
-    flex: 1;
-    min-width: 200px;
+
+  .game-sidebar {
+    order: 2;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
   }
 }
 
 @media (max-width: 768px) {
   .tetris-game {
     padding: 1rem;
+    padding-top: 80px;
   }
-  
-  .tetris-board {
-    width: 250px;
-    height: 500px;
+
+  .game-header h1 {
+    font-size: 2.5rem;
   }
-  
-  .tetris-sidebar {
-    flex-direction: column;
-    width: 100%;
-    max-width: 300px;
+
+  .game-board {
+    width: 240px;
+    height: 480px;
   }
-  
+
+  .next-piece-preview {
+    width: 100px;
+    height: 100px;
+  }
+
+  .game-info {
+    gap: 1rem;
+  }
+
+  .info-box {
+    padding: 1rem;
+  }
+
+  .info-label {
+    font-size: 0.9rem;
+  }
+
+  .info-value {
+    font-size: 1.5rem;
+  }
+
+  .game-controls {
+    gap: 0.8rem;
+  }
+
+  .control-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
   .mobile-controls {
-    display: flex;
+    display: grid;
+    margin-top: 2rem;
+  }
+
+  .mobile-btn {
+    min-width: 60px;
+    min-height: 60px;
+    font-size: 1.3rem;
   }
 }
 
 @media (max-width: 480px) {
-  .tetris-board {
+  .tetris-game {
+    padding: 0.8rem;
+    padding-top: 70px;
+  }
+
+  .game-header h1 {
+    font-size: 2rem;
+  }
+
+  .game-board {
     width: 200px;
     height: 400px;
-    gap: 0.5px;
-    padding: 4px;
   }
-  
-  .game-info,
-  .next-piece,
-  .controls {
+
+  .next-piece-preview {
+    width: 80px;
+    height: 80px;
+  }
+
+  .info-box {
+    padding: 0.8rem;
+  }
+
+  .info-label {
+    font-size: 0.8rem;
+  }
+
+  .info-value {
+    font-size: 1.3rem;
+  }
+
+  .control-btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .mobile-btn {
+    min-width: 55px;
+    min-height: 55px;
+    font-size: 1.2rem;
+  }
+
+  .game-instructions {
     padding: 1rem;
   }
-  
+
+  .game-instructions h3 {
+    font-size: 1.1rem;
+  }
+
+  .game-instructions p,
+  .game-instructions li {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .game-board {
+    width: 180px;
+    height: 360px;
+  }
+
+  .next-piece-preview {
+    width: 70px;
+    height: 70px;
+  }
+
+  .mobile-btn {
+    min-width: 50px;
+    min-height: 50px;
+    font-size: 1.1rem;
+  }
+
   .control-btn {
-    min-width: 45px;
-    min-height: 45px;
-    font-size: 1rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
   }
 }

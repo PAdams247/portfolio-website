@@ -237,46 +237,142 @@
 }
 
 /* Responsive design */
+/* Responsive Design */
 @media (max-width: 900px) {
   .pong-game {
     padding: 1rem;
+    padding-top: 80px;
   }
-  
-  .pong-canvas {
-    width: 100%;
-    max-width: 600px;
-    height: auto;
-  }
-  
+
   .pong-header h1 {
-    font-size: 2rem;
-  }
-  
-  .score {
     font-size: 2.5rem;
   }
-  
-  .instructions-grid {
-    grid-template-columns: 1fr;
+
+  .pong-canvas {
+    width: 600px;
+    height: 400px;
+  }
+
+  .game-info {
+    gap: 1.5rem;
+  }
+
+  .score-display {
+    font-size: 2rem;
+  }
+
+  .game-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .pong-game {
+    padding: 1rem;
+    padding-top: 80px;
+  }
+
+  .pong-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .pong-canvas {
+    width: 500px;
+    height: 333px;
+  }
+
+  .game-info {
+    flex-direction: column;
     gap: 1rem;
+  }
+
+  .score-display {
+    font-size: 1.8rem;
+  }
+
+  .game-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
+    min-width: 120px;
+  }
+
+  .game-controls {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .game-controls button {
+    width: 100%;
   }
 }
 
 @media (max-width: 600px) {
-  .pong-canvas {
-    max-width: 400px;
+  .pong-game {
+    padding: 0.8rem;
+    padding-top: 70px;
   }
-  
-  .pong-scores {
-    gap: 1rem;
-  }
-  
-  .score {
+
+  .pong-header h1 {
     font-size: 2rem;
   }
-  
+
+  .pong-canvas {
+    width: 100%;
+    max-width: 400px;
+    height: 267px;
+  }
+
+  .score-display {
+    font-size: 1.5rem;
+  }
+
   .game-button {
+    padding: 0.7rem 1.2rem;
     font-size: 0.9rem;
-    padding: 0.6rem 1.2rem;
+  }
+
+  .game-instructions {
+    padding: 1rem;
+  }
+
+  .game-instructions h3 {
+    font-size: 1.1rem;
+  }
+
+  .game-instructions p,
+  .game-instructions li {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pong-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .pong-canvas {
+    max-width: 320px;
+    height: 213px;
+  }
+
+  .score-display {
+    font-size: 1.3rem;
+  }
+
+  .game-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .pong-canvas {
+    max-width: 280px;
+    height: 187px;
+  }
+
+  .score-display {
+    font-size: 1.2rem;
   }
 }

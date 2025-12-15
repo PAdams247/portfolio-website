@@ -440,6 +440,7 @@ const PongGame: React.FC = () => {
             </div>
           </div>
           <p>First player to score 10 points wins!</p>
+        </div>
       </div>
     </div>
   );

@@ -143,6 +143,15 @@ const SnakeGame: React.FC = () => {
     }
   }, [isPlaying, gameOver]);
 
+  const handleDirectionChange = useCallback((newDirection: Direction) => {
+    if (!isPlaying || gameOver) return;
+
+    if (directionQueueRef.current.length < 2 &&
+        directionQueueRef.current[directionQueueRef.current.length - 1] !== newDirection) {
+      directionQueueRef.current.push(newDirection);
+    }
+  }, [isPlaying, gameOver]);
+
   const startGame = () => {
     setSnake(INITIAL_SNAKE);
     setFood(INITIAL_FOOD);
@@ -288,12 +297,12 @@ const SnakeGame: React.FC = () => {
 
         <div className="mobile-controls">
           <div className="control-row">
-            <button className="mobile-btn" onClick={() => changeDirection('UP')}>↑</button>
+            <button className="mobile-btn" onClick={() => handleDirectionChange('UP')}>↑</button>
           </div>
           <div className="control-row">
-            <button className="mobile-btn" onClick={() => changeDirection('LEFT')}>←</button>
-            <button className="mobile-btn" onClick={() => changeDirection('DOWN')}>↓</button>
-            <button className="mobile-btn" onClick={() => changeDirection('RIGHT')}>→</button>
+            <button className="mobile-btn" onClick={() => handleDirectionChange('LEFT')}>←</button>
+            <button className="mobile-btn" onClick={() => handleDirectionChange('DOWN')}>↓</button>
+            <button className="mobile-btn" onClick={() => handleDirectionChange('RIGHT')}>→</button>
           </div>
         </div>
 

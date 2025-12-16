@@ -205,11 +205,37 @@ const PongGame: React.FC = () => {
       if (checkCollision(newBall, leftPaddle)) {
         newBall.dx = Math.abs(newBall.dx);
         newBall.x = leftPaddle.x + leftPaddle.width + newBall.radius;
+
+        // Apply paddle momentum
+        const paddleDirection = leftPaddle.velocity;
+        const ballDirection = newBall.dy;
+        const speedModifier = (paddleDirection * ballDirection > 0) ?
+          (1 + MOMENTUM_MULTIPLIER) : (1 - MOMENTUM_MULTIPLIER);
+
+        newBall.speed = Math.max(MIN_BALL_SPEED, Math.min(MAX_BALL_SPEED, newBall.speed * speedModifier));
+
+        // Recalculate dx and dy with new speed
+        const angle = Math.atan2(newBall.dy, newBall.dx);
+        newBall.dx = Math.cos(angle) * newBall.speed;
+        newBall.dy = Math.sin(angle) * newBall.speed;
       }
-      
+
       if (checkCollision(newBall, rightPaddle)) {
         newBall.dx = -Math.abs(newBall.dx);
         newBall.x = rightPaddle.x - newBall.radius;
+
+        // Apply paddle momentum
+        const paddleDirection = rightPaddle.velocity;
+        const ballDirection = newBall.dy;
+        const speedModifier = (paddleDirection * ballDirection > 0) ?
+          (1 + MOMENTUM_MULTIPLIER) : (1 - MOMENTUM_MULTIPLIER);
+
+        newBall.speed = Math.max(MIN_BALL_SPEED, Math.min(MAX_BALL_SPEED, newBall.speed * speedModifier));
+
+        // Recalculate dx and dy with new speed
+        const angle = Math.atan2(newBall.dy, newBall.dx);
+        newBall.dx = Math.cos(angle) * newBall.speed;
+        newBall.dy = Math.sin(angle) * newBall.speed;
       }
 
       // Ball goes out of bounds
@@ -463,7 +489,7 @@ const PongGame: React.FC = () => {
             </div>
             <div className="score-divider">-</div>
             <div className="score-display">
-              <span className="player-label">Player 2</span>
+              <span className="player-label">{isAIMode ? 'AI' : 'Player 2'}</span>
               <span className="score">{rightScore}</span>
             </div>
           </div>
@@ -479,18 +505,38 @@ const PongGame: React.FC = () => {
         </div>
 
         <div className="pong-controls">
-          {!isPlaying && !gameOver && (
+          {!isPlaying && !gameOver && !difficulty && (
+            <div className="difficulty-selection">
+              <h3>Select Game Mode</h3>
+              <div className="difficulty-buttons">
+                <button onClick={() => startGameWithDifficulty(null)} className="mode-button">
+                  2 Player
+                </button>
+                <button onClick={() => startGameWithDifficulty('easy')} className="difficulty-button easy">
+                  vs AI (Easy)
+                </button>
+                <button onClick={() => startGameWithDifficulty('medium')} className="difficulty-button medium">
+                  vs AI (Medium)
+                </button>
+                <button onClick={() => startGameWithDifficulty('hard')} className="difficulty-button hard">
+                  vs AI (Hard)
+                </button>
+              </div>
+            </div>
+          )}
+
+          {!isPlaying && !gameOver && difficulty !== null && (
             <button onClick={startGame} className="game-button start-button">
               Start Game
             </button>
           )}
-          
+
           {isPlaying && (
             <button onClick={pauseGame} className="game-button pause-button">
               Pause
             </button>
           )}
-          
+
           {(isPlaying || gameOver) && (
             <button onClick={resetGame} className="game-button reset-button">
               Reset
@@ -508,7 +554,7 @@ const PongGame: React.FC = () => {
           </div>
         )}
 
-        <div className="mobile-controls">
+        <div className={`mobile-controls ${isAIMode ? 'single-player' : ''}`}>
           <div className="player-controls">
             <h4>Player 1</h4>
             <div className="control-buttons">
@@ -516,13 +562,15 @@ const PongGame: React.FC = () => {
               <button className="mobile-btn" onClick={moveLeftPaddleDown}>↓</button>
             </div>
           </div>
-          <div className="player-controls">
-            <h4>Player 2</h4>
-            <div className="control-buttons">
-              <button className="mobile-btn" onClick={moveRightPaddleUp}>↑</button>
-              <button className="mobile-btn" onClick={moveRightPaddleDown}>↓</button>
+          {!isAIMode && (
+            <div className="player-controls">
+              <h4>Player 2</h4>
+              <div className="control-buttons">
+                <button className="mobile-btn" onClick={moveRightPaddleUp}>↑</button>
+                <button className="mobile-btn" onClick={moveRightPaddleDown}>↓</button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div className="pong-instructions">
@@ -542,6 +590,14 @@ const PongGame: React.FC = () => {
                 <li><strong>↓</strong> or <strong>↓ Button</strong> - Move Down</li>
               </ul>
             </div>
+          </div>
+          <div className="game-features">
+            <h4>Game Features:</h4>
+            <ul>
+              <li><strong>Paddle Momentum:</strong> Ball speed increases when paddle moves with it, decreases when moving against it</li>
+              <li><strong>AI Difficulty:</strong> Choose from Easy, Medium, or Hard AI opponents with different reaction speeds</li>
+              <li><strong>2 Player Mode:</strong> Play against a friend on the same device</li>
+            </ul>
           </div>
           <p>First player to score 10 points wins!</p>
         </div>

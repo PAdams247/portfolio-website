@@ -205,15 +205,6 @@ const WebDesignServices: React.FC = () => {
               </div>
               <span className="icon-label">Node.js</span>
             </div>
-            <div className="tech-icon cpp-icon">
-              <div className="vscode-icon cpp-file">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <rect width="24" height="24" rx="2" fill="#00599C"/>
-                  <text x="12" y="16" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">C++</text>
-                </svg>
-              </div>
-              <span className="icon-label">C++</span>
-            </div>
             <div className="tech-icon python-icon">
               <div className="vscode-icon python-file">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">

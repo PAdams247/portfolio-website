@@ -88,10 +88,10 @@ const WebDesignServices: React.FC = () => {
       const currentScrollY = window.scrollY;
       const deltaY = currentScrollY - lastScrollY.current;
 
-      scrollVelocity.current = deltaY * 0.5;
+      scrollVelocity.current = deltaY * 1.2;
       lastScrollY.current = currentScrollY;
 
-      const maxDisplacement = 30;
+      const maxDisplacement = 60;
       const targetY = Math.max(-maxDisplacement, Math.min(maxDisplacement, -scrollVelocity.current));
       const targetX = Math.max(-maxDisplacement, Math.min(maxDisplacement, scrollVelocity.current * 0.3));
 

@@ -102,6 +102,9 @@
   border-radius: 12px;
   padding: 1.5rem;
   backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .game-info h2 {
@@ -130,8 +133,8 @@
 }
 
 .stat:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
+  border-bottom: none !important;
+  margin-bottom: 0 !important;
 }
 
 .stat-label {

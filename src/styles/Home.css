@@ -116,6 +116,10 @@
   text-align: center !important;
 }
 
+.home .stat:last-child .stat-number {
+  font-size: 2.8rem !important;
+}
+
 .home .stat-label {
   font-size: 0.9rem !important;
   color: #a0a0a0 !important;

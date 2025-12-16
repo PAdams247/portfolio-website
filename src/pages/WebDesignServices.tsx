@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../styles/WebDesignServices.css';
 
 interface FormData {
@@ -26,6 +26,10 @@ const WebDesignServices: React.FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [scrollPhysics, setScrollPhysics] = useState({ x: 0, y: 0 });
+  const lastScrollY = useRef(0);
+  const scrollVelocity = useRef(0);
+  const animationFrame = useRef<number>();
 
   const modernFeatures = [
     { icon: '🚀', title: 'Lightning Fast', description: 'Optimized for speed and performance' },
@@ -78,6 +82,45 @@ const WebDesignServices: React.FC = () => {
         : [...prev.features, feature]
     }));
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const deltaY = currentScrollY - lastScrollY.current;
+
+      scrollVelocity.current = deltaY * 0.5;
+      lastScrollY.current = currentScrollY;
+
+      const maxDisplacement = 30;
+      const targetY = Math.max(-maxDisplacement, Math.min(maxDisplacement, -scrollVelocity.current));
+      const targetX = Math.max(-maxDisplacement, Math.min(maxDisplacement, scrollVelocity.current * 0.3));
+
+      setScrollPhysics({ x: targetX, y: targetY });
+    };
+
+    const smoothReturn = () => {
+      setScrollPhysics(prev => ({
+        x: prev.x * 0.92,
+        y: prev.y * 0.92
+      }));
+
+      scrollVelocity.current *= 0.85;
+
+      if (Math.abs(scrollPhysics.x) > 0.1 || Math.abs(scrollPhysics.y) > 0.1) {
+        animationFrame.current = requestAnimationFrame(smoothReturn);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    animationFrame.current = requestAnimationFrame(smoothReturn);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (animationFrame.current) {
+        cancelAnimationFrame(animationFrame.current);
+      }
+    };
+  }, [scrollPhysics.x, scrollPhysics.y]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -149,7 +192,10 @@ const WebDesignServices: React.FC = () => {
       <section className="hero-section">
         <div className="hero-content">
           {/* Floating Programming Language Icons */}
-          <div className="floating-tech-icons">
+          <div className="floating-tech-icons" style={{
+            transform: `translate(${scrollPhysics.x}px, ${scrollPhysics.y}px)`,
+            transition: 'transform 0.1s ease-out'
+          }}>
             <div className="tech-icon html-icon">
               <div className="vscode-icon html-file">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">

@@ -48,7 +48,7 @@
   align-items: center;
   gap: 0.3rem;
   min-width: 70px;
-  animation: floatTech 6s ease-in-out infinite;
+  animation: gentleFloat 8s ease-in-out infinite;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
@@ -126,21 +126,21 @@
   animation-delay: 6s;
 }
 
-@keyframes floatTech {
+@keyframes gentleFloat {
   0%, 100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translateY(0px) translateX(0px) rotate(0deg);
     opacity: 0.9;
   }
   25% {
-    transform: translateY(-12px) rotate(1deg);
+    transform: translateY(-5px) translateX(3px) rotate(0.5deg);
     opacity: 1;
   }
   50% {
-    transform: translateY(-8px) rotate(-0.5deg);
+    transform: translateY(-3px) translateX(-2px) rotate(-0.3deg);
     opacity: 0.95;
   }
   75% {
-    transform: translateY(-15px) rotate(0.5deg);
+    transform: translateY(-7px) translateX(2px) rotate(0.3deg);
     opacity: 1;
   }
 }

@@ -79,7 +79,8 @@ const PongGame: React.FC = () => {
       y: CANVAS_HEIGHT / 2,
       dx: Math.random() > 0.5 ? BALL_SPEED : -BALL_SPEED,
       dy: Math.random() > 0.5 ? BALL_SPEED : -BALL_SPEED,
-      radius: BALL_RADIUS
+      radius: BALL_RADIUS,
+      speed: BALL_SPEED
     });
   }, []);
 

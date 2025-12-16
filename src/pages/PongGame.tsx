@@ -6,6 +6,7 @@ interface Paddle {
   y: number;
   width: number;
   height: number;
+  velocity: number; // Track paddle velocity for momentum mechanics
 }
 
 interface Ball {
@@ -14,7 +15,10 @@ interface Ball {
   dx: number;
   dy: number;
   radius: number;
+  speed: number; // Track current speed for momentum mechanics
 }
+
+type Difficulty = 'easy' | 'medium' | 'hard' | null;
 
 const CANVAS_WIDTH = 800;
 const CANVAS_HEIGHT = 400;
@@ -23,39 +27,49 @@ const PADDLE_HEIGHT = 80;
 const BALL_RADIUS = 8;
 const PADDLE_SPEED = 6;
 const BALL_SPEED = 4;
+const MIN_BALL_SPEED = 3;
+const MAX_BALL_SPEED = 8;
+const MOMENTUM_MULTIPLIER = 0.3; // How much paddle momentum affects ball speed
 
 const PongGame: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gameLoopRef = useRef<number | null>(null);
-  
+  const [difficulty, setDifficulty] = useState<Difficulty>(null);
+  const [isAIMode, setIsAIMode] = useState(false);
+
   const [leftPaddle, setLeftPaddle] = useState<Paddle>({
     x: 20,
     y: CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
     width: PADDLE_WIDTH,
-    height: PADDLE_HEIGHT
+    height: PADDLE_HEIGHT,
+    velocity: 0
   });
-  
+
   const [rightPaddle, setRightPaddle] = useState<Paddle>({
     x: CANVAS_WIDTH - 30,
     y: CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
     width: PADDLE_WIDTH,
-    height: PADDLE_HEIGHT
+    height: PADDLE_HEIGHT,
+    velocity: 0
   });
-  
+
   const [ball, setBall] = useState<Ball>({
     x: CANVAS_WIDTH / 2,
     y: CANVAS_HEIGHT / 2,
     dx: BALL_SPEED,
     dy: BALL_SPEED,
-    radius: BALL_RADIUS
+    radius: BALL_RADIUS,
+    speed: BALL_SPEED
   });
-  
+
   const [leftScore, setLeftScore] = useState(0);
   const [rightScore, setRightScore] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [winner, setWinner] = useState<string>('');
   const scoringCooldownRef = useRef(false);
+  const previousLeftPaddleY = useRef(CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2);
+  const previousRightPaddleY = useRef(CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2);
 
   const keysPressed = useRef<Set<string>>(new Set());
 
@@ -76,17 +90,104 @@ const PongGame: React.FC = () => {
            ball.y + ball.radius > paddle.y;
   }, []);
 
+  // AI logic for right paddle
+  const updateAI = useCallback(() => {
+    if (!isAIMode || !difficulty) return;
+
+    setRightPaddle(prev => {
+      const ballCenterY = ball.y;
+      const paddleCenterY = prev.y + PADDLE_HEIGHT / 2;
+      const diff = ballCenterY - paddleCenterY;
+
+      // AI speed based on difficulty
+      let aiSpeed = PADDLE_SPEED;
+      let reactionThreshold = 0;
+
+      switch (difficulty) {
+        case 'easy':
+          aiSpeed = PADDLE_SPEED * 0.5;
+          reactionThreshold = 30; // Larger dead zone
+          break;
+        case 'medium':
+          aiSpeed = PADDLE_SPEED * 0.75;
+          reactionThreshold = 15;
+          break;
+        case 'hard':
+          aiSpeed = PADDLE_SPEED * 1.0;
+          reactionThreshold = 5;
+          break;
+      }
+
+      // Only move if ball is beyond reaction threshold
+      if (Math.abs(diff) > reactionThreshold) {
+        let newY = prev.y;
+        const oldY = prev.y;
+
+        if (diff > 0 && newY < CANVAS_HEIGHT - PADDLE_HEIGHT) {
+          newY += aiSpeed;
+        } else if (diff < 0 && newY > 0) {
+          newY -= aiSpeed;
+        }
+
+        // Calculate velocity for momentum mechanics
+        const velocity = newY - oldY;
+        previousRightPaddleY.current = oldY;
+
+        return { ...prev, y: newY, velocity };
+      }
+
+      return { ...prev, velocity: 0 };
+    });
+  }, [isAIMode, difficulty, ball.y]);
+
   const updateGame = useCallback(() => {
     if (!isPlaying || gameOver) return;
+
+    // Update AI if in AI mode
+    if (isAIMode) {
+      updateAI();
+    }
 
     // Update paddles based on keys pressed
     setLeftPaddle(prev => {
       let newY = prev.y;
+      const oldY = prev.y;
+
       if (keysPressed.current.has('KeyW') && newY > 0) {
         newY -= PADDLE_SPEED;
       }
       if (keysPressed.current.has('KeyS') && newY < CANVAS_HEIGHT - PADDLE_HEIGHT) {
         newY += PADDLE_SPEED;
+      }
+
+      // Calculate velocity for momentum mechanics
+      const velocity = newY - oldY;
+      previousLeftPaddleY.current = oldY;
+
+      return { ...prev, y: newY, velocity };
+    });
+
+    // Only update right paddle manually if not in AI mode
+    if (!isAIMode) {
+      setRightPaddle(prev => {
+        let newY = prev.y;
+        const oldY = prev.y;
+
+        if (keysPressed.current.has('ArrowUp') && newY > 0) {
+          newY -= PADDLE_SPEED;
+        }
+        if (keysPressed.current.has('ArrowDown') && newY < CANVAS_HEIGHT - PADDLE_HEIGHT) {
+          newY += PADDLE_SPEED;
+        }
+
+        // Calculate velocity for momentum mechanics
+        // Velocity is used to determine paddle momentum effect on ball
+        const velocity = newY - oldY;
+        previousRightPaddleY.current = oldY;
+
+        return { ...prev, y: newY, velocity };
+      });
+    }
       }
       return { ...prev, y: newY };
     });
@@ -183,6 +284,55 @@ const PongGame: React.FC = () => {
     });
   }, [isPlaying, gameOver, leftPaddle, rightPaddle, checkCollision]);
 
+  const startGame = () => {
+    setLeftScore(0);
+    setRightScore(0);
+    setGameOver(false);
+    setWinner('');
+    setIsPlaying(true);
+    resetBall();
+  };
+
+  const startGameWithDifficulty = (diff: Difficulty) => {
+    setDifficulty(diff);
+    setIsAIMode(diff !== null);
+    setLeftScore(0);
+    setRightScore(0);
+    setGameOver(false);
+    setWinner('');
+    setIsPlaying(true);
+    resetBall();
+  };
+
+  const pauseGame = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  const resetGame = () => {
+    setLeftScore(0);
+    setRightScore(0);
+    setGameOver(false);
+    setWinner('');
+    setIsPlaying(false);
+    setDifficulty(null);
+    setIsAIMode(false);
+    resetBall();
+    setLeftPaddle({
+      x: 20,
+      y: CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
+      width: PADDLE_WIDTH,
+      height: PADDLE_HEIGHT,
+      velocity: 0
+    });
+    setRightPaddle({
+      x: CANVAS_WIDTH - 30,
+      y: CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
+      width: PADDLE_WIDTH,
+      height: PADDLE_HEIGHT,
+      velocity: 0
+    });
+  };
+
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -250,6 +400,11 @@ const PongGame: React.FC = () => {
     }
     keysPressed.current.delete(e.code);
   }, []);
+
+  const startGameWithDifficulty = (selectedDifficulty: string | null) => {
+    setDifficulty(selectedDifficulty);
+    setIsAIMode(selectedDifficulty !== null);
+  };
 
   const startGame = () => {
     setLeftScore(0);

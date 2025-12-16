@@ -133,6 +133,132 @@
   transform: translateY(-2px);
 }
 
+.difficulty-selection {
+  text-align: center;
+  width: 100%;
+}
+
+.difficulty-selection h3 {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.5rem;
+  color: #00d4ff;
+  margin-bottom: 1.5rem;
+}
+
+.difficulty-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.mode-button {
+  background: linear-gradient(135deg, #a55eea, #8854d0);
+  color: white;
+  box-shadow: 0 4px 15px rgba(165, 94, 234, 0.3);
+}
+
+.mode-button:hover {
+  background: linear-gradient(135deg, #8854d0, #6c5ce7);
+  box-shadow: 0 6px 20px rgba(165, 94, 234, 0.4);
+  transform: translateY(-2px);
+}
+
+.difficulty-button {
+  color: white;
+}
+
+.difficulty-button.easy {
+  background: linear-gradient(135deg, #2ed573, #20bf6b);
+  box-shadow: 0 4px 15px rgba(46, 213, 115, 0.3);
+}
+
+.difficulty-button.easy:hover {
+  background: linear-gradient(135deg, #20bf6b, #0fb9b1);
+  box-shadow: 0 6px 20px rgba(46, 213, 115, 0.4);
+  transform: translateY(-2px);
+}
+
+.difficulty-button.medium {
+  background: linear-gradient(135deg, #ffa502, #ff6348);
+  box-shadow: 0 4px 15px rgba(255, 165, 2, 0.3);
+}
+
+.difficulty-button.medium:hover {
+  background: linear-gradient(135deg, #ff6348, #ff4757);
+  box-shadow: 0 6px 20px rgba(255, 165, 2, 0.4);
+  transform: translateY(-2px);
+}
+
+.difficulty-button.hard {
+  background: linear-gradient(135deg, #ff4757, #c44569);
+  box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+}
+
+.difficulty-button.hard:hover {
+  background: linear-gradient(135deg, #c44569, #8b2e4d);
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+  transform: translateY(-2px);
+}
+
+.player-instructions {
+  text-align: center;
+}
+
+.player-instructions h4 {
+  font-family: 'Orbitron', monospace;
+  color: #2ed573;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.player-instructions ul {
+  list-style: none;
+  padding: 0;
+}
+
+.player-instructions li {
+  color: #ffffff;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.game-features {
+  margin-top: 1.5rem;
+  text-align: left;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.game-features h4 {
+  font-family: 'Orbitron', monospace;
+  color: #ffa502;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.game-features ul {
+  list-style: none;
+  padding: 0;
+}
+
+.game-features li {
+  color: #ffffff;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.game-features li::before {
+  content: "⚡";
+  position: absolute;
+  left: 0;
+  color: #ffa502;
+}
+
 .game-over {
   text-align: center;
   background: rgba(255, 255, 255, 0.05);
@@ -259,6 +385,10 @@
   padding: 1rem 1.5rem;
   backdrop-filter: blur(10px);
   flex: 1;
+}
+
+.player-controls.single-player {
+  max-width: 200px;
 }
 
 .player-controls h4 {

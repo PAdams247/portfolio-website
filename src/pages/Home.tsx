@@ -49,11 +49,11 @@ const Home: React.FC = () => {
             </p>
             <div className="hero-stats">
               <div className="stat">
-                <span className="stat-number">4+</span>
+                <span className="stat-number">7+</span>
                 <span className="stat-label">Projects</span>
               </div>
               <div className="stat">
-                <span className="stat-number">3+</span>
+                <span className="stat-number">7+</span>
                 <span className="stat-label">Languages</span>
               </div>
               <div className="stat">

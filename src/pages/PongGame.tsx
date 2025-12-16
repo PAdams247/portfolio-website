@@ -387,11 +387,6 @@ const PongGame: React.FC = () => {
     keysPressed.current.delete(e.code);
   }, []);
 
-  const startGameWithDifficulty = (selectedDifficulty: string | null) => {
-    setDifficulty(selectedDifficulty);
-    setIsAIMode(selectedDifficulty !== null);
-  };
-
   const startGame = () => {
     setLeftScore(0);
     setRightScore(0);

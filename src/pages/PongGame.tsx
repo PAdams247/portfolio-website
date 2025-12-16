@@ -387,6 +387,26 @@ const PongGame: React.FC = () => {
     keysPressed.current.delete(e.code);
   }, []);
 
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keyup', handleKeyUp);
+    };
+  }, [handleKeyDown, handleKeyUp]);
+
+  useEffect(() => {
+    if (isPlaying) {
+      const gameLoop = () => {
+        updateGame();
+        draw();
+        gameLoopRef.current = requestAnimationFrame(gameLoop);
+      };
+      gameLoopRef.current = requestAnimationFrame(gameLoop);
+    } else {
+      if (gameLoopRef.current) {
         cancelAnimationFrame(gameLoopRef.current);
       }
       draw(); // Draw once when paused

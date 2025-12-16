@@ -387,61 +387,6 @@ const PongGame: React.FC = () => {
     keysPressed.current.delete(e.code);
   }, []);
 
-  const startGame = () => {
-    setLeftScore(0);
-    setRightScore(0);
-    setGameOver(false);
-    setWinner('');
-    setIsPlaying(true);
-    resetBall();
-  };
-
-  const pauseGame = () => {
-    setIsPlaying(!isPlaying);
-  };
-
-  const resetGame = () => {
-    setLeftScore(0);
-    setRightScore(0);
-    setGameOver(false);
-    setWinner('');
-    setIsPlaying(false);
-    resetBall();
-    setLeftPaddle({
-      x: 20,
-      y: CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
-      width: PADDLE_WIDTH,
-      height: PADDLE_HEIGHT
-    });
-    setRightPaddle({
-      x: CANVAS_WIDTH - 30,
-      y: CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
-      width: PADDLE_WIDTH,
-      height: PADDLE_HEIGHT
-    });
-  };
-
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('keyup', handleKeyUp);
-    
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('keyup', handleKeyUp);
-    };
-  }, [handleKeyDown, handleKeyUp]);
-
-  useEffect(() => {
-    const gameLoop = () => {
-      updateGame();
-      draw();
-      gameLoopRef.current = requestAnimationFrame(gameLoop);
-    };
-
-    if (isPlaying) {
-      gameLoopRef.current = requestAnimationFrame(gameLoop);
-    } else {
-      if (gameLoopRef.current) {
         cancelAnimationFrame(gameLoopRef.current);
       }
       draw(); // Draw once when paused

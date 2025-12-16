@@ -1,83 +1,92 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import '../styles/PongGame.css';
 
-interface Paddle {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
-interface Ball {
-  x: number;
-  y: number;
-  dx: number;
-  dy: number;
-  radius: number;
-}
-
-const CANVAS_WIDTH = 800;
-const CANVAS_HEIGHT = 400;
-const PADDLE_WIDTH = 10;
-const PADDLE_HEIGHT = 80;
-const BALL_RADIUS = 8;
-const PADDLE_SPEED = 6;
-const BALL_SPEED = 4;
+const getCanvasSize = () => {
+  const width = window.innerWidth;
+  if (width <= 360) return { width: 280, height: 187 };
+  if (width <= 480) return { width: 320, height: 213 };
+  if (width <= 600) return { width: 360, height: 240 };
+  if (width <= 768) return { width: 500, height: 333 };
+  return { width: 800, height: 400 };
+};
 
 const PongGame: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const gameLoopRef = useRef<number | null>(null);
-  
-  const [leftPaddle, setLeftPaddle] = useState<Paddle>({
+  const keysPressed = useRef<Set<string>>(new Set());
+  const animationFrameRef = useRef<number>();
+
+  const [canvasSize, setCanvasSize] = useState(getCanvasSize());
+  const CANVAS_WIDTH = canvasSize.width;
+  const CANVAS_HEIGHT = canvasSize.height;
+
+  const PADDLE_WIDTH = Math.max(10, CANVAS_WIDTH * 0.0125);
+  const PADDLE_HEIGHT = Math.max(60, CANVAS_HEIGHT * 0.15);
+  const BALL_RADIUS = Math.max(5, CANVAS_WIDTH * 0.00625);
+  const PADDLE_SPEED = CANVAS_HEIGHT * 0.015;
+  const BALL_SPEED = CANVAS_WIDTH * 0.005;
+
+  const INITIAL_LEFT_PADDLE = {
     x: 20,
     y: CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
     width: PADDLE_WIDTH,
-    height: PADDLE_HEIGHT
-  });
-  
-  const [rightPaddle, setRightPaddle] = useState<Paddle>({
+    height: PADDLE_HEIGHT,
+  };
+
+  const INITIAL_RIGHT_PADDLE = {
     x: CANVAS_WIDTH - 30,
     y: CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
     width: PADDLE_WIDTH,
-    height: PADDLE_HEIGHT
-  });
-  
-  const [ball, setBall] = useState<Ball>({
+    height: PADDLE_HEIGHT,
+  };
+
+  const INITIAL_BALL = {
     x: CANVAS_WIDTH / 2,
     y: CANVAS_HEIGHT / 2,
+    radius: BALL_RADIUS,
     dx: BALL_SPEED,
     dy: BALL_SPEED,
-    radius: BALL_RADIUS
-  });
-  
+  };
+
+  const [leftPaddle, setLeftPaddle] = useState(INITIAL_LEFT_PADDLE);
+  const [rightPaddle, setRightPaddle] = useState(INITIAL_RIGHT_PADDLE);
+  const [ball, setBall] = useState(INITIAL_BALL);
   const [leftScore, setLeftScore] = useState(0);
   const [rightScore, setRightScore] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-  const [winner, setWinner] = useState<string>('');
-  const scoringCooldownRef = useRef(false);
+  const [winner, setWinner] = useState<string | null>(null);
 
-  const keysPressed = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    const handleResize = () => {
+      const newSize = getCanvasSize();
+      setCanvasSize(newSize);
+    };
 
-  const resetBall = useCallback(() => {
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    setLeftPaddle({
+      x: 20,
+      y: CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
+      width: PADDLE_WIDTH,
+      height: PADDLE_HEIGHT,
+    });
+    setRightPaddle({
+      x: CANVAS_WIDTH - 30,
+      y: CANVAS_HEIGHT / 2 - PADDLE_HEIGHT / 2,
+      width: PADDLE_WIDTH,
+      height: PADDLE_HEIGHT,
+    });
     setBall({
       x: CANVAS_WIDTH / 2,
       y: CANVAS_HEIGHT / 2,
-      dx: Math.random() > 0.5 ? BALL_SPEED : -BALL_SPEED,
-      dy: Math.random() > 0.5 ? BALL_SPEED : -BALL_SPEED,
-      radius: BALL_RADIUS
+      radius: BALL_RADIUS,
+      dx: BALL_SPEED,
+      dy: BALL_SPEED,
     });
-  }, []);
-
-  const checkCollision = useCallback((ball: Ball, paddle: Paddle): boolean => {
-    return ball.x - ball.radius < paddle.x + paddle.width &&
-           ball.x + ball.radius > paddle.x &&
-           ball.y - ball.radius < paddle.y + paddle.height &&
-           ball.y + ball.radius > paddle.y;
-  }, []);
-
-  const updateGame = useCallback(() => {
-    if (!isPlaying || gameOver) return;
+  }, [CANVAS_WIDTH, CANVAS_HEIGHT, PADDLE_WIDTH, PADDLE_HEIGHT, BALL_RADIUS, BALL_SPEED]);
 
     // Update paddles based on keys pressed
     setLeftPaddle(prev => {
@@ -320,32 +329,36 @@ const PongGame: React.FC = () => {
 
   // Mobile touch controls for paddles
   const moveLeftPaddleUp = useCallback(() => {
+    if (!isPlaying) return;
     setLeftPaddle(prev => ({
       ...prev,
-      y: Math.max(0, prev.y - PADDLE_SPEED * 3)
+      y: Math.max(0, prev.y - PADDLE_SPEED * 5)
     }));
-  }, []);
+  }, [isPlaying, PADDLE_SPEED]);
 
   const moveLeftPaddleDown = useCallback(() => {
+    if (!isPlaying) return;
     setLeftPaddle(prev => ({
       ...prev,
-      y: Math.min(CANVAS_HEIGHT - PADDLE_HEIGHT, prev.y + PADDLE_SPEED * 3)
+      y: Math.min(CANVAS_HEIGHT - PADDLE_HEIGHT, prev.y + PADDLE_SPEED * 5)
     }));
-  }, []);
+  }, [isPlaying, CANVAS_HEIGHT, PADDLE_HEIGHT, PADDLE_SPEED]);
 
   const moveRightPaddleUp = useCallback(() => {
+    if (!isPlaying) return;
     setRightPaddle(prev => ({
       ...prev,
-      y: Math.max(0, prev.y - PADDLE_SPEED * 3)
+      y: Math.max(0, prev.y - PADDLE_SPEED * 5)
     }));
-  }, []);
+  }, [isPlaying, PADDLE_SPEED]);
 
   const moveRightPaddleDown = useCallback(() => {
+    if (!isPlaying) return;
     setRightPaddle(prev => ({
       ...prev,
-      y: Math.min(CANVAS_HEIGHT - PADDLE_HEIGHT, prev.y + PADDLE_SPEED * 3)
+      y: Math.min(CANVAS_HEIGHT - PADDLE_HEIGHT, prev.y + PADDLE_SPEED * 5)
     }));
-  }, []);
+  }, [isPlaying, CANVAS_HEIGHT, PADDLE_HEIGHT, PADDLE_SPEED]);
 
   return (
     <div className="pong-game">

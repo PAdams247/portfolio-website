@@ -240,10 +240,12 @@
 .mobile-controls {
   display: none;
   flex-direction: row;
-  gap: 2rem;
-  margin: 2rem 0;
+  gap: 1.5rem;
+  margin: 1rem 0;
   justify-content: center;
   align-items: flex-start;
+  width: 100%;
+  max-width: 500px;
 }
 
 .player-controls {
@@ -256,11 +258,12 @@
   border-radius: 12px;
   padding: 1rem 1.5rem;
   backdrop-filter: blur(10px);
+  flex: 1;
 }
 
 .player-controls h4 {
   font-family: 'Orbitron', monospace;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #00d4ff;
   margin: 0;
   text-align: center;
@@ -273,34 +276,32 @@
 }
 
 .mobile-btn {
-  width: 60px;
-  height: 60px;
-  font-size: 1.5rem;
+  width: 70px;
+  height: 70px;
+  font-size: 2rem;
   background: rgba(0, 212, 255, 0.2);
   border: 2px solid #00d4ff;
   border-radius: 12px;
   color: #00d4ff;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   font-family: 'Orbitron', monospace;
   font-weight: 600;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
-}
-
-.mobile-btn:hover {
-  background: rgba(0, 212, 255, 0.3);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .mobile-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 10px rgba(0, 212, 255, 0.3);
+  transform: scale(0.95);
+  background: rgba(0, 212, 255, 0.4);
+  box-shadow: 0 2px 10px rgba(0, 212, 255, 0.5);
 }
 
 /* Responsive design */
-/* Responsive Design */
 @media (max-width: 900px) {
   .pong-game {
     padding: 1rem;
@@ -312,8 +313,9 @@
   }
 
   .pong-canvas {
-    width: 600px;
-    height: 400px;
+    width: 100% !important;
+    height: auto !important;
+    max-width: 500px;
   }
 
   .game-info {
@@ -369,6 +371,26 @@
   .game-controls button {
     width: 100%;
   }
+
+  .instructions-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-controls {
+    display: flex !important;
+  }
+
+  .pong-canvas {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .pong-instructions {
+    padding: 1rem;
+  }
 }
 
 @media (max-width: 600px) {
@@ -378,13 +400,12 @@
   }
 
   .pong-header h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .pong-canvas {
-    width: 100%;
-    max-width: 400px;
-    height: 267px;
+    width: 100% !important;
+    height: auto !important;
   }
 
   .score-display {
@@ -408,16 +429,30 @@
   .game-instructions li {
     font-size: 0.85rem;
   }
+
+  .mobile-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 1.8rem;
+  }
+
+  .player-controls {
+    padding: 0.8rem 1rem;
+  }
+
+  .player-controls h4 {
+    font-size: 0.85rem;
+  }
 }
 
 @media (max-width: 480px) {
   .pong-header h1 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 
   .pong-canvas {
-    max-width: 320px;
-    height: 213px;
+    width: 100% !important;
+    height: auto !important;
   }
 
   .score-display {
@@ -428,15 +463,36 @@
     padding: 0.6rem 1rem;
     font-size: 0.85rem;
   }
+
+  .mobile-btn {
+    width: 55px;
+    height: 55px;
+    font-size: 1.6rem;
+  }
+
+  .mobile-controls {
+    gap: 1rem;
+  }
 }
 
 @media (max-width: 360px) {
   .pong-canvas {
-    max-width: 280px;
-    height: 187px;
+    width: 100% !important;
+    height: auto !important;
   }
 
   .score-display {
     font-size: 1.2rem;
+  }
+
+  .mobile-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.4rem;
+  }
+
+  .player-controls {
+    padding: 0.6rem 0.8rem;
+  }
   }
 }

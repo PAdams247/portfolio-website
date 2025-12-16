@@ -188,20 +188,6 @@ const PongGame: React.FC = () => {
         return { ...prev, y: newY, velocity };
       });
     }
-      }
-      return { ...prev, y: newY };
-    });
-
-    setRightPaddle(prev => {
-      let newY = prev.y;
-      if (keysPressed.current.has('ArrowUp') && newY > 0) {
-        newY -= PADDLE_SPEED;
-      }
-      if (keysPressed.current.has('ArrowDown') && newY < CANVAS_HEIGHT - PADDLE_HEIGHT) {
-        newY += PADDLE_SPEED;
-      }
-      return { ...prev, y: newY };
-    });
 
     // Update ball
     setBall(prevBall => {

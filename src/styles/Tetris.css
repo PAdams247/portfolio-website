@@ -124,6 +124,8 @@
   padding: 0.5rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   height: 50px !important;
+  box-sizing: border-box !important;
+  min-height: 50px !important;
 }
 
 .stat:last-child {

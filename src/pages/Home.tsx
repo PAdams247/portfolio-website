@@ -121,13 +121,6 @@ const Home: React.FC = () => {
             </div>
 
             <div className="tech-subcategory">
-              <h4 className="tech-subcategory-title">Legacy/Alternative Backend</h4>
-              <div className="tech-list">
-                <span className="tech-item"><strong>Perl</strong> - FormMail script (formmail.pl) for form handling</span>
-              </div>
-            </div>
-
-            <div className="tech-subcategory">
               <h4 className="tech-subcategory-title">Automation & Deployment</h4>
               <div className="tech-list">
                 <span className="tech-item"><strong>Batch Scripts</strong> (.bat files) - Windows automation</span>

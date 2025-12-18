@@ -55,7 +55,7 @@ const WebDesignServices: React.FC = () => {
     {
       name: 'Professional Website',
       price: '$599',
-      popular: true,
+      popular: false,
       features: ['Up to 10 pages', 'Custom design', 'Advanced SEO', 'CMS integration', 'E-commerce ready', '60 days support']
     },
     {

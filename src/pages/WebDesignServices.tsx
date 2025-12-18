@@ -127,28 +127,35 @@ const WebDesignServices: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // Create form data for submission to Perl script
-      const formDataToSubmit = new FormData();
-      formDataToSubmit.append('recipient', 'padams247@gmail.com');
-      formDataToSubmit.append('subject', `Website Design Inquiry from ${formData.name}`);
-      formDataToSubmit.append('realname', formData.name);
-      formDataToSubmit.append('email', formData.email);
-      formDataToSubmit.append('phone', formData.phone);
-      formDataToSubmit.append('project_type', formData.projectType);
-      formDataToSubmit.append('budget', formData.budget);
-      formDataToSubmit.append('timeline', formData.timeline);
-      formDataToSubmit.append('message', formData.description);
-      formDataToSubmit.append('features', formData.features.join(', '));
-
-      // Submit to your Perl script (you'll need to upload it to your server)
-      const response = await fetch('/cgi-bin/formmail.pl', {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        body: formDataToSubmit,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: '97c52c58-989d-42bf-91e1-af12c94a08f8',
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          subject: `Website Design Inquiry from ${formData.name}`,
+          message: `
+Project Type: ${formData.projectType}
+Budget: ${formData.budget}
+Timeline: ${formData.timeline}
+Features: ${formData.features.join(', ')}
+
+Description:
+${formData.description}
+          `
+        })
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (result.success) {
         setIsSubmitted(true);
-        
+
         // Reset form after 5 seconds
         setTimeout(() => {
           setIsSubmitted(false);

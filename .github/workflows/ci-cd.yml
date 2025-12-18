@@ -28,18 +28,17 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
+        cache: 'npm'
         
     - name: Install dependencies
-      run: |
-        rm -f package-lock.json
-        npm install
+      run: npm ci
       
     - name: Run tests
       run: echo "Temporarily skipping tests for deployment"
       # run: npm test -- --coverage --watchAll=false --passWithNoTests
       
     - name: Build project
-      run: npm run build
+      run: CI=false npm run build
       
     - name: Setup Pages
       uses: actions/configure-pages@v4

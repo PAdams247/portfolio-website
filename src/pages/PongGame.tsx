@@ -297,7 +297,7 @@ const PongGame: React.FC = () => {
 
       return newBall;
     });
-  }, [isPlaying, gameOver, leftPaddle, rightPaddle, checkCollision]);
+  }, [isPlaying, gameOver, leftPaddle, rightPaddle, checkCollision, isAIMode, updateAI]);
 
   const startGame = () => {
     setLeftScore(0);

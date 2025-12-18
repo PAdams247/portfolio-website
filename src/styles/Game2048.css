@@ -11,10 +11,11 @@
 
 .game-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
 }
 
 .game-header h1 {
@@ -25,12 +26,16 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  margin: 0;
 }
 
 .game-info {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   gap: 1rem;
+  width: 100%;
 }
 
 .score-container {
@@ -40,6 +45,7 @@
   padding: 1rem;
   text-align: center;
   backdrop-filter: blur(10px);
+  min-width: 120px;
 }
 
 .high-scores-container {

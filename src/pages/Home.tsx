@@ -7,8 +7,8 @@ const Home: React.FC = () => {
   const projects = [
     {
       title: 'Classic Games',
-      description: 'Collection of 6 classic arcade games built with React',
-      path: '/python-games',
+      description: 'Collection of 6 classic games built with React',
+      path: '/classic-games',
       icon: '🎮',
       tech: ['React', 'TypeScript', 'Canvas API']
     },

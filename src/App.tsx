@@ -18,7 +18,7 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/python-games" element={<PythonGames />} />
+            <Route path="/classic-games" element={<PythonGames />} />
             <Route path="/2048" element={<Game2048 />} />
             <Route path="/tetris" element={<Tetris />} />
             <Route path="/snake" element={<SnakeGame />} />

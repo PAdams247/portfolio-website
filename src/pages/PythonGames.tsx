@@ -62,7 +62,7 @@ const PythonGames: React.FC = () => {
         <div className="project-icon-large">🎮</div>
         <h1 className="project-title">Classic Games Collection</h1>
         <p className="project-subtitle">
-          Collection of classic arcade games built with React and TypeScript
+          Collection of classic games built with React and TypeScript
         </p>
       </div>
 

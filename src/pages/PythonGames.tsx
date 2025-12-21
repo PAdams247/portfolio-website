@@ -17,13 +17,13 @@ const PythonGames: React.FC = () => {
     {
       name: 'Tetris',
       description: 'Classic falling blocks puzzle game with modern controls',
-      features: ['Classic gameplay', 'Next piece preview', 'Score tracking', 'Increasing difficulty'],
+      features: ['Classic gameplay', 'Pausable!', 'Next piece preview', 'Score tracking', 'Increasing difficulty'],
       status: 'Completed',
       playable: true,
       route: '/tetris'
     },
     {
-      name: 'Pong (w/ AI)',
+      name: 'Pong',
       description: 'Two-player paddle game with AI opponent and ball physics',
       features: ['AI opponent', 'Two-player mode', 'Ball physics', 'Difficulty levels'],
       status: 'Completed',

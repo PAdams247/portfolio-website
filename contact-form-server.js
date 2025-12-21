@@ -84,7 +84,7 @@ app.post('/api/contact', async (req, res) => {
     // Email to you (the business owner)
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: 'parkeradams247@gmail.com',
+      to: 'padams247@gmail.com',
       subject: `New Website Design Inquiry from ${name}`,
       html: emailContent,
       replyTo: email

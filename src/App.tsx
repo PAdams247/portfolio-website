@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import PythonGames from './pages/PythonGames';
 import Game2048 from './pages/Game2048';
@@ -13,6 +14,7 @@ import './styles/App.css';
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div className="App">
         <Navigation />
         <main className="main-content">

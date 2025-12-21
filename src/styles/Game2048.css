@@ -345,6 +345,8 @@
   margin-bottom: 1rem;
   padding: 0.8rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: visible;
 }
 
 .stat:last-child {
@@ -364,6 +366,7 @@
   font-weight: 700;
   color: #00d4ff;
   font-size: 1.5rem;
+  margin-bottom: 0;
 }
 
 .high-scores-list {
@@ -371,6 +374,7 @@
   flex-direction: column;
   gap: 0.3rem;
   margin-top: 0.5rem;
+  width: 100%;
 }
 
 .high-score-item {
@@ -378,6 +382,8 @@
   font-size: 0.9rem;
   color: #a0a0a0;
   padding: 0.3rem 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .high-score-item.current {

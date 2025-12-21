@@ -40,9 +40,10 @@ const Home: React.FC = () => {
       <section className="hero">
         <div className="hero-content">
           <div className="hero-text">
+            <p className="hero-intro">Hi, I'm Parker Adams</p>
             <h1 className="hero-title">
-              <span className="title-line">Coding</span>
-              <span className="title-line">Portfolio</span>
+              <span className="title-line">Full-Stack Developer</span>
+              <span className="title-line">& Designer</span>
             </h1>
             <p className="hero-subtitle">
               Showcasing interactive projects and games built with modern technologies

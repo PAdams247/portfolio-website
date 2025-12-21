@@ -38,9 +38,18 @@
   animation: fadeInLeft 1s ease-out;
 }
 
+.hero-intro {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
 .hero-title {
   font-family: 'Orbitron', monospace;
-  font-size: 5rem;
+  font-size: 4rem;
   font-weight: 900;
   line-height: 1.1;
   margin-bottom: 1.5rem;
@@ -301,9 +310,13 @@
     gap: 3rem;
     text-align: center;
   }
-  
+
+  .hero-intro {
+    font-size: 1.2rem;
+  }
+
   .hero-title {
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
 }
 
@@ -325,8 +338,13 @@
     margin: 0 auto;
   }
 
+  .home .hero-intro {
+    font-size: 1.1rem;
+    text-align: center;
+  }
+
   .home .hero-title {
-    font-size: 2.8rem;
+    font-size: 2.2rem;
     text-align: center;
   }
 
@@ -402,8 +420,12 @@
     max-width: 150px;
   }
 
+  .home .hero-intro {
+    font-size: 1rem;
+  }
+
   .home .hero-title {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
   }
 
   .home .hero-subtitle {

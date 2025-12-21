@@ -120,7 +120,7 @@ const WebDesignServices: React.FC = () => {
         cancelAnimationFrame(animationFrame.current);
       }
     };
-  }, [scrollPhysics.x, scrollPhysics.y]);
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {

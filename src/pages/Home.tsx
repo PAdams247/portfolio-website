@@ -177,6 +177,59 @@ const Home: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <section id="about" className="about">
+        <div className="about-container">
+          <h2 className="about-title">About Me</h2>
+          <div className="about-content">
+            <p className="about-text">
+              I'm a full-stack developer passionate about creating interactive web experiences.
+              With expertise in React, TypeScript, and modern web technologies, I build everything
+              from engaging games to practical productivity tools.
+            </p>
+            <p className="about-text">
+              My approach combines clean code, thoughtful design, and a focus on user experience.
+              Whether it's a complex web application or a fun browser game, I enjoy bringing ideas
+              to life through code.
+            </p>
+            <div className="about-skills">
+              <div className="skill-category">
+                <h3>Frontend</h3>
+                <p>React, TypeScript, CSS3, HTML5</p>
+              </div>
+              <div className="skill-category">
+                <h3>Backend</h3>
+                <p>Node.js, Express, Nodemailer</p>
+              </div>
+              <div className="skill-category">
+                <h3>Tools</h3>
+                <p>Git, GitHub, VS Code, npm</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="contact">
+        <div className="contact-container">
+          <h2 className="contact-title">Get In Touch</h2>
+          <p className="contact-description">
+            Interested in working together or have a question? Feel free to reach out!
+          </p>
+          <div className="contact-methods">
+            <a href="mailto:padams247@gmail.com" className="contact-method">
+              <span className="contact-icon">📧</span>
+              <span className="contact-label">Email</span>
+              <span className="contact-value">padams247@gmail.com</span>
+            </a>
+            <a href="https://github.com/PAdams247" target="_blank" rel="noopener noreferrer" className="contact-method">
+              <span className="contact-icon">💻</span>
+              <span className="contact-label">GitHub</span>
+              <span className="contact-value">@PAdams247</span>
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

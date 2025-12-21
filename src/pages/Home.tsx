@@ -6,11 +6,11 @@ import '../styles/Home.css';
 const Home: React.FC = () => {
   const projects = [
     {
-      title: 'Python Games',
-      description: 'Collection of classic games built with Python',
+      title: 'Classic Games',
+      description: 'Collection of classic arcade games built with React',
       path: '/python-games',
-      icon: '🐍',
-      tech: ['Python', 'Pygame', 'OOP']
+      icon: '🎮',
+      tech: ['React', 'TypeScript', 'Canvas API']
     },
     {
       title: '2048 Game',
@@ -179,7 +179,7 @@ const Home: React.FC = () => {
                 <strong>Games:</strong> Multiple browser games built in TypeScript (Snake, Tetris, 2048, Pong)
               </div>
               <div className="tech-summary-item">
-                <strong>Backend:</strong> Node.js/Express server with Web3Forms API integration
+                <strong>Backend:</strong> Node.js/Express server with Nodemailer for email functionality
               </div>
               <div className="tech-summary-item">
                 <strong>Deployment:</strong> Automated with batch/PowerShell scripts for GitHub Pages

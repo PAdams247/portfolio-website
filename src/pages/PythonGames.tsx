@@ -43,10 +43,10 @@ const PythonGames: React.FC = () => {
   return (
     <div className="project-page">
       <div className="project-header">
-        <div className="project-icon-large">🐍</div>
-        <h1 className="project-title">Python Games</h1>
+        <div className="project-icon-large">🎮</div>
+        <h1 className="project-title">Classic Games Collection</h1>
         <p className="project-subtitle">
-          Collection of classic arcade games built with modern web technologies
+          Collection of classic arcade games built with React and TypeScript
         </p>
       </div>
 

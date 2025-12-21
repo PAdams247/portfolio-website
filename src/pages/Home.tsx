@@ -7,24 +7,10 @@ const Home: React.FC = () => {
   const projects = [
     {
       title: 'Classic Games',
-      description: 'Collection of classic arcade games built with React',
+      description: 'Collection of 6 classic arcade games built with React',
       path: '/python-games',
       icon: '🎮',
       tech: ['React', 'TypeScript', 'Canvas API']
-    },
-    {
-      title: '2048 Game',
-      description: 'The addictive sliding puzzle game',
-      path: '/2048',
-      icon: '🎮',
-      tech: ['React', 'TypeScript', 'CSS Grid']
-    },
-    {
-      title: 'Tetris',
-      description: 'Classic falling blocks puzzle game',
-      path: '/tetris',
-      icon: '🧩',
-      tech: ['React', 'Canvas API', 'Game Logic']
     },
     {
       title: 'Task List',
@@ -50,7 +36,7 @@ const Home: React.FC = () => {
             </p>
             <div className="hero-stats">
               <div className="stat">
-                <span className="stat-number">7+</span>
+                <span className="stat-number">6</span>
                 <span className="stat-label">Projects</span>
               </div>
               <div className="stat">
@@ -170,7 +156,7 @@ const Home: React.FC = () => {
             <h3 className="tech-summary-title">Project Structure Summary</h3>
             <div className="tech-summary-grid">
               <div className="tech-summary-item">
-                <strong>Frontend Components:</strong> 8 main pages (Home, Games, Task List, etc.) all written in TypeScript React
+                <strong>Frontend Components:</strong> 6 main pages (Home, Classic Games Collection, Task List, Web Design Services, etc.) all written in TypeScript React
               </div>
               <div className="tech-summary-item">
                 <strong>Styling:</strong> Individual CSS files for each component with custom animations

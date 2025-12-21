@@ -7,6 +7,30 @@ import '../styles/ProjectPage.css';
 const PythonGames: React.FC = () => {
   const games = [
     {
+      name: '2048',
+      description: 'The addictive sliding puzzle game with smooth animations',
+      features: ['Smooth tile animations', 'High score tracking', 'Undo moves', 'Responsive grid layout'],
+      status: 'Completed',
+      playable: true,
+      route: '/2048'
+    },
+    {
+      name: 'Tetris',
+      description: 'Classic falling blocks puzzle game with modern controls',
+      features: ['Classic gameplay', 'Next piece preview', 'Score tracking', 'Increasing difficulty'],
+      status: 'Completed',
+      playable: true,
+      route: '/tetris'
+    },
+    {
+      name: 'Pong (w/ AI)',
+      description: 'Two-player paddle game with AI opponent and ball physics',
+      features: ['AI opponent', 'Two-player mode', 'Ball physics', 'Difficulty levels'],
+      status: 'Completed',
+      playable: true,
+      route: '/pong'
+    },
+    {
       name: 'Snake Game',
       description: 'Classic snake game with growing mechanics and score tracking',
       features: ['Arrow key controls', 'Score system', 'Game over detection', 'Responsive gameplay'],
@@ -15,25 +39,17 @@ const PythonGames: React.FC = () => {
       route: '/snake'
     },
     {
-      name: 'Pong',
-      description: 'Two-player paddle game with ball physics',
-      features: ['Two-player mode', 'Ball physics', 'Score tracking', 'Collision detection'],
-      status: 'Completed',
-      playable: true,
-      route: '/pong'
-    },
-    {
-      name: 'Space Invaders',
-      description: 'Shoot-em-up game with waves of enemies',
-      features: ['Enemy waves', 'Power-ups', 'Multiple lives', 'Increasing difficulty'],
-      status: 'In Progress',
+      name: 'Bubble Bobble',
+      description: 'Platform game with bubble-shooting mechanics',
+      features: ['Platform physics', 'Bubble mechanics', 'Enemy AI', 'Power-ups'],
+      status: 'Planned',
       playable: false,
       route: null
     },
     {
-      name: 'Breakout',
-      description: 'Brick-breaking game with paddle and ball',
-      features: ['Brick destruction', 'Ball physics', 'Multiple levels', 'Power-ups'],
+      name: 'Minesweeper',
+      description: 'Classic puzzle game with mine detection logic',
+      features: ['Grid-based gameplay', 'Mine detection', 'Flag system', 'Timer'],
       status: 'Planned',
       playable: false,
       route: null

@@ -245,62 +245,77 @@ const Game2048: React.FC = () => {
 
   return (
     <div className="game-2048" data-testid="game-2048">
-      <div className="game-header">
-        <h1>2048</h1>
-        <div className="game-info">
-          <div className="score-container">
-            <div className="score-label">Score</div>
-            <div className="score-value">{score}</div>
-          </div>
-          <div className="high-scores-container">
-            <div className="score-label">High Scores</div>
-            <div className="high-scores">
-              {highScores.map((highScore, index) => (
-                <div key={index} className={`high-score ${score === highScore && score > 0 ? 'current' : ''}`}>
-                  #{index + 1}: {highScore.toLocaleString()}
+      <div className="game-2048-container">
+        <div className="game-2048-board-container">
+          <div
+            className="game-board"
+            data-testid="game-board"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            {board.map((row, i) =>
+              row.map((cell, j) => (
+                <div
+                  key={`${i}-${j}`}
+                  className={`tile ${getTileClass(cell)}`}
+                  data-testid={`tile-${i}-${j}`}
+                >
+                  {cell !== 0 && cell}
                 </div>
-              ))}
+              ))
+            )}
+          </div>
+
+          {(gameOver || gameWon) && (
+            <div className="game-overlay" data-testid="game-overlay">
+              <div className={`overlay-content ${gameWon ? 'win' : ''}`}>
+                <h2>{gameWon ? 'You Win!' : 'Game Over!'}</h2>
+                <p>
+                  {gameWon
+                    ? 'Congratulations! You reached 2048!'
+                    : 'No more moves available.'}
+                </p>
+                <button onClick={resetGame}>Try Again</button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="game-2048-sidebar">
+          <div className="game-info">
+            <h2>2048</h2>
+            <div className="stat">
+              <span className="stat-label">Score</span>
+              <span className="stat-value">{score}</span>
+            </div>
+            <div className="stat">
+              <span className="stat-label">High Scores</span>
+              <div className="high-scores-list">
+                {highScores.map((highScore, index) => (
+                  <div key={index} className={`high-score-item ${score === highScore && score > 0 ? 'current' : ''}`}>
+                    #{index + 1}: {highScore.toLocaleString()}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-          <button className="reset-button" onClick={resetGame}>
-            New Game
-          </button>
-        </div>
-      </div>
 
-      <div
-        className="game-board"
-        data-testid="game-board"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        {board.map((row, i) =>
-          row.map((cell, j) => (
-            <div
-              key={`${i}-${j}`}
-              className={`tile ${getTileClass(cell)}`}
-              data-testid={`tile-${i}-${j}`}
-            >
-              {cell !== 0 && cell}
+          <div className="controls">
+            <h3>Controls</h3>
+            <div className="control-list">
+              <div>↑ Move Up</div>
+              <div>↓ Move Down</div>
+              <div>← Move Left</div>
+              <div>→ Move Right</div>
             </div>
-          ))
-        )}
-      </div>
+          </div>
 
-      {(gameOver || gameWon) && (
-        <div className="game-overlay" data-testid="game-overlay">
-          <div className={`overlay-content ${gameWon ? 'win' : ''}`}>
-            <h2>{gameWon ? 'You Win!' : 'Game Over!'}</h2>
-            <p>
-              {gameWon
-                ? 'Congratulations! You reached 2048!'
-                : 'No more moves available.'}
-            </p>
-            <button onClick={resetGame}>Try Again</button>
+          <div className="game-buttons">
+            <button onClick={resetGame}>New Game</button>
           </div>
         </div>
-      )}
+      </div>
 
       <div className="mobile-controls" data-testid="mobile-controls">
         <div className="control-row">
@@ -311,10 +326,6 @@ const Game2048: React.FC = () => {
           <button className="control-btn" onClick={() => move('ArrowDown')}>↓</button>
           <button className="control-btn" onClick={() => move('ArrowRight')}>→</button>
         </div>
-      </div>
-
-      <div className="game-instructions">
-        <p>Use arrow keys or buttons to move tiles. Combine tiles with the same number to reach 2048!</p>
       </div>
     </div>
   );

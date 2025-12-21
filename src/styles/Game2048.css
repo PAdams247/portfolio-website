@@ -343,16 +343,15 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
-  padding: 0.8rem 0 1.2rem 0;
+  padding: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .stat:last-child {
   border-bottom: none;
   margin-bottom: 0;
-  padding-bottom: 1.5rem;
 }
 
 .stat-label {
@@ -368,12 +367,13 @@
   color: #00d4ff;
   font-size: 1.5rem;
   margin-bottom: 0;
+  line-height: 1.2;
 }
 
 .high-scores-list {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.5rem;
   margin-top: 0.5rem;
   width: 100%;
 }
@@ -385,6 +385,7 @@
   padding: 0.3rem 0;
   width: 100%;
   box-sizing: border-box;
+  line-height: 1.4;
 }
 
 .high-score-item.current {
@@ -397,7 +398,7 @@
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  padding: 1.5rem 1.5rem 2rem 1.5rem;
+  padding: 1.5rem 1.5rem 2.5rem 1.5rem;
   backdrop-filter: blur(10px);
 }
 
@@ -412,13 +413,15 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0;
+  margin-bottom: 0.8rem;
 }
 
 .control-list div {
   color: #a0a0a0;
   font-family: 'Roboto Mono', monospace;
   font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 .game-buttons {

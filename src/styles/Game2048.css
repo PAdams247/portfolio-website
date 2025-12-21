@@ -343,7 +343,7 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
-  padding: 0.8rem 0;
+  padding: 0.8rem 0 1.2rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: visible;
@@ -352,6 +352,7 @@
 .stat:last-child {
   border-bottom: none;
   margin-bottom: 0;
+  padding-bottom: 1.5rem;
 }
 
 .stat-label {
@@ -396,7 +397,7 @@
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 1.5rem 1.5rem 2rem 1.5rem;
   backdrop-filter: blur(10px);
 }
 
@@ -411,6 +412,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .control-list div {

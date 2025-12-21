@@ -212,9 +212,9 @@ const Home: React.FC = () => {
 
       <section id="contact" className="contact">
         <div className="contact-container">
-          <h2 className="contact-title">Get In Touch</h2>
+          <h2 className="contact-title">Connect With Me</h2>
           <p className="contact-description">
-            Interested in working together or have a question? Feel free to reach out!
+            Let's connect! Reach out via email or check out my work on GitHub.
           </p>
           <div className="contact-methods">
             <a href="mailto:padams247@gmail.com" className="contact-method">

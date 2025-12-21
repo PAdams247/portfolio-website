@@ -399,7 +399,7 @@ ${formData.description}
         </div>
         <div className="contact-content">
           <div className="contact-info">
-            <h2>Let's Discuss Your Project</h2>
+            <h2>Start a Project</h2>
             <div className="contact-details">
               <h3>Ready to Get Started?</h3>
               <p>Fill out the form and I'll get back to you within 24 hours with a detailed proposal.</p>

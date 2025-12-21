@@ -84,7 +84,7 @@ app.post('/api/contact', async (req, res) => {
     // Email to you (the business owner)
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: 'padams247@gmail.com',
+      to: 'parkeradams247@gmail.com',
       subject: `New Website Design Inquiry from ${name}`,
       html: emailContent,
       replyTo: email
@@ -146,4 +146,4 @@ app.listen(PORT, () => {
   console.log(`Contact form server running on port ${PORT}`);
 });
 
-module.exports = app;
+module.exports = app; 

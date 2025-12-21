@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../styles/Navigation.css';
 
 const Navigation: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navItems = [
     { path: '/', label: 'Home', icon: '🏠' },
@@ -15,6 +16,29 @@ const Navigation: React.FC = () => {
     { path: '/#contact', label: 'Contact', icon: '📧' }
   ];
 
+  const handleNavClick = (path: string) => {
+    setIsMenuOpen(false);
+
+    if (path.startsWith('/#')) {
+      const sectionId = path.substring(2);
+
+      if (location.pathname !== '/') {
+        navigate('/');
+        setTimeout(() => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+      } else {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  };
+
   return (
     <nav className="navigation">
       <div className="nav-container">
@@ -22,8 +46,8 @@ const Navigation: React.FC = () => {
           <span className="logo-text">Portfolio</span>
           <span className="logo-accent">.</span>
         </Link>
-        
-        <button 
+
+        <button
           className={`nav-toggle ${isMenuOpen ? 'active' : ''}`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
@@ -33,18 +57,36 @@ const Navigation: React.FC = () => {
         </button>
 
         <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-          {navItems.map((item) => (
-            <li key={item.path} className="nav-item">
-              <Link 
-                to={item.path} 
-                className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <span className="nav-icon">{item.icon}</span>
-                <span className="nav-text">{item.label}</span>
-              </Link>
-            </li>
-          ))}
+          {navItems.map((item) => {
+            const isAnchorLink = item.path.startsWith('/#');
+
+            return (
+              <li key={item.path} className="nav-item">
+                {isAnchorLink ? (
+                  <a
+                    href={item.path}
+                    className={`nav-link ${location.pathname === '/' && location.hash === item.path.substring(1) ? 'active' : ''}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick(item.path);
+                    }}
+                  >
+                    <span className="nav-icon">{item.icon}</span>
+                    <span className="nav-text">{item.label}</span>
+                  </a>
+                ) : (
+                  <Link
+                    to={item.path}
+                    className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <span className="nav-icon">{item.icon}</span>
+                    <span className="nav-text">{item.label}</span>
+                  </Link>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </nav>

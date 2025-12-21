@@ -17,7 +17,7 @@ const PythonGames: React.FC = () => {
     {
       name: 'Tetris',
       description: 'Classic falling blocks puzzle game with modern controls',
-      features: ['Classic gameplay', 'Pausable!', 'Next piece preview', 'Score tracking', 'Increasing difficulty'],
+      features: ['Classic gameplay', 'Pausable!', 'Score tracking', 'Increasing difficulty'],
       status: 'Completed',
       playable: true,
       route: '/tetris'

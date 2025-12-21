@@ -27,7 +27,6 @@ const WebDesignServices: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [scrollPhysics, setScrollPhysics] = useState({ x: 0, y: 0 });
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const lastScrollY = useRef(0);
   const scrollVelocity = useRef(0);
   const animationFrame = useRef<number>();
@@ -87,15 +86,16 @@ const WebDesignServices: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const delta = currentScrollY - lastScrollY.current;
-      scrollVelocity.current = delta;
+      const deltaY = currentScrollY - lastScrollY.current;
+
+      scrollVelocity.current = deltaY * 1.2;
       lastScrollY.current = currentScrollY;
 
-      const maxOffset = 15;
-      const newX = Math.max(-maxOffset, Math.min(maxOffset, scrollPhysics.x + delta * 0.05));
-      const newY = Math.max(-maxOffset, Math.min(maxOffset, scrollPhysics.y + delta * 0.1));
+      const maxDisplacement = 60;
+      const targetY = Math.max(-maxDisplacement, Math.min(maxDisplacement, -scrollVelocity.current));
+      const targetX = Math.max(-maxDisplacement, Math.min(maxDisplacement, scrollVelocity.current * 0.3));
 
-      setScrollPhysics({ x: newX, y: newY });
+      setScrollPhysics({ x: targetX, y: targetY });
     };
 
     const smoothReturn = () => {
@@ -120,17 +120,6 @@ const WebDesignServices: React.FC = () => {
         cancelAnimationFrame(animationFrame.current);
       }
     };
-  }, [scrollPhysics.x, scrollPhysics.y]);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 20;
-      const y = (e.clientY / window.innerHeight - 0.5) * 20;
-      setMousePosition({ x, y });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [scrollPhysics.x, scrollPhysics.y]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -208,20 +197,6 @@ ${formData.description}
     <div className="services-container">
       {/* Hero Section */}
       <section className="hero-section">
-        <div className="parallax-bg">
-          <div className="parallax-shape shape-1" style={{
-            transform: `translate(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px)`
-          }}></div>
-          <div className="parallax-shape shape-2" style={{
-            transform: `translate(${mousePosition.x * 0.8}px, ${mousePosition.y * 0.8}px)`
-          }}></div>
-          <div className="parallax-shape shape-3" style={{
-            transform: `translate(${mousePosition.x * 0.3}px, ${mousePosition.y * 0.3}px)`
-          }}></div>
-          <div className="parallax-shape shape-4" style={{
-            transform: `translate(${mousePosition.x * 0.6}px, ${mousePosition.y * 0.6}px)`
-          }}></div>
-        </div>
         <div className="hero-content">
           {/* Floating Programming Language Icons */}
           <div className="floating-tech-icons" style={{
@@ -341,17 +316,6 @@ ${formData.description}
 
       {/* Trending Technologies */}
       <section className="tech-section">
-        <div className="parallax-bg">
-          <div className="parallax-shape shape-1" style={{
-            transform: `translate(${mousePosition.x * 0.4}px, ${mousePosition.y * 0.4}px)`
-          }}></div>
-          <div className="parallax-shape shape-2" style={{
-            transform: `translate(${mousePosition.x * 0.7}px, ${mousePosition.y * 0.7}px)`
-          }}></div>
-          <div className="parallax-shape shape-3" style={{
-            transform: `translate(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px)`
-          }}></div>
-        </div>
         <h2>Built with Modern Technologies</h2>
         <div className="tech-grid">
           {trendingTechnologies.map((tech, index) => (
@@ -383,20 +347,6 @@ ${formData.description}
 
       {/* Contact Form */}
       <section className="contact-section">
-        <div className="parallax-bg">
-          <div className="parallax-shape shape-1" style={{
-            transform: `translate(${mousePosition.x * 0.6}px, ${mousePosition.y * 0.6}px)`
-          }}></div>
-          <div className="parallax-shape shape-2" style={{
-            transform: `translate(${mousePosition.x * 0.4}px, ${mousePosition.y * 0.4}px)`
-          }}></div>
-          <div className="parallax-shape shape-3" style={{
-            transform: `translate(${mousePosition.x * 0.7}px, ${mousePosition.y * 0.7}px)`
-          }}></div>
-          <div className="parallax-shape shape-4" style={{
-            transform: `translate(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px)`
-          }}></div>
-        </div>
         <div className="contact-content">
           <div className="contact-info">
             <h2>Let's Discuss Your Project</h2>

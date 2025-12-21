@@ -187,7 +187,7 @@ ${formData.description}
 
     } catch (error) {
       console.error('Form submission error:', error);
-      alert('There was an error sending your message. Please try again or contact me directly at padams247@gmail.com');
+      alert('There was an error sending your message. Please try again or contact me directly at parkeradams247@gmail.com');
     } finally {
       setIsSubmitting(false);
     }

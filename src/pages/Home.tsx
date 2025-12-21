@@ -217,10 +217,10 @@ const Home: React.FC = () => {
             Let's connect! Reach out via email or check out my work on GitHub.
           </p>
           <div className="contact-methods">
-            <a href="mailto:padams247@gmail.com" className="contact-method">
+            <a href="mailto:parkeradams247@gmail.com" className="contact-method">
               <span className="contact-icon">📧</span>
               <span className="contact-label">Email</span>
-              <span className="contact-value">padams247@gmail.com</span>
+              <span className="contact-value">parkeradams247@gmail.com</span>
             </a>
             <a href="https://github.com/PAdams247" target="_blank" rel="noopener noreferrer" className="contact-method">
               <span className="contact-icon">💻</span>

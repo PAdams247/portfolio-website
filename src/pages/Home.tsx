@@ -178,7 +178,7 @@ const Home: React.FC = () => {
                 <strong>Games:</strong> Multiple browser games built in TypeScript (Snake, Tetris, 2048, Pong)
               </div>
               <div className="tech-summary-item">
-                <strong>Backend:</strong> Dual approach with both Node.js/Express server and Perl CGI script
+                <strong>Backend:</strong> Node.js/Express server with Web3Forms API integration
               </div>
               <div className="tech-summary-item">
                 <strong>Deployment:</strong> Automated with batch/PowerShell scripts for GitHub Pages

@@ -8,9 +8,9 @@ const Navigation: React.FC = () => {
 
   const navItems = [
     { path: '/', label: 'Home', icon: '🏠' },
+    { path: '/web-design-services', label: 'Web Design', icon: '🎨' },
     { path: '/classic-games', label: 'Classic Games', icon: '🎮' },
-    { path: '/task-list', label: 'Task List', icon: '📝' },
-    { path: '/web-design-services', label: 'Web Design', icon: '🎨' }
+    { path: '/task-list', label: 'Task List', icon: '📝' }
   ];
 
   return (

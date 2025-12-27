@@ -441,7 +441,7 @@ const Tetris: React.FC = () => {
           >
             {renderBoard()}
           </div>
-          
+
           {gameOver && (
             <div className="game-overlay">
               <div className="game-message">
@@ -451,7 +451,7 @@ const Tetris: React.FC = () => {
               </div>
             </div>
           )}
-          
+
           {isPaused && !gameOver && (
             <div className="game-overlay">
               <div className="game-message">

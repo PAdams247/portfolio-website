@@ -191,6 +191,16 @@ const Tetris: React.FC = () => {
     }
   }, [currentPiece, gameOver, isPaused, rotatePieceCounterClockwise, isValidPosition, board]);
 
+  const dropPiece = useCallback(() => {
+    if (!currentPiece || gameOver || isPaused) return;
+
+    let newY = currentPiece.y;
+    while (isValidPosition(currentPiece, board, 0, newY - currentPiece.y + 1)) {
+      newY++;
+    }
+    setCurrentPiece(prev => prev ? { ...prev, y: newY } : null);
+  }, [currentPiece, gameOver, isPaused, isValidPosition, board]);
+
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     e.preventDefault();
     if (!currentPiece || gameOver || isPaused) return;
@@ -268,16 +278,6 @@ const Tetris: React.FC = () => {
 
     setTouchStartPos(null);
   }, [currentPiece, gameOver, isPaused, touchStartPos, rotatePieceHandler, rotatePieceCounterClockwiseHandler, movePiece]);
-
-  const dropPiece = useCallback(() => {
-    if (!currentPiece || gameOver || isPaused) return;
-
-    let newY = currentPiece.y;
-    while (isValidPosition(currentPiece, board, 0, newY - currentPiece.y + 1)) {
-      newY++;
-    }
-    setCurrentPiece(prev => prev ? { ...prev, y: newY } : null);
-  }, [currentPiece, gameOver, isPaused, isValidPosition, board]);
 
   const resetGame = () => {
     setBoard(Array(BOARD_HEIGHT).fill(null).map(() => Array(BOARD_WIDTH).fill(0)));

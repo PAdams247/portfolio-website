@@ -32,7 +32,7 @@ const Home: React.FC = () => {
               <span className="title-line">& Designer</span>
             </h1>
             <p className="hero-subtitle">
-              Showcasing interactive projects and games built with modern technologies
+              My portfolio showcases interactive projects and games I've built with modern technologies
             </p>
             <div className="hero-stats">
               <div className="stat">

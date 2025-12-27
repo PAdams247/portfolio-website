@@ -450,12 +450,15 @@
   .tetris-game {
     padding: 1rem;
     padding-top: 80px;
+    display: flex;
+    justify-content: center;
   }
 
   .tetris-container {
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
+    width: 100%;
   }
 
   .tetris-board-container {
@@ -466,14 +469,15 @@
   }
 
   .tetris-board {
-    width: min(85vw, 300px);
-    height: calc(min(85vw, 300px) * 2);
+    width: min(80vw, 280px);
+    height: calc(min(80vw, 280px) * 2);
+    margin: 0 auto;
   }
 
   .tetris-sidebar {
     order: 2;
     width: 100%;
-    max-width: min(85vw, 300px);
+    max-width: min(80vw, 280px);
   }
 
   .next-piece-container {
@@ -522,19 +526,52 @@
   .tetris-game {
     padding: 0.5rem;
     padding-top: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
   }
 
   .tetris-container {
     gap: 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tetris-board-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 
   .tetris-board {
-    width: min(90vw, 280px);
-    height: calc(min(90vw, 280px) * 2);
+    width: min(75vw, 250px);
+    height: calc(min(75vw, 250px) * 2);
+    margin: 0 auto;
   }
 
   .tetris-sidebar {
-    max-width: min(90vw, 280px);
+    max-width: min(75vw, 250px);
+    width: 100%;
+  }
+
+  /* Hide game info and controls on mobile, only show next piece */
+  .game-info {
+    display: none;
+  }
+
+  .controls {
+    display: none;
+  }
+
+  .game-buttons {
+    display: none;
+  }
+
+  .next-piece-container {
+    display: block;
+    margin-bottom: 0;
   }
 
   .next-piece-preview {
@@ -574,13 +611,18 @@
 }
 
 @media (max-width: 360px) {
+  .tetris-game {
+    padding: 0.25rem;
+    padding-top: 70px;
+  }
+
   .tetris-board {
-    width: min(92vw, 260px);
-    height: calc(min(92vw, 260px) * 2);
+    width: min(70vw, 230px);
+    height: calc(min(70vw, 230px) * 2);
   }
 
   .tetris-sidebar {
-    max-width: min(92vw, 260px);
+    max-width: min(70vw, 230px);
   }
 
   .next-piece-preview {

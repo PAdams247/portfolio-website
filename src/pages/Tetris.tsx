@@ -78,6 +78,13 @@ const Tetris: React.FC = () => {
     return { ...piece, shape: rotated };
   }, []);
 
+  const rotatePieceCounterClockwise = useCallback((piece: Tetromino): Tetromino => {
+    const rotated = piece.shape[0].map((_, index) =>
+      piece.shape.map(row => row[row.length - 1 - index])
+    );
+    return { ...piece, shape: rotated };
+  }, []);
+
   const placePiece = useCallback((piece: Tetromino, board: Board): Board => {
     const newBoard = board.map(row => [...row]);
     for (let y = 0; y < piece.shape.length; y++) {
@@ -145,6 +152,44 @@ const Tetris: React.FC = () => {
       setCurrentPiece(rotated);
     }
   }, [currentPiece, gameOver, isPaused, rotatePiece, isValidPosition, board]);
+
+  const rotatePieceCounterClockwiseHandler = useCallback(() => {
+    if (!currentPiece || gameOver || isPaused) return;
+
+    const rotated = rotatePieceCounterClockwise(currentPiece);
+    if (isValidPosition(rotated, board)) {
+      setCurrentPiece(rotated);
+    }
+  }, [currentPiece, gameOver, isPaused, rotatePieceCounterClockwise, isValidPosition, board]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    e.preventDefault();
+    if (!currentPiece || gameOver || isPaused) return;
+
+    const touch = e.touches[0];
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    const boardHeight = rect.height;
+    const boardWidth = rect.width;
+
+    // Top half: rotation (left = counter-clockwise, right = clockwise)
+    if (y < boardHeight / 2) {
+      if (x < boardWidth / 2) {
+        rotatePieceCounterClockwiseHandler();
+      } else {
+        rotatePieceHandler();
+      }
+    }
+    // Bottom half: horizontal movement (left = move left, right = move right)
+    else {
+      if (x < boardWidth / 2) {
+        movePiece('left');
+      } else {
+        movePiece('right');
+      }
+    }
+  }, [currentPiece, gameOver, isPaused, rotatePieceHandler, rotatePieceCounterClockwiseHandler, movePiece]);
 
   const dropPiece = useCallback(() => {
     if (!currentPiece || gameOver || isPaused) return;
@@ -290,7 +335,11 @@ const Tetris: React.FC = () => {
     <div className="tetris-game">
       <div className="tetris-container">
         <div className="tetris-board-container">
-          <div className="tetris-board" data-testid="tetris-board">
+          <div
+            className="tetris-board"
+            data-testid="tetris-board"
+            onTouchStart={handleTouchStart}
+          >
             {renderBoard()}
           </div>
           
@@ -346,6 +395,7 @@ const Tetris: React.FC = () => {
               <div>↑ Rotate</div>
               <div>Space Hard Drop</div>
               <div>P Pause</div>
+              <div>📱 Touch: Top half rotates, bottom half moves</div>
             </div>
           </div>
 
@@ -355,18 +405,6 @@ const Tetris: React.FC = () => {
             </button>
             <button onClick={resetGame}>New Game</button>
           </div>
-        </div>
-      </div>
-
-      <div className="mobile-controls">
-        <div className="control-row">
-          <button className="control-btn" onClick={rotatePieceHandler}>↻</button>
-          <button className="control-btn" onClick={dropPiece}>⬇</button>
-        </div>
-        <div className="control-row">
-          <button className="control-btn" onClick={() => movePiece('left')}>←</button>
-          <button className="control-btn" onClick={() => movePiece('down')}>↓</button>
-          <button className="control-btn" onClick={() => movePiece('right')}>→</button>
         </div>
       </div>
     </div>

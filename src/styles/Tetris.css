@@ -34,6 +34,20 @@
   touch-action: none;
   -webkit-user-select: none;
   user-select: none;
+  position: relative;
+}
+
+.tetris-board::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  height: calc(50% - 8px);
+  border-bottom: 1px dashed rgba(0, 212, 255, 0.2);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .tetris-row {
@@ -491,6 +505,10 @@
     min-width: 60px;
     min-height: 60px;
     font-size: 1.3rem;
+  }
+
+  .tetris-board::before {
+    opacity: 1;
   }
 }
 

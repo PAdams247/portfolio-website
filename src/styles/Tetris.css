@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
   animation: fadeIn 0.6s ease-out;
+  touch-action: manipulation;
 }
 
 .tetris-container {
@@ -30,6 +31,9 @@
   width: 300px;
   height: 600px;
   backdrop-filter: blur(10px);
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .tetris-row {

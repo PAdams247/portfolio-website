@@ -6,20 +6,26 @@ interface Position {
   y: number;
 }
 
+interface TouchPosition {
+  x: number;
+  y: number;
+}
+
 type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 
 const BOARD_SIZE = 20;
 const INITIAL_SNAKE = [{ x: 10, y: 10 }];
 const INITIAL_FOOD = { x: 15, y: 15 };
 const GAME_SPEED = 150;
+const MIN_SWIPE_DISTANCE = 30;
 
 const SnakeGame: React.FC = () => {
   const [snake, setSnake] = useState<Position[]>(INITIAL_SNAKE);
   const [food, setFood] = useState<Position>(INITIAL_FOOD);
-  // Removed unused direction state variable
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [touchStart, setTouchStart] = useState<TouchPosition | null>(null);
   const gameLoopRef = useRef<NodeJS.Timeout | null>(null);
   const directionQueueRef = useRef<Direction[]>([]);
   const lastProcessedDirectionRef = useRef<Direction>('RIGHT');
@@ -152,6 +158,36 @@ const SnakeGame: React.FC = () => {
     }
   }, [isPlaying, gameOver]);
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    setTouchStart({ x: touch.clientX, y: touch.clientY });
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    e.preventDefault();
+    if (!touchStart) return;
+
+    const touch = e.changedTouches[0];
+    const deltaX = touch.clientX - touchStart.x;
+    const deltaY = touch.clientY - touchStart.y;
+    const absDeltaX = Math.abs(deltaX);
+    const absDeltaY = Math.abs(deltaY);
+
+    if (Math.max(absDeltaX, absDeltaY) < MIN_SWIPE_DISTANCE) {
+      setTouchStart(null);
+      return;
+    }
+
+    if (absDeltaX > absDeltaY) {
+      handleDirectionChange(deltaX > 0 ? 'RIGHT' : 'LEFT');
+    } else {
+      handleDirectionChange(deltaY > 0 ? 'DOWN' : 'UP');
+    }
+
+    setTouchStart(null);
+  };
+
   const startGame = () => {
     setSnake(INITIAL_SNAKE);
     setFood(INITIAL_FOOD);
@@ -271,7 +307,11 @@ const SnakeGame: React.FC = () => {
           <div className="snake-score">Score: {score}</div>
         </div>
 
-        <div className="snake-board">
+        <div
+          className="snake-board"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           {renderBoard()}
         </div>
 
@@ -281,29 +321,18 @@ const SnakeGame: React.FC = () => {
               Start Game
             </button>
           )}
-          
+
           {isPlaying && (
             <button onClick={pauseGame} className="game-button pause-button">
               Pause
             </button>
           )}
-          
+
           {(isPlaying || gameOver) && (
             <button onClick={resetGame} className="game-button reset-button">
               Reset
             </button>
           )}
-        </div>
-
-        <div className="mobile-controls">
-          <div className="control-row">
-            <button className="mobile-btn" onClick={() => handleDirectionChange('UP')}>↑</button>
-          </div>
-          <div className="control-row">
-            <button className="mobile-btn" onClick={() => handleDirectionChange('LEFT')}>←</button>
-            <button className="mobile-btn" onClick={() => handleDirectionChange('DOWN')}>↓</button>
-            <button className="mobile-btn" onClick={() => handleDirectionChange('RIGHT')}>→</button>
-          </div>
         </div>
 
         {gameOver && (
@@ -319,7 +348,7 @@ const SnakeGame: React.FC = () => {
         <div className="snake-instructions">
           <h3>How to Play:</h3>
           <ul>
-            <li>Use arrow keys or touch controls to move the snake</li>
+            <li>Use arrow keys or swipe to move the snake</li>
             <li>Eat the red food to grow and increase your score</li>
             <li>Avoid hitting the walls or your own tail</li>
             <li>Try to get the highest score possible!</li>

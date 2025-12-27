@@ -308,23 +308,13 @@ const Game2048: React.FC = () => {
               <div>↓ Move Down</div>
               <div>← Move Left</div>
               <div>→ Move Right</div>
+              <div>📱 Swipe on mobile</div>
             </div>
           </div>
 
           <div className="game-buttons">
             <button onClick={resetGame}>New Game</button>
           </div>
-        </div>
-      </div>
-
-      <div className="mobile-controls" data-testid="mobile-controls">
-        <div className="control-row">
-          <button className="control-btn" onClick={() => move('ArrowUp')}>↑</button>
-        </div>
-        <div className="control-row">
-          <button className="control-btn" onClick={() => move('ArrowLeft')}>←</button>
-          <button className="control-btn" onClick={() => move('ArrowDown')}>↓</button>
-          <button className="control-btn" onClick={() => move('ArrowRight')}>→</button>
         </div>
       </div>
     </div>

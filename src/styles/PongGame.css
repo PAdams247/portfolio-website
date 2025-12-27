@@ -74,6 +74,9 @@
   display: block;
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9));
   border-radius: 4px;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .pong-controls {

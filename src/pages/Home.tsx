@@ -203,7 +203,7 @@ const Home: React.FC = () => {
               </div>
               <div className="skill-category">
                 <h3>Tools</h3>
-                <p>Git, GitHub, VS Code, npm</p>
+                <p>Git, VS Code, npm</p>
               </div>
             </div>
           </div>
@@ -214,18 +214,13 @@ const Home: React.FC = () => {
         <div className="contact-container">
           <h2 className="contact-title">Connect With Me</h2>
           <p className="contact-description">
-            Let's connect! Reach out via email or check out my work on GitHub.
+            Let's connect! Reach out via email.
           </p>
           <div className="contact-methods">
             <a href="mailto:parkeradams247@gmail.com" className="contact-method">
               <span className="contact-icon">📧</span>
               <span className="contact-label">Email</span>
               <span className="contact-value">parkeradams247@gmail.com</span>
-            </a>
-            <a href="https://github.com/PAdams247" target="_blank" rel="noopener noreferrer" className="contact-method">
-              <span className="contact-icon">💻</span>
-              <span className="contact-label">GitHub</span>
-              <span className="contact-value">@PAdams247</span>
             </a>
           </div>
         </div>

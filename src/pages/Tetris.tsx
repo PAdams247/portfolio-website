@@ -25,7 +25,7 @@ const TETROMINOES: Record<TetrominoType, number[][]> = {
 };
 
 const Tetris: React.FC = () => {
-  const [board, setBoard] = useState<Board>(() => 
+  const [board, setBoard] = useState<Board>(() =>
     Array(BOARD_HEIGHT).fill(null).map(() => Array(BOARD_WIDTH).fill(0))
   );
   const [currentPiece, setCurrentPiece] = useState<Tetromino | null>(null);
@@ -35,6 +35,11 @@ const Tetris: React.FC = () => {
   const [lines, setLines] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [tetrisCombo, setTetrisCombo] = useState(0);
+  const [showAnimation, setShowAnimation] = useState(false);
+  const [animationType, setAnimationType] = useState<'single' | 'double' | 'triple' | 'quadruple' | 'quintuple' | null>(null);
+  const [touchStartPos, setTouchStartPos] = useState<{ x: number; y: number; time: number } | null>(null);
+  const [lastTapTime, setLastTapTime] = useState(0);
   const gameLoopRef = useRef<NodeJS.Timeout | null>(null);
 
   const createRandomTetromino = useCallback((): TetrominoType => {
@@ -104,11 +109,35 @@ const Tetris: React.FC = () => {
   const clearLines = useCallback((board: Board): { newBoard: Board; linesCleared: number } => {
     const newBoard = board.filter(row => row.some(cell => cell === 0));
     const linesCleared = BOARD_HEIGHT - newBoard.length;
-    
+
     while (newBoard.length < BOARD_HEIGHT) {
       newBoard.unshift(Array(BOARD_WIDTH).fill(0));
     }
-    
+
+    // Check for Tetris (4 lines cleared)
+    if (linesCleared === 4) {
+      setTetrisCombo(prev => {
+        const newCombo = prev + 1;
+        // Trigger animation based on combo count
+        if (newCombo === 1) {
+          setAnimationType('single');
+        } else if (newCombo === 2) {
+          setAnimationType('double');
+        } else if (newCombo === 3) {
+          setAnimationType('triple');
+        } else if (newCombo === 4) {
+          setAnimationType('quadruple');
+        } else if (newCombo >= 5) {
+          setAnimationType('quintuple');
+        }
+        setShowAnimation(true);
+        return newCombo;
+      });
+    } else if (linesCleared > 0 && linesCleared < 4) {
+      // Reset combo if lines cleared but not a Tetris
+      setTetrisCombo(0);
+    }
+
     return { newBoard, linesCleared };
   }, []);
 
@@ -170,26 +199,75 @@ const Tetris: React.FC = () => {
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const x = touch.clientX - rect.left;
     const y = touch.clientY - rect.top;
+    const currentTime = Date.now();
+
+    // Store touch start position and time for swipe detection
+    setTouchStartPos({ x, y, time: currentTime });
+
+    // Check for double-tap at bottom of screen (hard drop)
+    const boardHeight = rect.height;
+    if (y > boardHeight * 0.7) { // Bottom 30% of screen
+      if (currentTime - lastTapTime < 300) { // Double tap within 300ms
+        dropPiece();
+        setLastTapTime(0); // Reset to prevent triple-tap
+        return;
+      }
+      setLastTapTime(currentTime);
+    }
+  }, [currentPiece, gameOver, isPaused, lastTapTime, dropPiece]);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    e.preventDefault();
+    if (!currentPiece || gameOver || isPaused || !touchStartPos) return;
+
+    const touch = e.changedTouches[0];
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const endX = touch.clientX - rect.left;
+    const endY = touch.clientY - rect.top;
+
+    const deltaX = endX - touchStartPos.x;
+    const deltaY = endY - touchStartPos.y;
+    const deltaTime = Date.now() - touchStartPos.time;
+
     const boardHeight = rect.height;
     const boardWidth = rect.width;
+    const startY = touchStartPos.y;
 
-    // Top half: rotation (left = counter-clockwise, right = clockwise)
-    if (y < boardHeight / 2) {
-      if (x < boardWidth / 2) {
-        rotatePieceCounterClockwiseHandler();
-      } else {
-        rotatePieceHandler();
+    // Swipe detection (minimum distance and speed)
+    const minSwipeDistance = 30;
+    const maxSwipeTime = 300;
+
+    if (Math.abs(deltaY) > minSwipeDistance && deltaTime < maxSwipeTime) {
+      // Vertical swipe down - soft drop
+      if (deltaY > 0) {
+        movePiece('down');
+        setTouchStartPos(null);
+        return;
       }
     }
-    // Bottom half: horizontal movement (left = move left, right = move right)
-    else {
-      if (x < boardWidth / 2) {
-        movePiece('left');
-      } else {
-        movePiece('right');
+
+    // If not a swipe, treat as tap for rotation/movement
+    if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10 && deltaTime < 200) {
+      // Top half: rotation (left = counter-clockwise, right = clockwise)
+      if (startY < boardHeight / 2) {
+        if (touchStartPos.x < boardWidth / 2) {
+          rotatePieceCounterClockwiseHandler();
+        } else {
+          rotatePieceHandler();
+        }
+      }
+      // Bottom half: horizontal movement (left = move left, right = move right)
+      else if (startY < boardHeight * 0.7) { // Middle-bottom area (not the double-tap zone)
+        if (touchStartPos.x < boardWidth / 2) {
+          movePiece('left');
+        } else {
+          movePiece('right');
+        }
       }
     }
-  }, [currentPiece, gameOver, isPaused, rotatePieceHandler, rotatePieceCounterClockwiseHandler, movePiece]);
+
+    setTouchStartPos(null);
+  }, [currentPiece, gameOver, isPaused, touchStartPos, rotatePieceHandler, rotatePieceCounterClockwiseHandler, movePiece]);
 
   const dropPiece = useCallback(() => {
     if (!currentPiece || gameOver || isPaused) return;
@@ -208,6 +286,9 @@ const Tetris: React.FC = () => {
     setLines(0);
     setGameOver(false);
     setIsPaused(false);
+    setTetrisCombo(0);
+    setShowAnimation(false);
+    setAnimationType(null);
     const firstPiece = createRandomTetromino();
     setCurrentPiece(createTetromino(firstPiece));
     setNextPiece(createRandomTetromino());
@@ -228,7 +309,7 @@ const Tetris: React.FC = () => {
 
   // Game loop
   useEffect(() => {
-    if (gameOver || isPaused) {
+    if (gameOver || isPaused || showAnimation) {
       if (gameLoopRef.current) {
         clearInterval(gameLoopRef.current);
       }
@@ -245,7 +326,24 @@ const Tetris: React.FC = () => {
         clearInterval(gameLoopRef.current);
       }
     };
-  }, [gameOver, isPaused, level, movePiece]);
+  }, [gameOver, isPaused, showAnimation, level, movePiece]);
+
+  // Animation effect
+  useEffect(() => {
+    if (showAnimation && animationType) {
+      const animationDuration = animationType === 'single' ? 1500 :
+                                animationType === 'double' ? 2000 :
+                                animationType === 'triple' ? 2500 :
+                                animationType === 'quadruple' ? 3000 : 3500;
+
+      const timer = setTimeout(() => {
+        setShowAnimation(false);
+        setAnimationType(null);
+      }, animationDuration);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showAnimation, animationType]);
 
   // Keyboard controls
   useEffect(() => {
@@ -339,6 +437,7 @@ const Tetris: React.FC = () => {
             className="tetris-board"
             data-testid="tetris-board"
             onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
           >
             {renderBoard()}
           </div>
@@ -358,6 +457,50 @@ const Tetris: React.FC = () => {
               <div className="game-message">
                 <h2>Paused</h2>
                 <button onClick={togglePause}>Resume</button>
+              </div>
+            </div>
+          )}
+
+          {showAnimation && animationType && (
+            <div className={`tetris-animation-overlay ${animationType}`}>
+              <div className="tetris-animation-content">
+                {animationType === 'single' && (
+                  <>
+                    <div className="tetris-text">TETRIS!</div>
+                    <div className="tetris-subtitle">4 Lines Cleared!</div>
+                  </>
+                )}
+                {animationType === 'double' && (
+                  <>
+                    <div className="tetris-kings">
+                      <span className="king">👑</span>
+                      <span className="king">👑</span>
+                    </div>
+                    <div className="tetris-text double">DOUBLE TETRIS!</div>
+                    <div className="tetris-kapow">KA-POW!</div>
+                  </>
+                )}
+                {animationType === 'triple' && (
+                  <>
+                    <div className="tetris-text triple">TRIPLE TETRIS!</div>
+                    <div className="tetris-subtitle epic">UNSTOPPABLE!</div>
+                    <div className="tetris-effects">⚡⚡⚡</div>
+                  </>
+                )}
+                {animationType === 'quadruple' && (
+                  <>
+                    <div className="tetris-text quadruple">QUADRUPLE TETRIS!</div>
+                    <div className="tetris-subtitle legendary">LEGENDARY!</div>
+                    <div className="tetris-effects">🔥🔥🔥🔥</div>
+                  </>
+                )}
+                {animationType === 'quintuple' && (
+                  <>
+                    <div className="tetris-text quintuple">QUINTUPLE TETRIS!</div>
+                    <div className="tetris-subtitle godlike">GODLIKE!!!</div>
+                    <div className="tetris-effects ultimate">💎✨🌟✨💎</div>
+                  </>
+                )}
               </div>
             </div>
           )}
@@ -396,6 +539,8 @@ const Tetris: React.FC = () => {
               <div>Space Hard Drop</div>
               <div>P Pause</div>
               <div>📱 Touch: Top half rotates, bottom half moves</div>
+              <div>📱 Swipe down for soft drop</div>
+              <div>📱 Double-tap bottom to slam drop</div>
             </div>
           </div>
 

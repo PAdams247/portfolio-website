@@ -26,7 +26,7 @@ const Home: React.FC = () => {
       <section className="hero">
         <div className="hero-content">
           <div className="hero-text">
-            <p className="hero-intro">Hi, I'm Parker Adams</p>
+            <p className="hero-intro">Hi, I'm Parker</p>
             <h1 className="hero-title">
               <span className="title-line">Full-Stack Developer</span>
               <span className="title-line">& Designer</span>

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import AuthModal from '../components/AuthModal';
+import { API_ENDPOINTS, getAuthToken, getAuthHeaders, removeAuthToken } from '../config/api';
 import '../styles/DailyPlanner.css';
 
 interface Task {
@@ -17,6 +19,9 @@ interface TimeBlock {
 }
 
 const DailyPlanner: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [brainDump, setBrainDump] = useState<Task[]>([]);
   const [top3, setTop3] = useState<string[]>([]);
@@ -25,9 +30,207 @@ const DailyPlanner: React.FC = () => {
   const [planningMode, setPlanningMode] = useState<'6-task' | 'time-block'>('6-task');
   const [newTaskText, setNewTaskText] = useState('');
   const [showHelp, setShowHelp] = useState(false);
+  const [draggedTask, setDraggedTask] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(() => {
+    const token = getAuthToken();
+    if (token) {
+      setIsAuthenticated(true);
+      loadPlanForDate(currentDate);
+    } else {
+      setLoading(false);
+      setShowAuthModal(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadPlanForDate(currentDate);
+    }
+  }, [currentDate, isAuthenticated]);
 
   const formatDate = (date: Date) => {
     return date.toISOString().split('T')[0];
+  };
+
+  const loadPlanForDate = async (date: Date) => {
+    setLoading(true);
+    try {
+      const response = await fetch(API_ENDPOINTS.GET_PLAN(formatDate(date)), {
+        headers: getAuthHeaders(),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setBrainDump(data.brainDump || []);
+        setTop3(data.top3 || []);
+        setSecondary3(data.secondary3 || []);
+        setTimeBlocks(data.timeBlocks || []);
+        setPlanningMode(data.planningMode || '6-task');
+      }
+    } catch (error) {
+      console.error('Failed to load plan:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const savePlan = async () => {
+    try {
+      await fetch(API_ENDPOINTS.SAVE_PLAN, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders(),
+        },
+        body: JSON.stringify({
+          date: formatDate(currentDate),
+          brainDump,
+          top3,
+          secondary3,
+          timeBlocks,
+          planningMode,
+        }),
+      });
+    } catch (error) {
+      console.error('Failed to save plan:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated && !loading) {
+      const timeoutId = setTimeout(savePlan, 1000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [brainDump, top3, secondary3, timeBlocks, planningMode, isAuthenticated, loading]);
+
+  const handleAuthSuccess = () => {
+    setIsAuthenticated(true);
+    setShowAuthModal(false);
+    loadPlanForDate(currentDate);
+  };
+
+  const handleLogout = () => {
+    removeAuthToken();
+    setIsAuthenticated(false);
+
+  const addTask = () => {
+    if (newTaskText.trim()) {
+      const task: Task = {
+        id: Date.now().toString(),
+        text: newTaskText.trim(),
+        status: 'none',
+        order: brainDump.length,
+        createdAt: new Date()
+      };
+      setBrainDump([...brainDump, task]);
+      setNewTaskText('');
+    }
+  };
+
+  const cycleTaskStatus = (taskId: string) => {
+    setBrainDump(brainDump.map(task => {
+      if (task.id === taskId) {
+        const statusCycle: Record<string, 'none' | 'open' | 'open-outstanding' | 'completed' | 'deleted'> = {
+          'none': 'open',
+          'open': 'open-outstanding',
+          'open-outstanding': 'completed',
+          'completed': 'none',
+          'deleted': 'none'
+        };
+        return { ...task, status: statusCycle[task.status] };
+      }
+      return task;
+    }));
+  };
+
+  const deleteTask = (taskId: string) => {
+    setBrainDump(brainDump.map(task =>
+      task.id === taskId ? { ...task, status: 'deleted' } : task
+    ));
+  };
+
+  const getStatusSymbol = (status: string) => {
+    switch (status) {
+      case 'open': return 'O';
+      case 'open-outstanding': return 'OO';
+      case 'completed': return '✓';
+      case 'deleted': return 'X';
+      default: return '';
+    }
+  };
+
+  const handleDragStart = (taskId: string) => {
+    setDraggedTask(taskId);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const handleDropTop3 = (e: React.DragEvent) => {
+    e.preventDefault();
+    if (draggedTask && !top3.includes(draggedTask) && top3.length < 3) {
+      setTop3([...top3, draggedTask]);
+      setDraggedTask(null);
+    }
+  };
+
+  const handleDropSecondary3 = (e: React.DragEvent) => {
+    e.preventDefault();
+    if (draggedTask && !secondary3.includes(draggedTask) && secondary3.length < 3) {
+      setSecondary3([...secondary3, draggedTask]);
+      setDraggedTask(null);
+    }
+  };
+
+  const removeFromTop3 = (taskId: string) => {
+    setTop3(top3.filter(id => id !== taskId));
+  };
+
+  const removeFromSecondary3 = (taskId: string) => {
+    setSecondary3(secondary3.filter(id => id !== taskId));
+  };
+
+  const handleCreateTomorrow = async () => {
+    try {
+      const response = await fetch(API_ENDPOINTS.CREATE_TOMORROW, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders(),
+        },
+        body: JSON.stringify({
+          currentDate: formatDate(currentDate),
+        }),
+      });
+
+      if (response.ok) {
+        const tomorrow = new Date(currentDate);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        setCurrentDate(tomorrow);
+      }
+    } catch (error) {
+      console.error('Failed to create tomorrow:', error);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    setIsAuthenticated(false);
+    setShowAuthModal(true);
+    setBrainDump([]);
+    setTop3([]);
+    setSecondary3([]);
+  };
+    setShowAuthModal(true);
+    setBrainDump([]);
+    setTop3([]);
+    setSecondary3([]);
   };
 
   const addTask = () => {
@@ -147,8 +350,13 @@ const DailyPlanner: React.FC = () => {
           </div>
           <div className="task-list">
             {brainDump.filter(t => t.status !== 'deleted').map(task => (
-              <div key={task.id} className={`task-item ${task.status}`}>
-                <button 
+              <div
+                key={task.id}
+                className={`task-item ${task.status}`}
+                draggable
+                onDragStart={() => handleDragStart(task.id)}
+              >
+                <button
                   className="status-btn"
                   onClick={() => cycleTaskStatus(task.id)}
                 >
@@ -166,13 +374,18 @@ const DailyPlanner: React.FC = () => {
         <div className="top-six-column">
           <div className="top-three-section">
             <h3>Top 3 Must-Do</h3>
-            <div className="drop-zone">
+            <div
+              className="drop-zone"
+              onDragOver={handleDragOver}
+              onDrop={handleDropTop3}
+            >
               {top3.map(taskId => {
                 const task = brainDump.find(t => t.id === taskId);
                 return task ? (
                   <div key={task.id} className="priority-task">
                     <span className="status">{getStatusSymbol(task.status)}</span>
                     <span>{task.text}</span>
+                    <button onClick={() => removeFromTop3(taskId)}>×</button>
                   </div>
                 ) : null;
               })}
@@ -182,13 +395,18 @@ const DailyPlanner: React.FC = () => {
 
           <div className="secondary-three-section">
             <h3>Secondary 3</h3>
-            <div className="drop-zone">
+            <div
+              className="drop-zone"
+              onDragOver={handleDragOver}
+              onDrop={handleDropSecondary3}
+            >
               {secondary3.map(taskId => {
                 const task = brainDump.find(t => t.id === taskId);
                 return task ? (
                   <div key={task.id} className="priority-task">
                     <span className="status">{getStatusSymbol(task.status)}</span>
                     <span>{task.text}</span>
+                    <button onClick={() => removeFromSecondary3(taskId)}>×</button>
                   </div>
                 ) : null;
               })}
@@ -254,7 +472,7 @@ const DailyPlanner: React.FC = () => {
       </div>
 
       <div className="planner-actions">
-        <button className="create-tomorrow-btn">Create Tomorrow</button>
+        <button className="create-tomorrow-btn" onClick={handleCreateTomorrow}>Create Tomorrow</button>
         <button className="print-btn">🖨️ Print</button>
       </div>
     </div>

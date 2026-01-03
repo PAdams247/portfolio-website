@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.PROD 
+const API_BASE_URL = process.env.NODE_ENV === 'production'
   ? 'https://planner-backend-t5w4.onrender.com'
   : 'http://localhost:3001';
 

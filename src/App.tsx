@@ -8,6 +8,7 @@ import Tetris from './pages/Tetris';
 import SnakeGame from './pages/SnakeGame';
 import PongGame from './pages/PongGame';
 import TaskList from './pages/TaskList';
+import DailyPlanner from './pages/DailyPlanner';
 import WebDesignServices from './pages/WebDesignServices';
 import './styles/App.css';
 
@@ -26,6 +27,7 @@ function App() {
             <Route path="/snake" element={<SnakeGame />} />
             <Route path="/pong" element={<PongGame />} />
             <Route path="/task-list" element={<TaskList />} />
+            <Route path="/daily-planner" element={<DailyPlanner />} />
             <Route path="/web-design-services" element={<WebDesignServices />} />
           </Routes>
         </main>

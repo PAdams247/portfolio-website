@@ -13,6 +13,7 @@ const Navigation: React.FC = () => {
     { path: '/web-design-services', label: 'Web Design', icon: '🎨' },
     { path: '/classic-games', label: 'Classic Games', icon: '🎮' },
     { path: '/task-list', label: 'Task List', icon: '📝' },
+    { path: '/daily-planner', label: 'Daily Planner', icon: '📅' },
     { path: '/#contact', label: 'Connect', icon: '📧' }
   ];
 

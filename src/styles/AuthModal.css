@@ -66,11 +66,14 @@
   box-sizing: border-box;
   pointer-events: auto;
   cursor: text;
+  color: #000;
+  background: #fff;
 }
 
 .auth-modal .form-group input:focus {
   outline: none;
   border-color: #007bff;
+  color: #000;
 }
 
 .auth-modal .error-message {

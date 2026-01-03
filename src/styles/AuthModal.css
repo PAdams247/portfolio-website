@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 9999;
 }
 
 .auth-modal {
@@ -19,6 +19,7 @@
   width: 90%;
   position: relative;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  z-index: 10000;
 }
 
 .auth-modal .close-btn {
@@ -63,6 +64,8 @@
   border-radius: 4px;
   font-size: 1rem;
   box-sizing: border-box;
+  pointer-events: auto;
+  cursor: text;
 }
 
 .auth-modal .form-group input:focus {

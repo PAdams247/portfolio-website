@@ -42,7 +42,14 @@ const Navigation: React.FC = () => {
   return (
     <nav className="navigation">
       <div className="nav-container">
-        <Link to="/" className="nav-logo">
+        <Link
+          to="/"
+          className="nav-logo"
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setIsMenuOpen(false);
+          }}
+        >
           <span className="logo-text">Portfolio</span>
           <span className="logo-accent">.</span>
         </Link>

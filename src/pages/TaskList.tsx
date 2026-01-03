@@ -101,8 +101,8 @@ const TaskList: React.FC = () => {
   return (
     <div className="task-list-page">
       <div className="task-header">
-        <h1>Task Manager</h1>
-        <p>Stay organized and productive with your personal task list</p>
+        <h1>Simple Task List</h1>
+        <p>Keep yourself oriented with a persistent, simple task list on the go!</p>
       </div>
 
       <div className="task-container">

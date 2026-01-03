@@ -77,18 +77,50 @@ router.post('/create-tomorrow', authMiddleware, async (req, res) => {
     }
 
     const unfinishedTasks = todayPlan.brainDump.filter(task =>
-      (task.status === 'open' || task.status === 'open-open') &&
-      task.status !== 'completed' &&
+      (task.status === 'open' || task.status === 'open-outstanding') &&
       task.status !== 'deleted'
     );
 
-    const ooTasks = unfinishedTasks.filter(t => t.status === 'open-open').map(t => t.id);
-    const oTasks = unfinishedTasks.filter(t => t.status === 'open').map(t => t.id);
+    const ooTasks = unfinishedTasks.filter(t => t.status === 'open-outstanding').map(t => t.id);
+    const openTasks = unfinishedTasks.filter(t => t.status === 'open').map(t => t.id);
 
-    const resetTasks = unfinishedTasks.map(task => ({
-      ...task.toObject(),
-      status: 'open'
-    }));
+    const tomorrowPlan = new DailyPlan({
+      userId: req.userId,
+      date: tomorrowDate,
+      brainDump: unfinishedTasks,
+      top3: ooTasks.slice(0, 3),
+      secondary3: [...ooTasks.slice(3), ...openTasks].slice(0, 3),
+      timeBlocks: [],
+      planningMode: '6-task'
+    });
+
+    await tomorrowPlan.save();
+    res.json(tomorrowPlan);
+  } catch (error) {
+    res.status(500).json({ message: 'Error creating tomorrow\'s plan', error: error.message });
+  }
+});
+
+router.post('/create-tomorrow', authMiddleware, async (req, res) => {
+  try {
+    const { todayDate, tomorrowDate } = req.body;
+
+    const todayPlan = await DailyPlan.findOne({
+      userId: req.userId,
+      date: todayDate
+    });
+
+    if (!todayPlan) {
+      return res.status(404).json({ message: 'Today\'s plan not found' });
+    }
+
+    const unfinishedTasks = todayPlan.brainDump.filter(task =>
+      (task.status === 'open' || task.status === 'open-outstanding') &&
+      task.status !== 'deleted'
+    );
+
+    const ooTasks = unfinishedTasks.filter(t => t.status === 'open-outstanding').map(t => t.id);
+    const openTasks = unfinishedTasks.filter(t => t.status === 'open').map(t => t.id);
 
     const tomorrowPlan = new DailyPlan({
       userId: req.userId,

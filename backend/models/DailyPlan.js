@@ -5,7 +5,7 @@ const taskSchema = new mongoose.Schema({
   text: String,
   status: {
     type: String,
-    enum: ['none', 'open', 'open-open', 'completed', 'deleted'],
+    enum: ['none', 'open', 'open-outstanding', 'completed', 'deleted'],
     default: 'none'
   },
   order: Number,

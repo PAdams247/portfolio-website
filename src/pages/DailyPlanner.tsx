@@ -4,7 +4,7 @@ import '../styles/DailyPlanner.css';
 interface Task {
   id: string;
   text: string;
-  status: 'none' | 'open' | 'open-open' | 'completed' | 'deleted';
+  status: 'none' | 'open' | 'open-outstanding' | 'completed' | 'deleted';
   order: number;
   createdAt: Date;
 }
@@ -47,10 +47,10 @@ const DailyPlanner: React.FC = () => {
   const cycleTaskStatus = (taskId: string) => {
     setBrainDump(brainDump.map(task => {
       if (task.id === taskId) {
-        const statusCycle: Record<string, 'none' | 'open' | 'open-open' | 'completed' | 'deleted'> = {
+        const statusCycle: Record<string, 'none' | 'open' | 'open-outstanding' | 'completed' | 'deleted'> = {
           'none': 'open',
-          'open': 'open-open',
-          'open-open': 'completed',
+          'open': 'open-outstanding',
+          'open-outstanding': 'completed',
           'completed': 'none',
           'deleted': 'none'
         };
@@ -69,7 +69,7 @@ const DailyPlanner: React.FC = () => {
   const getStatusSymbol = (status: string) => {
     switch (status) {
       case 'open': return 'O';
-      case 'open-open': return 'OO';
+      case 'open-outstanding': return 'OO';
       case 'completed': return '✓';
       case 'deleted': return 'X';
       default: return '';

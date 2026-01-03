@@ -31,10 +31,6 @@ const DailyPlanner: React.FC = () => {
   const [newTaskText, setNewTaskText] = useState('');
   const [showHelp, setShowHelp] = useState(false);
   const [draggedTask, setDraggedTask] = useState<string | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
     const token = getAuthToken();
@@ -117,6 +113,11 @@ const DailyPlanner: React.FC = () => {
   const handleLogout = () => {
     removeAuthToken();
     setIsAuthenticated(false);
+    setShowAuthModal(true);
+    setBrainDump([]);
+    setTop3([]);
+    setSecondary3([]);
+  };
 
   const addTask = () => {
     if (newTaskText.trim()) {
@@ -219,68 +220,16 @@ const DailyPlanner: React.FC = () => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    setIsAuthenticated(false);
-    setShowAuthModal(true);
-    setBrainDump([]);
-    setTop3([]);
-    setSecondary3([]);
-  };
-    setShowAuthModal(true);
-    setBrainDump([]);
-    setTop3([]);
-    setSecondary3([]);
-  };
-
-  const addTask = () => {
-    if (newTaskText.trim()) {
-      const task: Task = {
-        id: Date.now().toString(),
-        text: newTaskText.trim(),
-        status: 'none',
-        order: brainDump.length,
-        createdAt: new Date()
-      };
-      setBrainDump([...brainDump, task]);
-      setNewTaskText('');
-    }
-  };
-
-  const cycleTaskStatus = (taskId: string) => {
-    setBrainDump(brainDump.map(task => {
-      if (task.id === taskId) {
-        const statusCycle: Record<string, 'none' | 'open' | 'open-outstanding' | 'completed' | 'deleted'> = {
-          'none': 'open',
-          'open': 'open-outstanding',
-          'open-outstanding': 'completed',
-          'completed': 'none',
-          'deleted': 'none'
-        };
-        return { ...task, status: statusCycle[task.status] };
-      }
-      return task;
-    }));
-  };
-
-  const deleteTask = (taskId: string) => {
-    setBrainDump(brainDump.map(task =>
-      task.id === taskId ? { ...task, status: 'deleted' } : task
-    ));
-  };
-
-  const getStatusSymbol = (status: string) => {
-    switch (status) {
-      case 'open': return 'O';
-      case 'open-outstanding': return 'OO';
-      case 'completed': return '✓';
-      case 'deleted': return 'X';
-      default: return '';
-    }
-  };
+  if (loading) {
+    return <div className="daily-planner-page"><p>Loading...</p></div>;
+  }
 
   return (
     <div className="daily-planner-page">
+      {showAuthModal && (
+        <AuthModal onClose={() => {}} onSuccess={handleAuthSuccess} />
+      )}
+
       <div className="planner-header">
         <h1>Planner Pages</h1>
         <p>Stay hyper focused and productive in even a challenging, fast-moving environment with this day-to-day planning system.</p>
@@ -295,6 +244,7 @@ const DailyPlanner: React.FC = () => {
           </button>
           <button onClick={() => setCurrentDate(new Date())}>Today</button>
           <button onClick={() => setShowHelp(!showHelp)}>❓ Help</button>
+          <button onClick={handleLogout} className="logout-btn">Logout</button>
         </div>
       </div>
 
@@ -350,13 +300,13 @@ const DailyPlanner: React.FC = () => {
           </div>
           <div className="task-list">
             {brainDump.filter(t => t.status !== 'deleted').map(task => (
-              <div
-                key={task.id}
+              <div 
+                key={task.id} 
                 className={`task-item ${task.status}`}
                 draggable
                 onDragStart={() => handleDragStart(task.id)}
               >
-                <button
+                <button 
                   className="status-btn"
                   onClick={() => cycleTaskStatus(task.id)}
                 >
@@ -374,7 +324,7 @@ const DailyPlanner: React.FC = () => {
         <div className="top-six-column">
           <div className="top-three-section">
             <h3>Top 3 Must-Do</h3>
-            <div
+            <div 
               className="drop-zone"
               onDragOver={handleDragOver}
               onDrop={handleDropTop3}
@@ -395,7 +345,7 @@ const DailyPlanner: React.FC = () => {
 
           <div className="secondary-three-section">
             <h3>Secondary 3</h3>
-            <div
+            <div 
               className="drop-zone"
               onDragOver={handleDragOver}
               onDrop={handleDropSecondary3}

@@ -173,6 +173,28 @@ const DailyPlanner: React.FC = () => {
     e.preventDefault();
   };
 
+  const handleDropBrainDump = (e: React.DragEvent, targetTaskId: string) => {
+    e.preventDefault();
+    if (draggedTask && draggedTask !== targetTaskId) {
+      const draggedIndex = brainDump.findIndex(t => t.id === draggedTask);
+      const targetIndex = brainDump.findIndex(t => t.id === targetTaskId);
+
+      if (draggedIndex !== -1 && targetIndex !== -1) {
+        const newBrainDump = [...brainDump];
+        const [removed] = newBrainDump.splice(draggedIndex, 1);
+        newBrainDump.splice(targetIndex, 0, removed);
+
+        const reordered = newBrainDump.map((task, index) => ({
+          ...task,
+          order: index
+        }));
+
+        setBrainDump(reordered);
+      }
+    }
+    setDraggedTask(null);
+  };
+
   const handleDropTop3 = (e: React.DragEvent) => {
     e.preventDefault();
     if (draggedTask && !top3.includes(draggedTask) && top3.length < 3) {
@@ -195,6 +217,34 @@ const DailyPlanner: React.FC = () => {
 
   const removeFromSecondary3 = (taskId: string) => {
     setSecondary3(secondary3.filter(id => id !== taskId));
+  };
+
+  const handleCreateTomorrow = async () => {
+    try {
+      const response = await fetch(API_ENDPOINTS.CREATE_TOMORROW, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders(),
+        },
+        body: JSON.stringify({
+          currentDate: formatDate(currentDate),
+        }),
+      });
+
+      if (response.ok) {
+        const tomorrow = new Date(currentDate);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        setCurrentDate(tomorrow);
+        alert('Tomorrow\'s plan created! Unfinished tasks have been rolled over.');
+      }
+    } catch (error) {
+      console.error('Failed to create tomorrow:', error);
+    }
+  };
+
+  const handlePrint = () => {
+    window.print();
   };
 
   const handleCreateTomorrow = async () => {
@@ -300,9 +350,13 @@ const DailyPlanner: React.FC = () => {
           </div>
           <div className="task-list">
             {brainDump.filter(t => t.status !== 'deleted').map(task => (
-              <div 
-                key={task.id} 
+              <div
+                key={task.id}
                 className={`task-item ${task.status}`}
+                draggable
+                onDragStart={() => handleDragStart(task.id)}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDropBrainDump(e, task.id)}
                 draggable
                 onDragStart={() => handleDragStart(task.id)}
               >
@@ -373,7 +427,7 @@ const DailyPlanner: React.FC = () => {
             >
               6-Task View
             </button>
-            <button 
+            <button
               className={planningMode === 'time-block' ? 'active' : ''}
               onClick={() => setPlanningMode('time-block')}
             >

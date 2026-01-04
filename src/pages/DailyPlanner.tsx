@@ -247,29 +247,6 @@ const DailyPlanner: React.FC = () => {
     window.print();
   };
 
-  const handleCreateTomorrow = async () => {
-    try {
-      const response = await fetch(API_ENDPOINTS.CREATE_TOMORROW, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...getAuthHeaders(),
-        },
-        body: JSON.stringify({
-          currentDate: formatDate(currentDate),
-        }),
-      });
-
-      if (response.ok) {
-        const tomorrow = new Date(currentDate);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        setCurrentDate(tomorrow);
-      }
-    } catch (error) {
-      console.error('Failed to create tomorrow:', error);
-    }
-  };
-
   if (loading) {
     return <div className="daily-planner-page"><p>Loading...</p></div>;
   }
@@ -357,8 +334,6 @@ const DailyPlanner: React.FC = () => {
                 onDragStart={() => handleDragStart(task.id)}
                 onDragOver={handleDragOver}
                 onDrop={(e) => handleDropBrainDump(e, task.id)}
-                draggable
-                onDragStart={() => handleDragStart(task.id)}
               >
                 <button 
                   className="status-btn"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import AuthModal from '../components/AuthModal';
 import { API_ENDPOINTS, getAuthToken, getAuthHeaders, removeAuthToken } from '../config/api';
 import '../styles/DailyPlanner.css';
@@ -94,7 +94,7 @@ const DailyPlanner: React.FC = () => {
     }
   };
 
-  const savePlan = async () => {
+  const savePlan = useCallback(async () => {
     try {
       await fetch(API_ENDPOINTS.SAVE_PLAN, {
         method: 'POST',
@@ -114,14 +114,14 @@ const DailyPlanner: React.FC = () => {
     } catch (error) {
       console.error('Failed to save plan:', error);
     }
-  };
+  }, [brainDump, top3, secondary3, timeBlocks, planningMode, currentDate]);
 
   useEffect(() => {
     if (isAuthenticated && !loading) {
       const timeoutId = setTimeout(savePlan, 1000);
       return () => clearTimeout(timeoutId);
     }
-  }, [brainDump, top3, secondary3, timeBlocks, planningMode, isAuthenticated, loading]);
+  }, [savePlan, isAuthenticated, loading]);
 
   const handleAuthSuccess = () => {
     setIsAuthenticated(true);

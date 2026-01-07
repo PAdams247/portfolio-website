@@ -153,7 +153,7 @@ const DailyPlanner: React.FC = () => {
   };
 
   const cycleTaskStatus = (taskId: string) => {
-    setBrainDump(brainDump.map(task => {
+    setBrainDump(prevBrainDump => prevBrainDump.map(task => {
       if (task.id === taskId) {
         const statusCycle: Record<string, 'none' | 'open' | 'open-outstanding' | 'completed' | 'deleted'> = {
           'none': 'open',

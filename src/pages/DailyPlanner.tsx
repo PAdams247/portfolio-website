@@ -31,6 +31,8 @@ const DailyPlanner: React.FC = () => {
   const [newTaskText, setNewTaskText] = useState('');
   const [showHelp, setShowHelp] = useState(false);
   const [draggedTask, setDraggedTask] = useState<string | null>(null);
+  const [selectedTasks, setSelectedTasks] = useState<Set<string>>(new Set());
+  const [lastSelectedTask, setLastSelectedTask] = useState<string | null>(null);
 
   useEffect(() => {
     const token = getAuthToken();
@@ -48,6 +50,17 @@ const DailyPlanner: React.FC = () => {
       loadPlanForDate(currentDate);
     }
   }, [currentDate, isAuthenticated]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Delete' && selectedTasks.size > 0) {
+        selectedTasks.forEach(taskId => deleteTask(taskId));
+        setSelectedTasks(new Set());
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedTasks]);
 
   const formatDate = (date: Date) => {
     return date.toISOString().split('T')[0];
@@ -153,6 +166,73 @@ const DailyPlanner: React.FC = () => {
     setBrainDump(brainDump.map(task =>
       task.id === taskId ? { ...task, status: 'deleted' } : task
     ));
+    setSelectedTasks(prev => {
+      const newSet = new Set(prev);
+      newSet.delete(taskId);
+      return newSet;
+    });
+  };
+
+  const handleTaskClick = (taskId: string, e: React.MouseEvent) => {
+    const visibleTasks = brainDump.filter(t => t.status !== 'deleted');
+
+    if (e.shiftKey && lastSelectedTask) {
+      const lastIndex = visibleTasks.findIndex(t => t.id === lastSelectedTask);
+      const currentIndex = visibleTasks.findIndex(t => t.id === taskId);
+      const start = Math.min(lastIndex, currentIndex);
+      const end = Math.max(lastIndex, currentIndex);
+
+      const newSelected = new Set(selectedTasks);
+      for (let i = start; i <= end; i++) {
+        newSelected.add(visibleTasks[i].id);
+      }
+      setSelectedTasks(newSelected);
+    } else if (e.ctrlKey || e.metaKey) {
+      const newSelected = new Set(selectedTasks);
+      if (newSelected.has(taskId)) {
+        newSelected.delete(taskId);
+      } else {
+        newSelected.add(taskId);
+      }
+      setSelectedTasks(newSelected);
+      setLastSelectedTask(taskId);
+    } else {
+      setSelectedTasks(new Set([taskId]));
+      setLastSelectedTask(taskId);
+    }
+  };
+
+  const handleTaskKeyDown = (taskId: string, e: React.KeyboardEvent) => {
+    const visibleTasks = brainDump.filter(t => t.status !== 'deleted');
+    const currentIndex = visibleTasks.findIndex(t => t.id === taskId);
+
+    if (e.key === 'ArrowUp' && currentIndex > 0) {
+      e.preventDefault();
+      const targetTask = visibleTasks[currentIndex - 1];
+
+      if (e.shiftKey || e.ctrlKey) {
+        const newSelected = new Set(selectedTasks);
+        newSelected.add(targetTask.id);
+        setSelectedTasks(newSelected);
+      } else {
+        setSelectedTasks(new Set([targetTask.id]));
+      }
+      setLastSelectedTask(targetTask.id);
+      document.getElementById(`task-${targetTask.id}`)?.focus();
+    } else if (e.key === 'ArrowDown' && currentIndex < visibleTasks.length - 1) {
+      e.preventDefault();
+      const targetTask = visibleTasks[currentIndex + 1];
+
+      if (e.shiftKey || e.ctrlKey) {
+        const newSelected = new Set(selectedTasks);
+        newSelected.add(targetTask.id);
+        setSelectedTasks(newSelected);
+      } else {
+        setSelectedTasks(new Set([targetTask.id]));
+      }
+      setLastSelectedTask(targetTask.id);
+      document.getElementById(`task-${targetTask.id}`)?.focus();
+    }
   };
 
   const getStatusSymbol = (status: string) => {
@@ -359,22 +439,36 @@ const DailyPlanner: React.FC = () => {
             {brainDump.filter(t => t.status !== 'deleted').map(task => (
               <div
                 key={task.id}
-                className={`task-item ${task.status}`}
+                id={`task-${task.id}`}
+                className={`task-item ${task.status} ${selectedTasks.has(task.id) ? 'selected' : ''}`}
                 draggable
+                tabIndex={0}
                 onDragStart={() => handleDragStart(task.id)}
                 onDragOver={handleDragOver}
                 onDrop={(e) => handleDropBrainDump(e, task.id)}
+                onClick={(e) => handleTaskClick(task.id, e)}
+                onKeyDown={(e) => handleTaskKeyDown(task.id, e)}
               >
-                <button 
+                <button
                   className="status-btn"
-                  onClick={() => cycleTaskStatus(task.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    cycleTaskStatus(task.id);
+                  }}
                 >
                   {getStatusSymbol(task.status)}
                 </button>
                 <span className={task.status === 'completed' ? 'completed-text' : ''}>
                   {task.text}
                 </span>
-                <button onClick={() => deleteTask(task.id)}>🗑️</button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteTask(task.id);
+                  }}
+                >
+                  🗑️
+                </button>
               </div>
             ))}
           </div>

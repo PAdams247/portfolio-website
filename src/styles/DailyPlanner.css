@@ -150,6 +150,17 @@
   border-radius: 8px;
   border-left: 4px solid transparent;
   transition: all 0.3s;
+  cursor: pointer;
+  outline: none;
+}
+
+.task-item:focus {
+  box-shadow: 0 0 0 2px #667eea;
+}
+
+.task-item.selected {
+  background: #e3e8ff;
+  border-left-color: #667eea;
 }
 
 .task-item.open {

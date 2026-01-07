@@ -337,25 +337,49 @@ const DailyPlanner: React.FC = () => {
 
   const handleCreateTomorrow = async () => {
     try {
-      const response = await fetch(API_ENDPOINTS.CREATE_TOMORROW, {
+      const tomorrow = new Date(currentDate);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const tomorrowDate = formatDate(tomorrow);
+
+      const uncompletedTasks = brainDump.filter(
+        task => task.status !== 'completed' && task.status !== 'deleted'
+      );
+
+      const ooTasks = uncompletedTasks.filter(task => task.status === 'open-outstanding');
+      const oTasks = uncompletedTasks.filter(task => task.status === 'open');
+      const noneTasks = uncompletedTasks.filter(task => task.status === 'none');
+
+      const prioritizedTasks = [...ooTasks, ...oTasks];
+      const newTop3 = prioritizedTasks.slice(0, 3).map(t => t.id);
+      const newSecondary3 = prioritizedTasks.slice(3, 6).map(t => t.id);
+
+      const tomorrowBrainDump = uncompletedTasks.map((task, index) => ({
+        ...task,
+        order: index,
+        status: 'none' as const
+      }));
+
+      await fetch(API_ENDPOINTS.SAVE_PLAN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           ...getAuthHeaders(),
         },
         body: JSON.stringify({
-          currentDate: formatDate(currentDate),
+          date: tomorrowDate,
+          brainDump: tomorrowBrainDump,
+          top3: newTop3,
+          secondary3: newSecondary3,
+          timeBlocks: [],
+          planningMode: '6-task',
         }),
       });
 
-      if (response.ok) {
-        const tomorrow = new Date(currentDate);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        setCurrentDate(tomorrow);
-        alert('Tomorrow\'s plan created! Unfinished tasks have been rolled over.');
-      }
+      setCurrentDate(tomorrow);
+      alert('Tomorrow\'s plan created! Unfinished tasks have been rolled over.');
     } catch (error) {
       console.error('Failed to create tomorrow:', error);
+      alert('Failed to create tomorrow\'s plan. Please try again.');
     }
   };
 

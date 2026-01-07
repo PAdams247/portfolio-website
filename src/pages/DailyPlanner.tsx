@@ -219,6 +219,36 @@ const DailyPlanner: React.FC = () => {
     setSecondary3(secondary3.filter(id => id !== taskId));
   };
 
+  const handleDropTimeBlock = (e: React.DragEvent, hour: number) => {
+    e.preventDefault();
+    if (draggedTask) {
+      const existingBlock = timeBlocks.find(tb => tb.hour === hour);
+      if (existingBlock) {
+        setTimeBlocks(timeBlocks.map(tb =>
+          tb.hour === hour ? { ...tb, taskId: draggedTask } : tb
+        ));
+      } else {
+        setTimeBlocks([...timeBlocks, { hour, taskId: draggedTask, duration: 1 }]);
+      }
+      setDraggedTask(null);
+    }
+  };
+
+  const removeFromTimeBlock = (hour: number) => {
+    setTimeBlocks(timeBlocks.filter(tb => tb.hour !== hour));
+  };
+
+  const updateTimeBlockText = (hour: number, text: string) => {
+    const existingBlock = timeBlocks.find(tb => tb.hour === hour);
+    if (existingBlock) {
+      setTimeBlocks(timeBlocks.map(tb =>
+        tb.hour === hour ? { ...tb, customText: text } : tb
+      ));
+    } else {
+      setTimeBlocks([...timeBlocks, { hour, customText: text, duration: 1 }]);
+    }
+  };
+
   const handleCreateTomorrow = async () => {
     try {
       const response = await fetch(API_ENDPOINTS.CREATE_TOMORROW, {
@@ -432,18 +462,40 @@ const DailyPlanner: React.FC = () => {
             <div className="time-block-view">
               <h3>Time Blocks</h3>
               <div className="time-slots">
-                {Array.from({ length: 18 }, (_, i) => i + 6).map(hour => (
-                  <div key={hour} className="time-slot">
-                    <span className="time-label">
-                      {hour > 12 ? `${hour - 12}:00 PM` : `${hour}:00 AM`}
-                    </span>
-                    <input 
-                      type="text" 
-                      placeholder="What are you working on?"
-                      className="time-input"
-                    />
-                  </div>
-                ))}
+                {Array.from({ length: 18 }, (_, i) => i + 6).map(hour => {
+                  const timeBlock = timeBlocks.find(tb => tb.hour === hour);
+                  const task = timeBlock?.taskId ? brainDump.find(t => t.id === timeBlock.taskId) : null;
+
+                  return (
+                    <div
+                      key={hour}
+                      className={`time-slot ${timeBlock ? 'has-content' : ''}`}
+                      onDragOver={handleDragOver}
+                      onDrop={(e) => handleDropTimeBlock(e, hour)}
+                    >
+                      <span className="time-label">
+                        {hour > 12 ? `${hour - 12}:00 PM` : hour === 12 ? '12:00 PM' : `${hour}:00 AM`}
+                      </span>
+                      {task ? (
+                        <div className="time-block-task">
+                          <span className="status">{getStatusSymbol(task.status)}</span>
+                          <span className={task.status === 'completed' ? 'completed-text' : ''}>
+                            {task.text}
+                          </span>
+                          <button onClick={() => removeFromTimeBlock(hour)}>×</button>
+                        </div>
+                      ) : (
+                        <input
+                          type="text"
+                          placeholder="Drag task here or type..."
+                          className="time-input"
+                          value={timeBlock?.customText || ''}
+                          onChange={(e) => updateTimeBlockText(hour, e.target.value)}
+                        />
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}

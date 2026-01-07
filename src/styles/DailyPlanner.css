@@ -326,6 +326,19 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+.time-slot:hover {
+  background: rgba(102, 126, 234, 0.05);
+}
+
+.time-slot.has-content {
+  background: rgba(102, 126, 234, 0.1);
+  border-color: rgba(102, 126, 234, 0.3);
 }
 
 .time-label {
@@ -340,6 +353,45 @@
   border: 1px solid #e0e0e0;
   border-radius: 6px;
   font-size: 0.9rem;
+}
+
+.time-block-task {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.time-block-task .status {
+  font-weight: bold;
+  color: #667eea;
+  min-width: 30px;
+}
+
+.time-block-task span:nth-child(2) {
+  flex: 1;
+}
+
+.time-block-task button {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.time-block-task button:hover {
+  color: #c33;
 }
 
 .planner-actions {

@@ -166,6 +166,10 @@ const DailyPlanner: React.FC = () => {
       }
       return task;
     }));
+
+    // Update top3 and secondary3 to trigger re-render
+    setTop3(prev => [...prev]);
+    setSecondary3(prev => [...prev]);
   };
 
   const deleteTask = (taskId: string) => {
@@ -383,43 +387,7 @@ const DailyPlanner: React.FC = () => {
   };
 
   const handlePrint = () => {
-    const printStyles = `
-      <style>
-        @media print {
-          body { background: white !important; }
-          .daily-planner-page { background: white !important; padding: 1rem; }
-          .planner-header { color: black !important; margin-bottom: 1rem; }
-          .date-controls button, .planner-actions, .help-panel, .logout-btn { display: none !important; }
-          .planner-container { grid-template-columns: 1fr 1fr 1fr; gap: 1rem; page-break-inside: avoid; }
-          .brain-dump-column, .top-six-column, .planning-mode-column {
-            box-shadow: none; border: 1px solid #ddd; max-height: none; overflow: visible;
-          }
-          .task-item button, .priority-task button, .add-task-section, .mode-toggle { display: none; }
-          h3 { color: black !important; }
-        }
-      </style>
-    `;
-
-    const printWindow = window.open('', '_blank');
-    if (printWindow) {
-      printWindow.document.write(`
-        <html>
-          <head>
-            <title>Daily Planner - ${formatDate(currentDate)}</title>
-            ${printStyles}
-            <link rel="stylesheet" href="${window.location.origin}/static/css/main.css">
-          </head>
-          <body>
-            ${document.querySelector('.daily-planner-page')?.innerHTML || ''}
-          </body>
-        </html>
-      `);
-      printWindow.document.close();
-      setTimeout(() => {
-        printWindow.print();
-        printWindow.close();
-      }, 250);
-    }
+    window.print();
   };
 
   if (loading) {
@@ -608,7 +576,11 @@ const DailyPlanner: React.FC = () => {
                   return task ? (
                     <div key={task.id} className="focus-task-item">
                       <span className="task-number">{index + 1}</span>
-                      <input type="checkbox" checked={task.status === 'completed'} readOnly />
+                      <input
+                        type="checkbox"
+                        checked={task.status === 'completed'}
+                        onChange={() => cycleTaskStatus(task.id)}
+                      />
                       <span className={task.status === 'completed' ? 'completed-text' : ''}>
                         {task.text}
                       </span>

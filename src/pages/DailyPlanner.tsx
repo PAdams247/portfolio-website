@@ -54,7 +54,13 @@ const DailyPlanner: React.FC = () => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Delete' && selectedTasks.size > 0) {
-        selectedTasks.forEach(taskId => deleteTask(taskId));
+        e.preventDefault();
+        const tasksToDelete = Array.from(selectedTasks);
+        setBrainDump(prevBrainDump =>
+          prevBrainDump.map(task =>
+            tasksToDelete.includes(task.id) ? { ...task, status: 'deleted' as const } : task
+          )
+        );
         setSelectedTasks(new Set());
       }
     };
@@ -354,7 +360,43 @@ const DailyPlanner: React.FC = () => {
   };
 
   const handlePrint = () => {
-    window.print();
+    const printStyles = `
+      <style>
+        @media print {
+          body { background: white !important; }
+          .daily-planner-page { background: white !important; padding: 1rem; }
+          .planner-header { color: black !important; margin-bottom: 1rem; }
+          .date-controls button, .planner-actions, .help-panel, .logout-btn { display: none !important; }
+          .planner-container { grid-template-columns: 1fr 1fr 1fr; gap: 1rem; page-break-inside: avoid; }
+          .brain-dump-column, .top-six-column, .planning-mode-column {
+            box-shadow: none; border: 1px solid #ddd; max-height: none; overflow: visible;
+          }
+          .task-item button, .priority-task button, .add-task-section, .mode-toggle { display: none; }
+          h3 { color: black !important; }
+        }
+      </style>
+    `;
+
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Daily Planner - ${formatDate(currentDate)}</title>
+            ${printStyles}
+            <link rel="stylesheet" href="${window.location.origin}/static/css/main.css">
+          </head>
+          <body>
+            ${document.querySelector('.daily-planner-page')?.innerHTML || ''}
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 250);
+    }
   };
 
   if (loading) {

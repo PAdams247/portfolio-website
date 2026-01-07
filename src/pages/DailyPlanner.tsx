@@ -355,8 +355,7 @@ const DailyPlanner: React.FC = () => {
 
       const tomorrowBrainDump = uncompletedTasks.map((task, index) => ({
         ...task,
-        order: index,
-        status: 'none' as const
+        order: index
       }));
 
       await fetch(API_ENDPOINTS.SAVE_PLAN, {

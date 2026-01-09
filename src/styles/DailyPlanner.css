@@ -544,6 +544,18 @@
     padding: 0;
   }
 
+  nav,
+  .site-footer,
+  .footer-content,
+  footer {
+    display: none !important;
+  }
+
+  .main-content {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
   .daily-planner-page {
     background: white !important;
     padding: 0 !important;
@@ -759,11 +771,15 @@
     justify-content: center !important;
     text-align: center !important;
     flex-shrink: 0 !important;
+    color: black !important;
+    opacity: 1 !important;
+    font-weight: bold !important;
   }
 
   .completed-text {
     text-decoration: line-through;
-    color: #999;
+    color: #666 !important;
+    opacity: 1 !important;
   }
 
   .add-task-section {
@@ -893,6 +909,8 @@
     max-width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
   }
 
   body[data-print-column] .brain-dump-column,
@@ -902,6 +920,8 @@
     width: 100% !important;
     page-break-before: avoid !important;
     page-break-after: avoid !important;
+    margin: 0 !important;
+    padding: 0.4rem !important;
   }
 
   body[data-print-column] {
@@ -910,5 +930,15 @@
 
   body[data-print-column] * {
     page-break-before: avoid !important;
+  }
+
+  body[data-print-column] .daily-planner-page {
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  body[data-print-column] .planner-header {
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
   }
 }

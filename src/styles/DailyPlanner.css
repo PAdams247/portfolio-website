@@ -589,10 +589,26 @@
     font-weight: bold;
   }
 
+  .top-three-section,
+  .secondary-three-section {
+    margin-bottom: 0.5rem !important;
+  }
+
   .top-three-section h3,
-  .secondary-three-section h3,
+  .secondary-three-section h3 {
+    margin-bottom: 0.2rem !important;
+  }
+
   .six-task-view h3,
   .time-block-view h3 {
+    font-size: 0.8rem;
+    margin: 0.25rem 0;
+    font-weight: bold;
+    color: black !important;
+  }
+
+  .top-three-section h3,
+  .secondary-three-section h3 {
     font-size: 0.8rem;
     margin: 0.25rem 0;
     font-weight: bold;
@@ -602,19 +618,28 @@
   .task-list {
     max-height: none;
     overflow: visible;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem !important;
   }
 
   .task-item,
   .priority-task,
   .focus-task-item,
   .time-block-task {
-    padding: 0.15rem 0.25rem;
-    margin-bottom: 0.15rem;
-    font-size: 0.7rem;
-    border: 1px solid #ddd;
-    border-radius: 2px;
+    padding: 0.2rem 0.3rem !important;
+    margin-bottom: 0.1rem !important;
+    font-size: 0.7rem !important;
+    border: 1px solid #ddd !important;
+    border-radius: 2px !important;
     background: white !important;
     page-break-inside: avoid;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.25rem !important;
+    border-left: none !important;
+    min-height: auto !important;
+    line-height: 1.2 !important;
   }
 
   .task-item button,
@@ -626,13 +651,18 @@
 
   .status-btn {
     display: inline-block !important;
-    padding: 0;
-    margin-right: 0.25rem;
-    font-size: 0.7rem;
-    border: none;
-    background: none;
-    min-width: 1.5rem;
-    text-align: center;
+    padding: 0 !important;
+    margin: 0 !important;
+    margin-right: 0.25rem !important;
+    font-size: 0.65rem !important;
+    border: none !important;
+    background: none !important;
+    min-width: 1.2rem !important;
+    width: 1.2rem !important;
+    height: auto !important;
+    text-align: center !important;
+    border-radius: 0 !important;
+    font-weight: bold !important;
   }
 
   .task-item .status-btn {
@@ -643,8 +673,13 @@
   .priority-task span,
   .focus-task-item span,
   .time-block-task span {
-    font-size: 0.7rem;
-    line-height: 1.2;
+    font-size: 0.7rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .task-item > span:not(.status),
+  .priority-task > span:not(.status) {
+    flex: 1;
   }
 
   .completed-text {
@@ -661,9 +696,13 @@
   }
 
   .drop-zone {
-    border: none;
-    padding: 0;
-    min-height: auto;
+    border: none !important;
+    padding: 0 !important;
+    min-height: auto !important;
+    background: transparent !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem !important;
   }
 
   .placeholder {

@@ -117,7 +117,8 @@
   margin-bottom: 0;
 }
 
-.print-column-btn {
+.print-column-btn,
+.reorder-btn {
   padding: 0.5rem 0.75rem;
   background: rgba(102, 126, 234, 0.1);
   border: 1px solid rgba(102, 126, 234, 0.3);
@@ -128,7 +129,8 @@
   transition: all 0.3s;
 }
 
-.print-column-btn:hover {
+.print-column-btn:hover,
+.reorder-btn:hover {
   background: rgba(102, 126, 234, 0.2);
   transform: translateY(-2px);
 }
@@ -596,7 +598,8 @@
   .help-panel,
   .logout-btn,
   .login-btn,
-  .print-column-btn {
+  .print-column-btn,
+  .reorder-btn {
     display: none !important;
   }
 

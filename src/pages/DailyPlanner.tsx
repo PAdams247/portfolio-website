@@ -209,6 +209,22 @@ const DailyPlanner: React.FC = () => {
     });
   };
 
+  const reorderTasksByPriority = () => {
+    setBrainDump(prevBrainDump => {
+      const tasks = [...prevBrainDump];
+      return tasks.sort((a, b) => {
+        const priorityOrder = {
+          'open-outstanding': 0,
+          'open': 1,
+          'none': 2,
+          'completed': 3,
+          'deleted': 4
+        };
+        return priorityOrder[a.status] - priorityOrder[b.status];
+      });
+    });
+  };
+
   const handleTaskClick = (taskId: string, e: React.MouseEvent) => {
     const visibleTasks = brainDump.filter(t => t.status !== 'deleted');
 
@@ -521,6 +537,7 @@ const DailyPlanner: React.FC = () => {
         <div className="brain-dump-column">
           <div className="column-header">
             <h3>Brain Dump</h3>
+            <button className="reorder-btn" onClick={reorderTasksByPriority} title="Re-order tasks by priority">↕️</button>
             <button className="print-column-btn" onClick={() => handlePrintColumn('brain-dump')}>🖨️</button>
           </div>
           <div className="add-task-section">

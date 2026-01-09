@@ -19,9 +19,9 @@ interface TimeBlock {
 }
 
 const DailyPlanner: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [brainDump, setBrainDump] = useState<Task[]>([]);
   const [top3, setTop3] = useState<string[]>([]);
@@ -37,19 +37,13 @@ const DailyPlanner: React.FC = () => {
   useEffect(() => {
     const token = getAuthToken();
     if (token) {
-      setIsAuthenticated(true);
       loadPlanForDate(currentDate);
-    } else {
-      setLoading(false);
-      setShowAuthModal(true);
     }
   }, []);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      loadPlanForDate(currentDate);
-    }
-  }, [currentDate, isAuthenticated]);
+    loadPlanForDate(currentDate);
+  }, [currentDate]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -75,6 +69,28 @@ const DailyPlanner: React.FC = () => {
   const loadPlanForDate = async (date: Date) => {
     setLoading(true);
     try {
+      const token = getAuthToken();
+      if (!token) {
+        const localKey = `planner_${formatDate(date)}`;
+        const localData = localStorage.getItem(localKey);
+        if (localData) {
+          const data = JSON.parse(localData);
+          setBrainDump(data.brainDump || []);
+          setTop3(data.top3 || []);
+          setSecondary3(data.secondary3 || []);
+          setTimeBlocks(data.timeBlocks || []);
+          setPlanningMode(data.planningMode || '6-task');
+        } else {
+          setBrainDump([]);
+          setTop3([]);
+          setSecondary3([]);
+          setTimeBlocks([]);
+          setPlanningMode('6-task');
+        }
+        setLoading(false);
+        return;
+      }
+
       const response = await fetch(API_ENDPOINTS.GET_PLAN(formatDate(date)), {
         headers: getAuthHeaders(),
       });
@@ -96,6 +112,20 @@ const DailyPlanner: React.FC = () => {
 
   const savePlan = useCallback(async () => {
     try {
+      const token = getAuthToken();
+      if (!token) {
+        const localKey = `planner_${formatDate(currentDate)}`;
+        localStorage.setItem(localKey, JSON.stringify({
+          date: formatDate(currentDate),
+          brainDump,
+          top3,
+          secondary3,
+          timeBlocks,
+          planningMode,
+        }));
+        return;
+      }
+
       await fetch(API_ENDPOINTS.SAVE_PLAN, {
         method: 'POST',
         headers: {
@@ -117,11 +147,11 @@ const DailyPlanner: React.FC = () => {
   }, [brainDump, top3, secondary3, timeBlocks, planningMode, currentDate]);
 
   useEffect(() => {
-    if (isAuthenticated && !loading) {
+    if (!loading) {
       const timeoutId = setTimeout(savePlan, 1000);
       return () => clearTimeout(timeoutId);
     }
-  }, [savePlan, isAuthenticated, loading]);
+  }, [savePlan, loading]);
 
   const handleAuthSuccess = () => {
     setIsAuthenticated(true);
@@ -166,10 +196,6 @@ const DailyPlanner: React.FC = () => {
       }
       return task;
     }));
-
-    // Update top3 and secondary3 to trigger re-render
-    setTop3(prev => [...prev]);
-    setSecondary3(prev => [...prev]);
   };
 
   const deleteTask = (taskId: string) => {
@@ -353,30 +379,44 @@ const DailyPlanner: React.FC = () => {
       const oTasks = uncompletedTasks.filter(task => task.status === 'open');
       const noneTasks = uncompletedTasks.filter(task => task.status === 'none');
 
-      const prioritizedTasks = [...ooTasks, ...oTasks];
+      const prioritizedTasks = [...ooTasks, ...oTasks, ...noneTasks];
       const newTop3 = prioritizedTasks.slice(0, 3).map(t => t.id);
       const newSecondary3 = prioritizedTasks.slice(3, 6).map(t => t.id);
 
-      const tomorrowBrainDump = uncompletedTasks.map((task, index) => ({
+      const tomorrowBrainDump = prioritizedTasks.map((task, index) => ({
         ...task,
+        status: 'none' as const,
         order: index
       }));
 
-      await fetch(API_ENDPOINTS.SAVE_PLAN, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...getAuthHeaders(),
-        },
-        body: JSON.stringify({
+      const token = getAuthToken();
+      if (!token) {
+        const localKey = `planner_${tomorrowDate}`;
+        localStorage.setItem(localKey, JSON.stringify({
           date: tomorrowDate,
           brainDump: tomorrowBrainDump,
           top3: newTop3,
           secondary3: newSecondary3,
           timeBlocks: [],
           planningMode: '6-task',
-        }),
-      });
+        }));
+      } else {
+        await fetch(API_ENDPOINTS.SAVE_PLAN, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...getAuthHeaders(),
+          },
+          body: JSON.stringify({
+            date: tomorrowDate,
+            brainDump: tomorrowBrainDump,
+            top3: newTop3,
+            secondary3: newSecondary3,
+            timeBlocks: [],
+            planningMode: '6-task',
+          }),
+        });
+      }
 
       setCurrentDate(tomorrow);
       alert('Tomorrow\'s plan created! Unfinished tasks have been rolled over.');
@@ -390,6 +430,12 @@ const DailyPlanner: React.FC = () => {
     window.print();
   };
 
+  const handlePrintColumn = (columnType: 'brain-dump' | 'top-six' | 'planning-mode') => {
+    document.body.setAttribute('data-print-column', columnType);
+    window.print();
+    document.body.removeAttribute('data-print-column');
+  };
+
   if (loading) {
     return <div className="daily-planner-page"><p>Loading...</p></div>;
   }
@@ -397,7 +443,10 @@ const DailyPlanner: React.FC = () => {
   return (
     <div className="daily-planner-page">
       {showAuthModal && (
-        <AuthModal onClose={() => {}} onSuccess={handleAuthSuccess} />
+        <AuthModal
+          onClose={() => setShowAuthModal(false)}
+          onSuccess={handleAuthSuccess}
+        />
       )}
 
       <div className="planner-header">
@@ -414,7 +463,8 @@ const DailyPlanner: React.FC = () => {
           </button>
           <button onClick={() => setCurrentDate(new Date())}>Today</button>
           <button onClick={() => setShowHelp(!showHelp)}>❓ Help</button>
-          <button onClick={handleLogout} className="logout-btn">Logout</button>
+          <button onClick={() => setShowAuthModal(true)} className="login-btn">Login</button>
+          {getAuthToken() && <button onClick={handleLogout} className="logout-btn">Logout</button>}
         </div>
       </div>
 
@@ -457,7 +507,10 @@ const DailyPlanner: React.FC = () => {
 
       <div className="planner-container">
         <div className="brain-dump-column">
-          <h3>Brain Dump</h3>
+          <div className="column-header">
+            <h3>Brain Dump</h3>
+            <button className="print-column-btn" onClick={() => handlePrintColumn('brain-dump')}>🖨️</button>
+          </div>
           <div className="add-task-section">
             <input
               type="text"
@@ -508,6 +561,10 @@ const DailyPlanner: React.FC = () => {
         </div>
 
         <div className="top-six-column">
+          <div className="column-header">
+            <h3>Top 6</h3>
+            <button className="print-column-btn" onClick={() => handlePrintColumn('top-six')}>🖨️</button>
+          </div>
           <div className="top-three-section">
             <h3>Top 3 Must-Do</h3>
             <div 
@@ -552,8 +609,12 @@ const DailyPlanner: React.FC = () => {
         </div>
 
         <div className="planning-mode-column">
+          <div className="column-header">
+            <h3>Planning Mode</h3>
+            <button className="print-column-btn" onClick={() => handlePrintColumn('planning-mode')}>🖨️</button>
+          </div>
           <div className="mode-toggle">
-            <button 
+            <button
               className={planningMode === '6-task' ? 'active' : ''}
               onClick={() => setPlanningMode('6-task')}
             >
@@ -635,7 +696,7 @@ const DailyPlanner: React.FC = () => {
 
       <div className="planner-actions">
         <button className="create-tomorrow-btn" onClick={handleCreateTomorrow}>Create Tomorrow</button>
-        <button className="print-btn">🖨️ Print</button>
+        <button className="print-all-btn" onClick={handlePrint}>🖨️ Print All</button>
       </div>
     </div>
   );

@@ -485,8 +485,8 @@ const DailyPlanner: React.FC = () => {
               <h4>Task Status:</h4>
               <ul>
                 <li><strong>[ ]</strong> = Not started</li>
-                <li><strong>O</strong> = Working on it today</li>
-                <li><strong>OO</strong> = Still working, not finished yet</li>
+                <li><strong>O</strong> = Open task (priority) </li>
+                <li><strong>OO</strong> = Open Outstanding - Not yet finished </li>
                 <li><strong>✓</strong> = Completed (strike through)</li>
                 <li><strong>X</strong> = Deleted/abandoned</li>
               </ul>

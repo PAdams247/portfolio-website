@@ -616,18 +616,21 @@
   }
 
   .task-list {
-    max-height: none;
-    overflow: visible;
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem !important;
+    max-height: none !important;
+    overflow: visible !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .task-item,
   .priority-task,
   .focus-task-item,
   .time-block-task {
-    padding: 0.2rem 0.3rem !important;
+    padding: 0.15rem 0.25rem !important;
+    margin: 0 !important;
     margin-bottom: 0.1rem !important;
     font-size: 0.7rem !important;
     border: 1px solid #ddd !important;
@@ -636,10 +639,16 @@
     page-break-inside: avoid;
     display: flex !important;
     align-items: center !important;
-    gap: 0.25rem !important;
+    gap: 0.2rem !important;
     border-left: none !important;
     min-height: auto !important;
-    line-height: 1.2 !important;
+    line-height: 1.1 !important;
+    height: auto !important;
+  }
+
+  .task-item:last-child,
+  .priority-task:last-child {
+    margin-bottom: 0 !important;
   }
 
   .task-item button,
@@ -657,12 +666,13 @@
     font-size: 0.65rem !important;
     border: none !important;
     background: none !important;
-    min-width: 1.2rem !important;
-    width: 1.2rem !important;
+    min-width: 1rem !important;
+    width: 1rem !important;
     height: auto !important;
     text-align: center !important;
     border-radius: 0 !important;
     font-weight: bold !important;
+    line-height: 1.1 !important;
   }
 
   .task-item .status-btn {
@@ -674,12 +684,22 @@
   .focus-task-item span,
   .time-block-task span {
     font-size: 0.7rem !important;
-    line-height: 1.2 !important;
+    line-height: 1.1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .task-item > span:not(.status),
   .priority-task > span:not(.status) {
     flex: 1;
+    margin: 0 !important;
+  }
+
+  .status {
+    font-size: 0.65rem !important;
+    min-width: 1rem !important;
+    display: inline-block !important;
+    text-align: center !important;
   }
 
   .completed-text {

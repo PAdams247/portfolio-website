@@ -654,7 +654,7 @@ const DailyPlanner: React.FC = () => {
             <div className="time-block-view">
               <h3>Time Blocks</h3>
               <div className="time-slots">
-                {Array.from({ length: 18 }, (_, i) => i + 6).map(hour => {
+                {Array.from({ length: 24 }, (_, i) => i).map(hour => {
                   const timeBlock = timeBlocks.find(tb => tb.hour === hour);
                   const task = timeBlock?.taskId ? brainDump.find(t => t.id === timeBlock.taskId) : null;
 
@@ -666,7 +666,7 @@ const DailyPlanner: React.FC = () => {
                       onDrop={(e) => handleDropTimeBlock(e, hour)}
                     >
                       <span className="time-label">
-                        {hour > 12 ? `${hour - 12}:00 PM` : hour === 12 ? '12:00 PM' : `${hour}:00 AM`}
+                        {hour === 0 ? '12:00 AM' : hour > 12 ? `${hour - 12}:00 PM` : hour === 12 ? '12:00 PM' : `${hour}:00 AM`}
                       </span>
                       {task ? (
                         <div className="time-block-task">
@@ -674,6 +674,11 @@ const DailyPlanner: React.FC = () => {
                           <span className={task.status === 'completed' ? 'completed-text' : ''}>
                             {task.text}
                           </span>
+                          <button onClick={() => removeFromTimeBlock(hour)}>×</button>
+                        </div>
+                      ) : timeBlock?.customText ? (
+                        <div className="time-block-custom-text">
+                          <span>{timeBlock.customText}</span>
                           <button onClick={() => removeFromTimeBlock(hour)}>×</button>
                         </div>
                       ) : (

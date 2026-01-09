@@ -639,7 +639,8 @@ const DailyPlanner: React.FC = () => {
 
         <div className="planning-mode-column">
           <div className="column-header">
-            <h3>Planning Mode</h3>
+            <h3 className="planning-mode-title">Planning Mode</h3>
+            <h3 className="planning-mode-date">{currentDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
             <button className="print-column-btn" onClick={() => handlePrintColumn('planning-mode')}>🖨️</button>
           </div>
           <div className="mode-toggle">

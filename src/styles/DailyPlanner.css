@@ -106,6 +106,10 @@
   margin-bottom: 1rem;
 }
 
+.planning-mode-date {
+  display: none;
+}
+
 .column-header {
   display: flex;
   justify-content: space-between;
@@ -636,6 +640,14 @@
     margin-bottom: 0.25rem;
     border-bottom: 2px solid #333;
     padding-bottom: 0.25rem;
+  }
+
+  .planning-mode-title {
+    display: none !important;
+  }
+
+  .planning-mode-date {
+    display: block !important;
   }
 
   .column-header h3,

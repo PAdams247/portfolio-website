@@ -463,7 +463,13 @@ const DailyPlanner: React.FC = () => {
           </button>
           <button onClick={() => setCurrentDate(new Date())}>Today</button>
           <button onClick={() => setShowHelp(!showHelp)}>❓ Help</button>
-          <button onClick={() => setShowAuthModal(true)} className="login-btn">Login</button>
+          <button
+            onClick={() => setShowAuthModal(true)}
+            className="login-btn"
+            title="Creating a login email and password enables immediately saving your task and planning data for all days and stores your progress towards your plans. Access it from anywhere at anytime. Enjoy and Stay Productive!"
+          >
+            Login
+          </button>
           {getAuthToken() && <button onClick={handleLogout} className="logout-btn">Logout</button>}
         </div>
       </div>
@@ -495,10 +501,16 @@ const DailyPlanner: React.FC = () => {
               <h4>End of Day:</h4>
               <ul>
                 <li>Click "Create Tomorrow"</li>
-                <li>unworked Brain Dump tasks → carry over to tomorrow </li> 
+                <li>unworked Brain Dump tasks → carry over to tomorrow </li>
                 <li>OO tasks → carry over with 1st priority to Top 6</li>
                 <li>O tasks → carry over with 2nd priority to Top 6</li>
               </ul>
+            </div>
+            <div className="help-section">
+              <h4>💾 Save Your Progress:</h4>
+              <p>
+                <strong>Login to save your data:</strong> Creating a login email and password enables automatic saving of your task and planning data for all days. Access your planner from anywhere at anytime and never lose your progress. Enjoy and Stay Productive!
+              </p>
             </div>
           </div>
           <button onClick={() => setShowHelp(false)}>Close</button>
@@ -676,18 +688,17 @@ const DailyPlanner: React.FC = () => {
                           </span>
                           <button onClick={() => removeFromTimeBlock(hour)}>×</button>
                         </div>
-                      ) : timeBlock?.customText ? (
-                        <div className="time-block-custom-text">
-                          <span>{timeBlock.customText}</span>
-                          <button onClick={() => removeFromTimeBlock(hour)}>×</button>
-                        </div>
                       ) : (
                         <input
                           type="text"
                           placeholder="Drag task here or type..."
                           className="time-input"
                           value={timeBlock?.customText || ''}
-                          onChange={(e) => updateTimeBlockText(hour, e.target.value)}
+                          onChange={(e) => {
+                            e.stopPropagation();
+                            updateTimeBlockText(hour, e.target.value);
+                          }}
+                          onKeyDown={(e) => e.stopPropagation()}
                         />
                       )}
                     </div>

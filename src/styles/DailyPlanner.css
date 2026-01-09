@@ -568,10 +568,7 @@
   }
 
   .planner-header {
-    color: black !important;
-    margin-bottom: 0.3rem !important;
-    page-break-after: avoid !important;
-    padding: 0 !important;
+    display: none !important;
   }
 
   .planner-header h1 {

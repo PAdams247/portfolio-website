@@ -187,6 +187,11 @@
   transition: all 0.3s;
   cursor: pointer;
   outline: none;
+  color: #333;
+}
+
+.task-item span {
+  color: #333;
 }
 
 .task-item:focus {
@@ -262,6 +267,11 @@
   border-radius: 8px;
   margin-bottom: 0.5rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.priority-task span {
+  color: #333;
 }
 
 .priority-task .status {
@@ -348,6 +358,11 @@
   padding: 1rem;
   background: #f8f9fa;
   border-radius: 8px;
+  color: #333;
+}
+
+.focus-task-item span {
+  color: #333;
 }
 
 .task-number {

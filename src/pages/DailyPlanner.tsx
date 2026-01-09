@@ -475,7 +475,7 @@ const DailyPlanner: React.FC = () => {
             <div className="help-section">
               <h4>Daily Workflow:</h4>
               <ol>
-                <li><strong>Brain Dump</strong> - Write everything you need to do</li>
+                <li><strong>Brain Dump</strong> - Quickly write out everything you need to do, drag and drop order, & mark statuses</li>
                 <li><strong>Pick Top 3</strong> - Must-do tasks (mark with O)</li>
                 <li><strong>Pick Secondary 3</strong> - Work on after Top 3 (mark with O)</li>
                 <li><strong>Choose Mode:</strong> 6-Task (flexible) or Time Block (structured)</li>
@@ -485,8 +485,8 @@ const DailyPlanner: React.FC = () => {
               <h4>Task Status:</h4>
               <ul>
                 <li><strong>[ ]</strong> = Not started</li>
-                <li><strong>O</strong> = Open task (priority) </li>
-                <li><strong>OO</strong> = Open Outstanding - Not yet finished </li>
+                <li><strong>O</strong> = Open task - priority </li>
+                <li><strong>OO</strong> = Open Outstanding task - urgent priority </li>
                 <li><strong>✓</strong> = Completed (strike through)</li>
                 <li><strong>X</strong> = Deleted/abandoned</li>
               </ul>
@@ -495,9 +495,9 @@ const DailyPlanner: React.FC = () => {
               <h4>End of Day:</h4>
               <ul>
                 <li>Click "Create Tomorrow"</li>
-                <li>OO tasks → Auto-prioritize to Top 3</li>
-                <li>O tasks → Auto-prioritize to Top 6</li>
-                <li>Reorder as needed on tomorrow's page</li>
+                <li>unworked Brain Dump tasks → carry over to tomorrow </li> 
+                <li>OO tasks → carry over with 1st priority to Top 6</li>
+                <li>O tasks → carry over with 2nd priority to Top 6</li>
               </ul>
             </div>
           </div>

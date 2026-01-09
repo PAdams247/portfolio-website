@@ -106,7 +106,9 @@
   margin-bottom: 1rem;
 }
 
-.planning-mode-date {
+.planning-mode-date,
+.brain-dump-date,
+.top-six-date {
   display: none;
 }
 
@@ -642,12 +644,27 @@
     padding-bottom: 0.25rem;
   }
 
-  .planning-mode-title {
+  .planning-mode-title,
+  .brain-dump-title,
+  .top-six-title {
     display: none !important;
   }
 
-  .planning-mode-date {
+  .planning-mode-date,
+  .brain-dump-date,
+  .top-six-date {
     display: block !important;
+  }
+
+  body[data-print-column] .planning-mode-date,
+  body[data-print-column] .brain-dump-date,
+  body[data-print-column] .top-six-date {
+    display: block !important;
+  }
+
+  body:not([data-print-column]) .top-six-date,
+  body:not([data-print-column]) .planning-mode-date {
+    display: none !important;
   }
 
   .column-header h3,
@@ -854,7 +871,8 @@
   }
 
   .time-input::placeholder {
-    display: none !important;
+    color: transparent !important;
+    opacity: 0 !important;
   }
 
   .time-block-custom-text {

@@ -536,7 +536,8 @@ const DailyPlanner: React.FC = () => {
       <div className="planner-container">
         <div className="brain-dump-column">
           <div className="column-header">
-            <h3>Brain Dump</h3>
+            <h3 className="brain-dump-title">Brain Dump</h3>
+            <h3 className="brain-dump-date">{currentDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
             <button className="reorder-btn" onClick={reorderTasksByPriority} title="Re-order tasks by priority">↕️</button>
             <button className="print-column-btn" onClick={() => handlePrintColumn('brain-dump')}>🖨️</button>
           </div>
@@ -591,7 +592,8 @@ const DailyPlanner: React.FC = () => {
 
         <div className="top-six-column">
           <div className="column-header">
-            <h3>Top 6</h3>
+            <h3 className="top-six-title">Top 6</h3>
+            <h3 className="top-six-date">{currentDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h3>
             <button className="print-column-btn" onClick={() => handlePrintColumn('top-six')}>🖨️</button>
           </div>
           <div className="top-three-section">

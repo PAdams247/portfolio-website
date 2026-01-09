@@ -789,17 +789,21 @@
   }
 
   .time-slots {
-    display: grid;
-    gap: 0.15rem;
+    display: grid !important;
+    gap: 0.1rem !important;
+    page-break-inside: auto !important;
   }
 
   .time-slot {
-    padding: 0.15rem 0.25rem;
-    border: 1px solid #ddd;
-    border-radius: 2px;
-    font-size: 0.7rem;
-    min-height: auto;
-    page-break-inside: avoid;
+    padding: 0.1rem 0.2rem !important;
+    border: 1px solid #ddd !important;
+    border-radius: 2px !important;
+    font-size: 0.65rem !important;
+    min-height: auto !important;
+    page-break-inside: avoid !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.3rem !important;
   }
 
   .time-label {
@@ -811,6 +815,17 @@
   }
 
   .time-input {
+    display: block !important;
+    border: none !important;
+    background: transparent !important;
+    padding: 0.15rem 0.25rem !important;
+    font-size: 0.7rem !important;
+    color: black !important;
+    width: 100% !important;
+    line-height: 1.1 !important;
+  }
+
+  .time-input::placeholder {
     display: none !important;
   }
 
@@ -874,14 +889,26 @@
   }
 
   body[data-print-column] .planner-container {
-    grid-template-columns: 1fr;
-    max-width: 8.5in;
-    margin: 0 auto;
+    grid-template-columns: 1fr !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   body[data-print-column] .brain-dump-column,
   body[data-print-column] .top-six-column,
   body[data-print-column] .planning-mode-column {
-    max-width: 100%;
+    max-width: 100% !important;
+    width: 100% !important;
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  body[data-print-column] {
+    overflow: visible !important;
+  }
+
+  body[data-print-column] * {
+    page-break-before: avoid !important;
   }
 }

@@ -7,10 +7,17 @@ const Home: React.FC = () => {
   const projects = [
     {
       title: 'Classic Games',
-      description: 'Collection of 6 classic games built with React',
+      description: 'Collection of 4 classic games built with React',
       path: '/classic-games',
       icon: '🎮',
       tech: ['React', 'TypeScript', 'Canvas API']
+    },
+    {
+      title: 'Daily Planner',
+      description: 'Plan your day with tasks and time management',
+      path: '/daily-planner',
+      icon: '📅',
+      tech: ['React', 'TypeScript', 'Local Storage']
     },
     {
       title: 'Task List',
@@ -36,12 +43,12 @@ const Home: React.FC = () => {
             </p>
             <div className="hero-stats">
               <div className="stat">
-                <span className="stat-number">8+</span>
+                <span className="stat-number">6</span>
                 <span className="stat-label">Projects</span>
               </div>
               <div className="stat">
                 <span className="stat-number">React</span>
-                <span className="stat-label">Primary Stack</span>
+                <span className="stat-label">Stack</span>
               </div>
               <div className="stat">
                 <span className="stat-number">∞</span>

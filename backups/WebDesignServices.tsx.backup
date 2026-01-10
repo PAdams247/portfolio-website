@@ -305,17 +305,17 @@ ${formData.description}
               <span className="icon-label">TypeScript</span>
             </div>
           </div>
-
+          
           <h1>Professional Website Design Services</h1>
           <p>Transform your business with a stunning, modern website that converts visitors into customers</p>
           <div className="hero-stats">
             <div className="stat">
-              <span className="stat-number">React</span>
-              <span className="stat-label">Modern Stack</span>
+              <span className="stat-number">5+</span>
+              <span className="stat-label">Websites Built</span>
             </div>
             <div className="stat">
-              <span className="stat-number">TypeScript</span>
-              <span className="stat-label">Type-Safe Code</span>
+              <span className="stat-number">4.9★</span>
+              <span className="stat-label">Client Rating</span>
             </div>
             <div className="stat">
               <span className="stat-number">24hr</span>

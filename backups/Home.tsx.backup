@@ -28,20 +28,20 @@ const Home: React.FC = () => {
           <div className="hero-text">
             <p className="hero-intro">Hi, I'm Parker</p>
             <h1 className="hero-title">
-              <span className="title-line">Frontend Developer</span>
-              <span className="title-line">Building Interactive Web Experiences</span>
+              <span className="title-line">Full-Stack Developer</span>
+              <span className="title-line">& Designer</span>
             </h1>
             <p className="hero-subtitle">
-              Junior developer with a finance background, specializing in React, TypeScript, and creating practical web applications
+              My portfolio showcases interactive projects and games I've built with modern technologies
             </p>
             <div className="hero-stats">
               <div className="stat">
-                <span className="stat-number">8+</span>
+                <span className="stat-number">6</span>
                 <span className="stat-label">Projects</span>
               </div>
               <div className="stat">
-                <span className="stat-number">React</span>
-                <span className="stat-label">Primary Stack</span>
+                <span className="stat-number">7+</span>
+                <span className="stat-label">Languages</span>
               </div>
               <div className="stat">
                 <span className="stat-number">∞</span>
@@ -183,15 +183,14 @@ const Home: React.FC = () => {
           <h2 className="about-title">About Me</h2>
           <div className="about-content">
             <p className="about-text">
-              I'm a junior frontend developer with a unique background in finance and accounting.
-              I specialize in React, TypeScript, and building practical web applications that solve
-              real-world problems.
+              I'm a full-stack developer passionate about creating interactive web experiences.
+              With expertise in React, TypeScript, and modern web technologies, I build everything
+              from engaging games to practical productivity tools.
             </p>
             <p className="about-text">
-              My experience with Excel automation and VBA gives me a strong foundation in logic and
-              problem-solving. I'm passionate about creating clean, user-friendly interfaces and
-              writing maintainable code. Currently seeking junior developer positions where I can
-              contribute and continue learning.
+              My approach combines clean code, thoughtful design, and a focus on user experience.
+              Whether it's a complex web application or a fun browser game, I enjoy bringing ideas
+              to life through code.
             </p>
             <div className="about-skills">
               <div className="skill-category">
@@ -200,11 +199,11 @@ const Home: React.FC = () => {
               </div>
               <div className="skill-category">
                 <h3>Backend</h3>
-                <p>Node.js, Express, MongoDB</p>
+                <p>Node.js, Express, Nodemailer</p>
               </div>
               <div className="skill-category">
                 <h3>Tools</h3>
-                <p>Git, VS Code, npm, Vercel</p>
+                <p>Git, VS Code, npm</p>
               </div>
             </div>
           </div>

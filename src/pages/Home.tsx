@@ -130,9 +130,9 @@ const Home: React.FC = () => {
             <div className="tech-subcategory">
               <h4 className="tech-subcategory-title">React Ecosystem</h4>
               <div className="tech-list">
-                <span className="tech-item">React Router DOM (v6.3.0) - Client-side routing</span>
-                <span className="tech-item">React Scripts (v5.0.1) - Build tooling</span>
-                <span className="tech-item">React Testing Library - Testing utilities</span>
+                <span className="tech-item"><strong>React Router DOM</strong> (v6.3.0) - Client-side routing</span>
+                <span className="tech-item"><strong>React Scripts</strong> (v5.0.1) - Build tooling</span>
+                <span className="tech-item"><strong>React Testing Library</strong> - Testing utilities</span>
               </div>
             </div>
 
@@ -195,10 +195,16 @@ const Home: React.FC = () => {
               real-world problems.
             </p>
             <p className="about-text">
-              My experience with Excel automation and VBA gives me a strong foundation in logic and
-              problem-solving. I'm passionate about creating clean, user-friendly interfaces and
-              writing maintainable code. Currently seeking junior developer positions where I can
-              contribute and continue learning.
+              Before transitioning to web development, I spent years designing complex Excel spreadsheets
+              with automated functions, programming VBA macros, and building Google Apps Scripts to streamline
+              data workflows. I've automated the processing of exported CSV files into clean, structured Excel
+              data with properly aligned headers and validation—skills that translate directly into building
+              efficient, data-driven web applications.
+            </p>
+            <p className="about-text">
+              I'm passionate about creating clean, user-friendly interfaces and writing maintainable code.
+              Currently seeking junior developer positions where I can contribute my unique blend of technical
+              and business skills while continuing to learn and grow.
             </p>
             <div className="about-skills">
               <div className="skill-category">
@@ -208,6 +214,10 @@ const Home: React.FC = () => {
               <div className="skill-category">
                 <h3>Backend</h3>
                 <p>Node.js, Express, MongoDB</p>
+              </div>
+              <div className="skill-category">
+                <h3>Automation</h3>
+                <p>Excel VBA, Google Apps Script</p>
               </div>
               <div className="skill-category">
                 <h3>Tools</h3>

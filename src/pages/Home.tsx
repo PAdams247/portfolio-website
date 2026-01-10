@@ -14,10 +14,10 @@ const Home: React.FC = () => {
     },
     {
       title: 'Daily Planner',
-      description: 'Plan your day with tasks and time management',
+      description: 'Full-stack planner with user authentication and cloud sync',
       path: '/daily-planner',
       icon: '📅',
-      tech: ['React', 'TypeScript', 'Local Storage']
+      tech: ['React', 'MongoDB', 'Auth', 'API']
     },
     {
       title: 'Task List',
